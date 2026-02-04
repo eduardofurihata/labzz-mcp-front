@@ -7,15 +7,26 @@
       "effects": {
         "colorChange": {
           "description": "Subtle color shift on interactive elements",
-          "example": "hover:bg-accent"
+          "example": "hover:bg-accent",
+          "classes": "hover:bg-accent/10 transition-colors duration-150"
         },
         "elevation": {
           "description": "Add shadow on hover for cards",
-          "example": "hover:shadow-md"
+          "example": "hover:shadow-md",
+          "classes": "hover:shadow-md transition-shadow duration-150"
         },
         "scale": {
           "description": "Subtle scale for clickable items",
-          "example": "hover:scale-[1.02]"
+          "example": "hover:scale-[1.02]",
+          "classes": "hover:scale-[1.02] transition-transform duration-150"
+        },
+        "brightness": {
+          "description": "Brighten images on hover",
+          "classes": "hover:brightness-110 transition-[filter] duration-150"
+        },
+        "translate": {
+          "description": "Subtle movement on hover",
+          "classes": "hover:-translate-y-1 transition-transform duration-150"
         }
       }
     },
@@ -26,40 +37,90 @@
         "color": "ring (primary)",
         "offset": "2px"
       },
-      "classes": "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+      "classes": "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+      "skipLink": {
+        "description": "Skip to main content link for keyboard users",
+        "classes": "sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-background focus:px-4 focus:py-2 focus:rounded-md focus:ring-2 focus:ring-ring"
+      }
     },
     "active": {
       "description": "Active/pressed state",
       "effects": {
         "darken": "Slightly darker background",
         "scale": "scale-[0.98]"
-      }
+      },
+      "classes": "active:scale-[0.98] active:bg-primary/80 transition-all duration-75"
     },
     "disabled": {
       "description": "Disabled state guidelines",
       "opacity": 0.5,
       "cursor": "not-allowed",
-      "classes": "opacity-50 cursor-not-allowed pointer-events-none"
+      "classes": "opacity-50 cursor-not-allowed pointer-events-none",
+      "ariaAttributes": {
+        "ariaDisabled": "true",
+        "tabIndex": "-1"
+      }
     },
     "loading": {
       "description": "Loading state indicators",
       "patterns": {
         "spinner": {
           "description": "Animated spinner icon",
-          "usage": "Buttons, async actions"
+          "usage": "Buttons, async actions",
+          "sizes": {
+            "xs": "h-3 w-3",
+            "sm": "h-4 w-4",
+            "md": "h-6 w-6",
+            "lg": "h-8 w-8"
+          },
+          "classes": "animate-spin"
         },
         "skeleton": {
           "description": "Placeholder shapes with pulse animation",
-          "usage": "Content loading"
+          "usage": "Content loading",
+          "classes": "animate-pulse bg-muted rounded-md",
+          "variants": {
+            "text": "h-4 w-full rounded",
+            "avatar": "h-10 w-10 rounded-full",
+            "card": "h-[200px] w-full rounded-lg",
+            "button": "h-10 w-24 rounded-md"
+          }
         },
         "progress": {
           "description": "Progress bar for determinate loading",
-          "usage": "File uploads, multi-step processes"
+          "usage": "File uploads, multi-step processes",
+          "classes": "h-2 bg-muted rounded-full overflow-hidden",
+          "barClasses": "h-full bg-primary transition-all duration-300"
         },
         "overlay": {
           "description": "Semi-transparent overlay with spinner",
-          "usage": "Full page or section loading"
+          "usage": "Full page or section loading",
+          "classes": "absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-50"
+        },
+        "shimmer": {
+          "description": "Shimmer effect for loading cards",
+          "classes": "relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:animate-shimmer before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent"
         }
+      }
+    },
+    "drag": {
+      "description": "Drag interaction patterns",
+      "cursor": {
+        "grab": "cursor-grab",
+        "grabbing": "cursor-grabbing"
+      },
+      "feedback": {
+        "dragging": "opacity-50 scale-105 shadow-xl z-50",
+        "dropTarget": "ring-2 ring-primary ring-dashed bg-primary/5"
+      }
+    },
+    "swipe": {
+      "description": "Touch swipe patterns for mobile",
+      "threshold": "50px",
+      "actions": {
+        "dismiss": "Swipe left/right to dismiss",
+        "reveal": "Swipe to reveal actions",
+        "navigate": "Swipe to navigate carousel"
       }
     }
   },
@@ -69,9 +130,25 @@
       "color": "green-500",
       "icon": "CheckCircle",
       "patterns": {
-        "toast": "Brief success message",
-        "inline": "Inline success state with icon",
-        "modal": "Success confirmation dialog"
+        "toast": {
+          "description": "Brief success message",
+          "duration": "3000ms",
+          "position": "bottom-right",
+          "classes": "bg-green-500 text-white"
+        },
+        "inline": {
+          "description": "Inline success state with icon",
+          "classes": "text-green-600 flex items-center gap-2"
+        },
+        "modal": {
+          "description": "Success confirmation dialog",
+          "iconSize": "h-12 w-12",
+          "iconClasses": "text-green-500 mx-auto mb-4"
+        },
+        "checkmark": {
+          "description": "Animated checkmark",
+          "animation": "scale-in with draw effect"
+        }
       }
     },
     "error": {
@@ -79,29 +156,93 @@
       "color": "destructive",
       "icon": "AlertCircle",
       "patterns": {
-        "toast": "Error notification",
-        "inline": "Form field error message",
-        "alert": "Prominent error banner"
+        "toast": {
+          "description": "Error notification",
+          "duration": "5000ms",
+          "persistent": true,
+          "classes": "bg-destructive text-destructive-foreground"
+        },
+        "inline": {
+          "description": "Form field error message",
+          "classes": "text-destructive text-sm mt-1 flex items-center gap-1"
+        },
+        "alert": {
+          "description": "Prominent error banner",
+          "classes": "bg-destructive/10 border border-destructive/50 text-destructive p-4 rounded-lg"
+        },
+        "shake": {
+          "description": "Shake animation for invalid input",
+          "classes": "animate-shake",
+          "keyframes": "translateX(-10px) -> translateX(10px) -> translateX(0)"
+        }
       },
       "messages": {
         "required": "This field is required",
         "email": "Please enter a valid email address",
         "minLength": "Must be at least {min} characters",
         "maxLength": "Must be no more than {max} characters",
-        "pattern": "Invalid format"
+        "pattern": "Invalid format",
+        "network": "Unable to connect. Please check your internet connection.",
+        "server": "Something went wrong. Please try again later.",
+        "notFound": "The requested resource was not found.",
+        "unauthorized": "Please sign in to continue.",
+        "forbidden": "You don't have permission to perform this action."
       }
     },
     "warning": {
       "description": "Warning feedback",
       "color": "yellow-500",
       "icon": "AlertTriangle",
-      "usage": "Potentially destructive actions, data loss warnings"
+      "usage": "Potentially destructive actions, data loss warnings",
+      "patterns": {
+        "confirmation": {
+          "description": "Confirm before destructive action",
+          "title": "Are you sure?",
+          "confirmButton": "destructive variant",
+          "cancelButton": "outline variant"
+        },
+        "banner": {
+          "description": "Warning banner at top of page/section",
+          "classes": "bg-yellow-500/10 border border-yellow-500/50 text-yellow-700 dark:text-yellow-300"
+        }
+      }
     },
     "info": {
       "description": "Informational feedback",
       "color": "blue-500",
       "icon": "Info",
-      "usage": "Helpful tips, contextual information"
+      "usage": "Helpful tips, contextual information",
+      "patterns": {
+        "tooltip": {
+          "description": "Hover tooltip for additional info",
+          "delay": "500ms",
+          "maxWidth": "300px"
+        },
+        "hint": {
+          "description": "Inline hint text",
+          "classes": "text-muted-foreground text-sm"
+        },
+        "callout": {
+          "description": "Highlighted information box",
+          "classes": "bg-blue-500/10 border-l-4 border-blue-500 p-4"
+        }
+      }
+    },
+    "optimisticUI": {
+      "description": "Update UI before server confirmation",
+      "patterns": {
+        "immediate": {
+          "description": "Show success immediately, revert on error",
+          "example": "Like button, toggle switch"
+        },
+        "pending": {
+          "description": "Show pending state while processing",
+          "classes": "opacity-70 pointer-events-none"
+        },
+        "rollback": {
+          "description": "Revert changes on failure with error toast"
+        }
+      }
     }
   },
   "forms": {
@@ -110,29 +251,105 @@
       "labelPosition": "top",
       "labelGap": "0.5rem",
       "fieldGap": "1.5rem",
-      "groupGap": "2rem"
+      "groupGap": "2rem",
+      "patterns": {
+        "stacked": {
+          "description": "Single column, labels above fields",
+          "classes": "space-y-6"
+        },
+        "inline": {
+          "description": "Label and field on same line",
+          "classes": "grid grid-cols-[140px_1fr] gap-4 items-center"
+        },
+        "grid": {
+          "description": "Multi-column form layout",
+          "classes": "grid grid-cols-1 md:grid-cols-2 gap-6"
+        }
+      }
     },
     "validation": {
-      "timing": "onBlur",
+      "timing": {
+        "onBlur": "Validate when field loses focus (recommended)",
+        "onChange": "Validate on every change (use sparingly)",
+        "onSubmit": "Validate all fields on form submit"
+      },
       "showError": {
         "position": "below",
         "color": "destructive",
-        "fontSize": "sm"
+        "fontSize": "sm",
+        "icon": "AlertCircle",
+        "animation": "fade-in slide-down"
       },
       "showSuccess": {
         "icon": "CheckCircle",
-        "color": "green-500"
+        "color": "green-500",
+        "position": "right of input"
+      },
+      "liveValidation": {
+        "description": "Real-time validation feedback",
+        "passwordStrength": {
+          "weak": { "color": "destructive", "width": "33%" },
+          "medium": { "color": "yellow-500", "width": "66%" },
+          "strong": { "color": "green-500", "width": "100%" }
+        }
       }
     },
     "placeholders": {
       "description": "Placeholder text guidelines",
       "style": "Use examples, not instructions",
       "good": "john@example.com",
-      "bad": "Enter your email"
+      "bad": "Enter your email",
+      "color": "text-muted-foreground"
     },
     "requiredFields": {
       "indicator": "*",
-      "position": "after label"
+      "position": "after label",
+      "color": "text-destructive",
+      "optionalLabel": "(optional)"
+    },
+    "fieldTypes": {
+      "text": {
+        "autoComplete": "on",
+        "autoCapitalize": "off for emails",
+        "spellCheck": "true for names, false for emails/passwords"
+      },
+      "password": {
+        "showToggle": true,
+        "minLength": 8,
+        "strengthIndicator": true
+      },
+      "select": {
+        "searchable": "true for > 5 options",
+        "placeholder": "Select an option..."
+      },
+      "date": {
+        "format": "User locale format",
+        "picker": "Calendar popup"
+      },
+      "file": {
+        "dragDrop": true,
+        "preview": true,
+        "maxSize": "Show in MB"
+      }
+    },
+    "multiStep": {
+      "description": "Multi-step form wizard",
+      "progress": {
+        "type": "steps or progress bar",
+        "showStepNumbers": true,
+        "showStepNames": true
+      },
+      "navigation": {
+        "backButton": "always visible except step 1",
+        "nextButton": "validate before proceeding",
+        "saveProgress": "auto-save on step change"
+      },
+      "classes": {
+        "step": "flex items-center gap-2",
+        "stepActive": "text-primary font-medium",
+        "stepCompleted": "text-green-500",
+        "stepPending": "text-muted-foreground"
+      }
     }
   },
   "modals": {
@@ -140,7 +357,8 @@
     "overlay": {
       "background": "black/80",
       "blur": "4px",
-      "clickToClose": true
+      "clickToClose": true,
+      "classes": "fixed inset-0 bg-black/80 backdrop-blur-sm z-50"
     },
     "animation": {
       "enter": {
@@ -154,16 +372,40 @@
       "duration": "200ms"
     },
     "sizes": {
-      "sm": "max-w-sm",
-      "default": "max-w-lg",
-      "lg": "max-w-2xl",
-      "xl": "max-w-4xl",
-      "fullscreen": "max-w-full h-full"
+      "sm": { "maxWidth": "max-w-sm", "usage": "Simple confirmations" },
+      "default": { "maxWidth": "max-w-lg", "usage": "Standard dialogs" },
+      "lg": { "maxWidth": "max-w-2xl", "usage": "Complex forms" },
+      "xl": { "maxWidth": "max-w-4xl", "usage": "Data-heavy content" },
+      "fullscreen": { "maxWidth": "max-w-full h-full", "usage": "Immersive experiences" }
     },
     "behavior": {
       "trapFocus": true,
       "closeOnEscape": true,
-      "preventScroll": true
+      "preventScroll": true,
+      "returnFocus": "Return focus to trigger on close"
+    },
+    "types": {
+      "alert": {
+        "description": "Important message requiring acknowledgment",
+        "singleButton": true
+      },
+      "confirm": {
+        "description": "Yes/No decision",
+        "buttons": ["Cancel", "Confirm"]
+      },
+      "prompt": {
+        "description": "Request user input",
+        "hasInput": true
+      },
+      "form": {
+        "description": "Complex form in modal",
+        "scrollable": true
+      }
+    },
+    "stacking": {
+      "description": "Multiple modals behavior",
+      "zIndexIncrement": 10,
+      "dimPrevious": true
     }
   },
   "navigation": {
@@ -179,18 +421,69 @@
     },
     "activeState": {
       "visual": "Background highlight + left border or underline",
-      "classes": "bg-accent text-accent-foreground"
+      "classes": "bg-accent text-accent-foreground",
+      "indicator": {
+        "leftBorder": "border-l-2 border-primary",
+        "underline": "border-b-2 border-primary",
+        "background": "bg-primary/10"
+      }
     },
     "breadcrumbs": {
       "maxItems": 4,
-      "truncation": "middle items with ellipsis"
+      "truncation": "middle items with ellipsis",
+      "separator": "ChevronRight",
+      "classes": "flex items-center gap-2 text-sm text-muted-foreground"
+    },
+    "sidebar": {
+      "collapsible": true,
+      "collapsedWidth": "64px",
+      "expandedWidth": "280px",
+      "mobileOverlay": true,
+      "persistState": "localStorage"
+    },
+    "tabs": {
+      "description": "Tab navigation patterns",
+      "keyboardNav": {
+        "arrows": "Navigate between tabs",
+        "home": "Go to first tab",
+        "end": "Go to last tab"
+      },
+      "indicator": {
+        "animated": true,
+        "duration": "200ms"
+      }
+    },
+    "pagination": {
+      "description": "Pagination patterns",
+      "variants": {
+        "numbered": "Page numbers with prev/next",
+        "simple": "Prev/Next only",
+        "infinite": "Load more button",
+        "infiniteScroll": "Auto-load on scroll"
+      },
+      "showInfo": "Showing {start}-{end} of {total}",
+      "perPageOptions": [10, 20, 50, 100]
+    },
+    "search": {
+      "description": "Search patterns",
+      "debounce": "300ms",
+      "minChars": 2,
+      "placeholder": "Search...",
+      "shortcut": "Cmd/Ctrl + K",
+      "results": {
+        "highlight": "Bold matching text",
+        "groupBy": "Category",
+        "limit": 5,
+        "showAll": "View all results link"
+      }
     }
   },
   "responsiveness": {
     "touchTargets": {
       "minimum": "44px",
       "recommended": "48px",
-      "description": "Minimum touch target size for mobile"
+      "description": "Minimum touch target size for mobile",
+      "spacing": "8px minimum between touch targets"
     },
     "mobileFirst": {
       "description": "Design for mobile first, then enhance for larger screens",
@@ -203,15 +496,47 @@
     "patterns": {
       "navigation": {
         "mobile": "Hamburger menu or bottom nav",
+        "tablet": "Collapsible sidebar",
         "desktop": "Side or top navigation"
       },
       "tables": {
         "mobile": "Card layout or horizontal scroll",
+        "tablet": "Simplified columns",
         "desktop": "Full table"
       },
       "forms": {
         "mobile": "Single column",
+        "tablet": "Two columns where logical",
         "desktop": "Multi-column where appropriate"
+      },
+      "grids": {
+        "mobile": "1 column",
+        "tablet": "2 columns",
+        "desktop": "3-4 columns"
+      },
+      "modals": {
+        "mobile": "Full screen or bottom sheet",
+        "desktop": "Centered dialog"
+      }
+    },
+    "bottomSheet": {
+      "description": "Mobile-friendly modal alternative",
+      "snapPoints": ["25%", "50%", "90%"],
+      "dragHandle": true,
+      "classes": "fixed inset-x-0 bottom-0 rounded-t-2xl"
+    },
+    "stickyElements": {
+      "header": {
+        "mobile": "64px height, sticky",
+        "desktop": "64px height, sticky or static"
+      },
+      "cta": {
+        "mobile": "Fixed bottom bar for primary action",
+        "desktop": "Inline button"
+      },
+      "tableHeader": {
+        "description": "Sticky table headers on scroll",
+        "classes": "sticky top-0 bg-background z-10"
       }
     }
   },
@@ -244,15 +569,50 @@
     },
     "reducedMotion": {
       "description": "Respect user preference for reduced motion",
-      "classes": "motion-reduce:transition-none motion-reduce:animate-none"
+      "classes": "motion-reduce:transition-none motion-reduce:animate-none",
+      "mediaQuery": "@media (prefers-reduced-motion: reduce)"
+    },
+    "scrollTriggered": {
+      "description": "Animations triggered on scroll into view",
+      "threshold": "0.1",
+      "once": true,
+      "patterns": {
+        "fadeInUp": {
+          "initial": { "opacity": 0, "y": 20 },
+          "animate": { "opacity": 1, "y": 0 }
+        },
+        "stagger": {
+          "description": "Staggered children animations",
+          "delay": "0.1s between items"
+        },
+        "parallax": {
+          "description": "Elements move at different speeds",
+          "ratio": "0.5"
+        }
+      }
+    },
+    "microInteractions": {
+      "description": "Small delightful animations",
+      "patterns": {
+        "buttonPress": "scale-95 on active",
+        "checkboxCheck": "Draw checkmark animation",
+        "switchToggle": "Smooth thumb transition",
+        "heartLike": "Scale bounce + color change",
+        "counterIncrement": "Number roll animation",
+        "copyToClipboard": "Checkmark replace icon briefly"
+      }
     }
   },
   "copywriting": {
     "buttons": {
       "primary": "Action-oriented verbs",
       "examples": {
-        "good": ["Save", "Create account", "Get started"],
-        "bad": ["Submit", "Click here", "OK"]
+        "good": ["Save", "Create account", "Get started", "Continue", "Download"],
+        "bad": ["Submit", "Click here", "OK", "Yes", "Process"]
+      },
+      "destructive": {
+        "good": ["Delete", "Remove", "Cancel subscription"],
+        "bad": ["Destroy", "Kill", "Terminate"]
       }
     },
     "errors": {
@@ -260,6 +620,11 @@
       "examples": {
         "good": "Please enter a valid email address",
         "bad": "Invalid email"
+      },
+      "structure": {
+        "what": "What went wrong",
+        "why": "Why it matters (if helpful)",
+        "how": "How to fix it"
       }
     },
     "empty": {
@@ -268,22 +633,348 @@
         "title": "What's missing",
         "description": "Why it matters",
         "action": "What to do next"
+      },
+      "examples": {
+        "noResults": {
+          "title": "No results found",
+          "description": "Try adjusting your search or filters",
+          "action": "Clear filters"
+        },
+        "noData": {
+          "title": "No items yet",
+          "description": "Create your first item to get started",
+          "action": "Create item"
+        },
+        "noPermission": {
+          "title": "Access restricted",
+          "description": "You don't have permission to view this content",
+          "action": "Request access"
+        }
       }
+    },
+    "loading": {
+      "messages": {
+        "generic": "Loading...",
+        "specific": "Loading your dashboard...",
+        "progress": "Uploading... {percent}%"
+      }
+    },
+    "confirmation": {
+      "title": "Action-specific question",
+      "description": "Explain consequences",
+      "confirm": "Repeat the action verb",
+      "cancel": "Keep it simple: Cancel"
     }
   },
   "darkMode": {
     "description": "Dark mode considerations",
     "colors": {
       "contrast": "Ensure sufficient contrast in dark mode",
-      "brightness": "Reduce brightness of vibrant colors"
+      "brightness": "Reduce brightness of vibrant colors",
+      "invert": "Primary/secondary colors swap in this design system"
     },
     "images": {
       "consideration": "May need different images for dark mode",
-      "technique": "Use CSS filter or separate assets"
+      "technique": "Use CSS filter or separate assets",
+      "logos": "Provide light and dark versions"
     },
     "shadows": {
       "note": "Shadows are less visible in dark mode",
-      "alternative": "Use borders or subtle glows"
+      "alternative": "Use borders or subtle glows",
+      "glow": "box-shadow with primary color at low opacity"
+    },
+    "implementation": {
+      "class": ".dark on root element",
+      "mediaQuery": "@media (prefers-color-scheme: dark)",
+      "toggle": "System preference with manual override"
+    }
+  },
+  "carousel": {
+    "description": "Carousel/Slider patterns",
+    "navigation": {
+      "arrows": {
+        "position": "Outside or overlapping edges",
+        "size": "44px minimum touch target",
+        "visibility": "Show on hover (desktop), always (mobile)"
+      },
+      "dots": {
+        "position": "Below carousel",
+        "activeState": "bg-primary scale-125",
+        "inactiveState": "bg-muted"
+      },
+      "swipe": {
+        "enabled": true,
+        "threshold": "50px"
+      }
+    },
+    "autoplay": {
+      "enabled": false,
+      "interval": "5000ms",
+      "pauseOnHover": true,
+      "pauseOnInteraction": true
+    },
+    "accessibility": {
+      "ariaLabel": "Carousel",
+      "liveRegion": "Announce slide changes",
+      "keyboard": "Arrow keys to navigate"
+    },
+    "variants": {
+      "hero": {
+        "fullWidth": true,
+        "height": "60vh",
+        "transition": "fade"
+      },
+      "testimonials": {
+        "itemsVisible": { "mobile": 1, "tablet": 2, "desktop": 3 },
+        "gap": "1.5rem"
+      },
+      "gallery": {
+        "thumbnails": true,
+        "zoom": true
+      }
+    }
+  },
+  "countdown": {
+    "description": "Countdown timer patterns",
+    "display": {
+      "format": "DD : HH : MM : SS",
+      "labels": ["Days", "Hours", "Minutes", "Seconds"],
+      "separator": ":",
+      "padZero": true
+    },
+    "styling": {
+      "digit": "text-4xl font-bold tabular-nums",
+      "label": "text-xs text-muted-foreground uppercase tracking-wider",
+      "container": "flex items-center gap-4"
+    },
+    "behavior": {
+      "onComplete": "Show 'Expired' or redirect",
+      "urgency": {
+        "normal": "> 1 day",
+        "warning": "< 1 day (yellow)",
+        "critical": "< 1 hour (red, pulse animation)"
+      }
+    },
+    "usage": {
+      "sales": "Limited time offer",
+      "events": "Event countdown",
+      "launches": "Product launch"
+    }
+  },
+  "dataVisualization": {
+    "description": "UX patterns for data display",
+    "numbers": {
+      "formatting": {
+        "thousands": "1,234",
+        "currency": "R$ 1.234,56",
+        "percentage": "12.5%",
+        "abbreviation": "1.2K, 1.5M, 2.3B"
+      },
+      "animation": {
+        "countUp": true,
+        "duration": "1500ms",
+        "easing": "ease-out"
+      }
+    },
+    "trends": {
+      "positive": {
+        "color": "green-500",
+        "icon": "TrendingUp",
+        "prefix": "+"
+      },
+      "negative": {
+        "color": "destructive",
+        "icon": "TrendingDown",
+        "prefix": "-"
+      },
+      "neutral": {
+        "color": "muted-foreground",
+        "icon": "Minus"
+      }
+    },
+    "comparison": {
+      "period": "vs previous period",
+      "format": "+12.5% vs last month"
+    },
+    "charts": {
+      "interactivity": {
+        "hover": "Show tooltip with data",
+        "click": "Drill down to details",
+        "zoom": "Pinch/scroll to zoom"
+      },
+      "responsiveness": {
+        "mobile": "Simplified, larger touch targets",
+        "desktop": "Full interactivity"
+      }
+    }
+  },
+  "emptyStates": {
+    "description": "Detailed empty state patterns",
+    "structure": {
+      "icon": "h-16 w-16 text-muted-foreground/50 mx-auto mb-6",
+      "title": "text-xl font-semibold mb-2",
+      "description": "text-muted-foreground mb-6 max-w-md mx-auto",
+      "action": "Primary button"
+    },
+    "types": {
+      "noData": {
+        "icon": "Inbox",
+        "title": "No items yet",
+        "description": "Get started by creating your first item",
+        "action": "Create item"
+      },
+      "noResults": {
+        "icon": "Search",
+        "title": "No results found",
+        "description": "Try adjusting your search or filters to find what you're looking for",
+        "action": "Clear filters"
+      },
+      "error": {
+        "icon": "AlertTriangle",
+        "title": "Something went wrong",
+        "description": "We couldn't load the data. Please try again.",
+        "action": "Retry"
+      },
+      "noPermission": {
+        "icon": "Lock",
+        "title": "Access restricted",
+        "description": "You don't have permission to view this content",
+        "action": "Request access"
+      },
+      "offline": {
+        "icon": "WifiOff",
+        "title": "You're offline",
+        "description": "Check your internet connection and try again",
+        "action": "Retry"
+      },
+      "maintenance": {
+        "icon": "Wrench",
+        "title": "Under maintenance",
+        "description": "We're making some improvements. Please check back soon.",
+        "action": null
+      }
+    },
+    "illustrations": {
+      "style": "Simple, monochromatic illustrations",
+      "maxWidth": "240px"
+    }
+  },
+  "onboarding": {
+    "description": "User onboarding patterns",
+    "welcome": {
+      "description": "First-time user experience",
+      "elements": {
+        "greeting": "Welcome, {name}!",
+        "valueProposition": "Brief description of what they can do",
+        "cta": "Get started"
+      }
+    },
+    "productTour": {
+      "description": "Guided feature discovery",
+      "tooltip": {
+        "position": "Smart positioning based on target",
+        "highlight": "Ring around target element",
+        "overlay": "Dim rest of page"
+      },
+      "progress": "Step X of Y",
+      "controls": {
+        "skip": "Skip tour",
+        "next": "Next",
+        "prev": "Back",
+        "finish": "Got it!"
+      }
+    },
+    "checklist": {
+      "description": "Setup completion checklist",
+      "progress": {
+        "percentage": "Complete your profile: 60%",
+        "bar": "Progress bar visualization"
+      },
+      "items": {
+        "completed": "Checkmark + strikethrough",
+        "pending": "Empty circle",
+        "current": "Highlighted"
+      }
+    },
+    "tips": {
+      "description": "Contextual tips",
+      "trigger": "First time viewing a feature",
+      "dismissible": true,
+      "dontShowAgain": true
+    }
+  },
+  "notifications": {
+    "description": "Notification UX patterns",
+    "badge": {
+      "position": "top-right of icon",
+      "size": "h-5 w-5 min-w-5",
+      "maxDisplay": "99+",
+      "animation": "Subtle bounce on new"
+    },
+    "panel": {
+      "position": "Dropdown from bell icon",
+      "maxHeight": "400px",
+      "empty": "All caught up!",
+      "markAllRead": true
+    },
+    "item": {
+      "unread": "bg-primary/5 border-l-2 border-primary",
+      "read": "bg-transparent",
+      "hover": "bg-accent/50"
+    },
+    "realtime": {
+      "sound": "Optional, user preference",
+      "desktop": "System notification if permitted",
+      "inApp": "Toast notification"
+    }
+  },
+  "tables": {
+    "description": "Advanced table UX patterns",
+    "sorting": {
+      "indicator": "Arrow up/down icon",
+      "defaultDirection": "ascending",
+      "multiColumn": false,
+      "persist": "Save sort preference"
+    },
+    "filtering": {
+      "position": "Above table or in column headers",
+      "chips": "Show active filters as removable chips",
+      "clear": "Clear all filters button"
+    },
+    "selection": {
+      "checkbox": "First column",
+      "selectAll": "Header checkbox with indeterminate state",
+      "actions": "Bulk action bar when selected"
+    },
+    "density": {
+      "compact": "py-2",
+      "default": "py-4",
+      "comfortable": "py-6"
+    },
+    "virtualization": {
+      "description": "Virtual scrolling for large datasets",
+      "threshold": "> 100 rows"
+    },
+    "expandable": {
+      "trigger": "Chevron in first column",
+      "animation": "Smooth height transition"
+    }
+  },
+  "errorBoundary": {
+    "description": "Error handling at component level",
+    "fallback": {
+      "title": "Something went wrong",
+      "description": "This part of the page couldn't load",
+      "action": "Try again",
+      "report": "Report this issue"
+    },
+    "gracefulDegradation": {
+      "description": "Show partial content when possible",
+      "placeholder": "Simplified version or skeleton"
+    },
+    "logging": {
+      "capture": "Error details, stack trace, user context",
+      "service": "Error reporting service integration"
     }
   }
 }

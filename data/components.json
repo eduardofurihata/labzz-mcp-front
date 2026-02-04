@@ -585,5 +585,243 @@
       "enter": "slide-in-from-right fade-in",
       "exit": "slide-out-to-right fade-out"
     }
+  },
+  "Accordion": {
+    "description": "Vertically collapsible content sections",
+    "components": {
+      "Accordion": {
+        "description": "Root accordion component",
+        "classes": "w-full"
+      },
+      "AccordionItem": {
+        "description": "Individual accordion item",
+        "classes": "border-b"
+      },
+      "AccordionTrigger": {
+        "description": "Clickable header that toggles content",
+        "classes": "flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180"
+      },
+      "AccordionContent": {
+        "description": "Collapsible content area",
+        "classes": "overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
+      }
+    },
+    "animation": {
+      "open": "data-[state=open]:animate-accordion-down",
+      "closed": "data-[state=closed]:animate-accordion-up"
+    },
+    "accessibility": {
+      "keyboardNavigation": true,
+      "ariaExpanded": true,
+      "ariaControls": true
+    }
+  },
+  "Breadcrumb": {
+    "description": "Navigation breadcrumb trail",
+    "components": {
+      "Breadcrumb": {
+        "description": "Root breadcrumb container",
+        "classes": "flex items-center gap-2 text-sm"
+      },
+      "BreadcrumbList": {
+        "description": "List container for breadcrumb items",
+        "classes": "flex flex-wrap items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5"
+      },
+      "BreadcrumbItem": {
+        "description": "Individual breadcrumb item wrapper",
+        "classes": "inline-flex items-center gap-1.5"
+      },
+      "BreadcrumbLink": {
+        "description": "Clickable breadcrumb link",
+        "classes": "transition-colors hover:text-foreground"
+      },
+      "BreadcrumbPage": {
+        "description": "Current page indicator (non-clickable)",
+        "classes": "font-normal text-foreground"
+      },
+      "BreadcrumbSeparator": {
+        "description": "Separator between breadcrumb items",
+        "classes": "[&>svg]:h-3.5 [&>svg]:w-3.5",
+        "defaultIcon": "ChevronRight"
+      },
+      "BreadcrumbEllipsis": {
+        "description": "Ellipsis for collapsed breadcrumbs",
+        "classes": "flex h-9 w-9 items-center justify-center"
+      }
+    },
+    "accessibility": {
+      "ariaLabel": "breadcrumb",
+      "ariaCurrent": "page"
+    }
+  },
+  "ScrollArea": {
+    "description": "Custom scrollable area with styled scrollbar",
+    "components": {
+      "ScrollArea": {
+        "description": "Main scrollable container",
+        "classes": "relative overflow-hidden"
+      },
+      "ScrollAreaViewport": {
+        "description": "Viewport that contains scrollable content",
+        "classes": "h-full w-full rounded-[inherit]"
+      },
+      "ScrollAreaScrollbar": {
+        "description": "Scrollbar track",
+        "classes": "flex touch-none select-none transition-colors",
+        "orientations": {
+          "vertical": "h-full w-2.5 border-l border-l-transparent p-[1px]",
+          "horizontal": "h-2.5 flex-col border-t border-t-transparent p-[1px]"
+        }
+      },
+      "ScrollAreaThumb": {
+        "description": "Scrollbar thumb (draggable)",
+        "classes": "relative flex-1 rounded-full bg-border"
+      },
+      "ScrollAreaCorner": {
+        "description": "Corner element when both scrollbars visible",
+        "classes": "bg-muted"
+      }
+    },
+    "behavior": {
+      "scrollbarAutoHide": true,
+      "scrollbarAutoHideDelay": "600ms"
+    }
+  },
+  "Separator": {
+    "description": "Visual divider between content sections",
+    "properties": {
+      "background": "border",
+      "classes": "shrink-0 bg-border"
+    },
+    "orientations": {
+      "horizontal": {
+        "classes": "h-[1px] w-full"
+      },
+      "vertical": {
+        "classes": "h-full w-[1px]"
+      }
+    },
+    "variants": {
+      "default": {
+        "description": "Standard separator"
+      },
+      "decorative": {
+        "description": "Decorative separator (hidden from assistive tech)",
+        "ariaHidden": true
+      }
+    },
+    "accessibility": {
+      "role": "separator",
+      "ariaOrientation": true
+    }
+  },
+  "ModernTabs": {
+    "description": "Enhanced tabs with advanced styling and animations",
+    "components": {
+      "ModernTabs": {
+        "description": "Root modern tabs component",
+        "classes": "w-full"
+      },
+      "ModernTabsList": {
+        "description": "Container for tab triggers with backdrop",
+        "classes": "inline-flex h-auto items-center justify-start rounded-xl bg-muted/50 p-1.5 backdrop-blur-sm border border-border/50"
+      },
+      "ModernTabsTrigger": {
+        "description": "Individual tab button with icon support",
+        "classes": "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg px-4 py-2.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+        "activeClasses": "bg-background text-foreground shadow-md"
+      },
+      "ModernTabsContent": {
+        "description": "Tab content panel with animation",
+        "classes": "mt-4 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+      }
+    },
+    "variants": {
+      "default": {
+        "description": "Default modern tabs with subtle background",
+        "listClasses": "rounded-xl bg-muted/50 p-1.5 backdrop-blur-sm border border-border/50",
+        "triggerClasses": "rounded-lg px-4 py-2.5",
+        "activeClasses": "bg-background shadow-md"
+      },
+      "pills": {
+        "description": "Pill-style tabs with shadow",
+        "listClasses": "inline-flex h-auto items-center justify-start gap-2 p-0 bg-transparent border-0",
+        "triggerClasses": "rounded-full px-5 py-2.5 border border-transparent",
+        "activeClasses": "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/20"
+      },
+      "underline": {
+        "description": "Underlined tabs with animated indicator",
+        "listClasses": "inline-flex h-12 items-center justify-start gap-6 border-b border-border/50 w-full bg-transparent p-0",
+        "triggerClasses": "relative px-1 py-3 border-b-2 border-transparent rounded-none",
+        "activeClasses": "text-foreground font-semibold border-primary",
+        "indicator": {
+          "description": "Animated underline indicator",
+          "classes": "absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300",
+          "animation": "scale-x from 0 to 1"
+        }
+      },
+      "cards": {
+        "description": "Card-style tabs for feature selection",
+        "listClasses": "grid w-full gap-3 p-0 bg-transparent border-0",
+        "triggerClasses": "flex flex-col items-start justify-start gap-2 rounded-xl p-4 border-2 border-border bg-card text-left",
+        "activeClasses": "border-primary bg-primary/5 shadow-lg shadow-primary/10"
+      }
+    },
+    "features": {
+      "iconSupport": {
+        "description": "Support for icons in tab triggers",
+        "iconClasses": "h-4 w-4"
+      },
+      "badgeSupport": {
+        "description": "Support for badges/counts in tab triggers",
+        "badgeClasses": "ml-2 rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary"
+      },
+      "animation": {
+        "description": "Framer Motion integration for smooth transitions",
+        "contentAnimation": {
+          "initial": { "opacity": 0, "y": 10 },
+          "animate": { "opacity": 1, "y": 0 },
+          "exit": { "opacity": 0, "y": -10 },
+          "transition": { "duration": 0.2 }
+        }
+      }
+    }
+  },
+  "Sonner": {
+    "description": "Toast notification system using Sonner library with design system integration",
+    "library": "sonner",
+    "components": {
+      "Toaster": {
+        "description": "Toast container component that renders notifications",
+        "classes": "toaster group"
+      }
+    },
+    "toastOptions": {
+      "toast": {
+        "description": "Individual toast notification",
+        "classes": "group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg"
+      },
+      "description": {
+        "description": "Toast description text",
+        "classes": "group-[.toast]:text-muted-foreground"
+      },
+      "actionButton": {
+        "description": "Toast action button",
+        "classes": "group-[.toast]:bg-primary group-[.toast]:text-primary-foreground"
+      },
+      "cancelButton": {
+        "description": "Toast cancel button",
+        "classes": "group-[.toast]:bg-muted group-[.toast]:text-muted-foreground"
+      }
+    },
+    "theming": {
+      "description": "Supports theme switching (light/dark/system)",
+      "integration": "next-themes"
+    },
+    "usage": {
+      "provider": "Add <Toaster /> at the root of your app",
+      "trigger": "Use toast() function from sonner to show notifications",
+      "example": "toast.success('Operation completed')"
+    }
   }
 }

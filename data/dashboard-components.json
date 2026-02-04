@@ -1,0 +1,486 @@
+{
+  "PageHeader": {
+    "description": "Page header component with icon, breadcrumbs, title, subtitle and actions",
+    "components": {
+      "PageHeader": {
+        "description": "Main page header container",
+        "classes": "sticky top-0 z-sticky bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b"
+      },
+      "PageHeaderContent": {
+        "description": "Inner content wrapper",
+        "classes": "container max-w-[1600px] mx-auto px-8 py-6"
+      },
+      "PageHeaderTop": {
+        "description": "Top row with breadcrumbs",
+        "classes": "flex items-center gap-2 mb-4"
+      },
+      "PageHeaderMain": {
+        "description": "Main row with icon, title, and actions",
+        "classes": "flex items-start justify-between gap-4"
+      },
+      "PageHeaderIcon": {
+        "description": "Icon container on the left",
+        "classes": "flex-shrink-0 p-2 rounded-lg bg-primary/10 text-primary"
+      },
+      "PageHeaderTitleArea": {
+        "description": "Title and subtitle container",
+        "classes": "flex-1 min-w-0"
+      },
+      "PageHeaderTitle": {
+        "description": "Page title",
+        "classes": "text-2xl font-bold tracking-tight text-foreground"
+      },
+      "PageHeaderSubtitle": {
+        "description": "Page subtitle/description",
+        "classes": "text-sm text-muted-foreground mt-1"
+      },
+      "PageHeaderActions": {
+        "description": "Actions container on the right",
+        "classes": "flex items-center gap-2 flex-shrink-0"
+      }
+    },
+    "props": {
+      "icon": "LucideIcon - Icon component to display",
+      "title": "string - Page title",
+      "subtitle": "string - Optional page description",
+      "breadcrumbs": "Array<{label: string, href?: string}> - Breadcrumb items",
+      "actions": "ReactNode - Action buttons",
+      "sticky": "boolean - Whether header sticks to top (default: true)"
+    },
+    "variants": {
+      "default": {
+        "description": "Standard sticky header with blur backdrop"
+      },
+      "static": {
+        "description": "Non-sticky header",
+        "classes": "relative bg-background border-b"
+      },
+      "compact": {
+        "description": "Compact header with less padding",
+        "contentClasses": "py-4"
+      }
+    }
+  },
+  "PageContainer": {
+    "description": "Page content wrapper with consistent padding and max-width",
+    "properties": {
+      "maxWidth": "1600px",
+      "paddingX": "2rem",
+      "paddingY": "3rem",
+      "classes": "container max-w-[1600px] mx-auto px-8 py-12"
+    },
+    "variants": {
+      "default": {
+        "classes": "container max-w-[1600px] mx-auto px-8 py-12"
+      },
+      "narrow": {
+        "classes": "container max-w-4xl mx-auto px-6 py-8"
+      },
+      "wide": {
+        "classes": "container max-w-[1920px] mx-auto px-8 py-12"
+      },
+      "full": {
+        "classes": "w-full px-8 py-12"
+      }
+    }
+  },
+  "MetricCard": {
+    "description": "KPI display card with icon, value, label and optional trend indicator",
+    "components": {
+      "MetricCard": {
+        "description": "Main metric card container",
+        "classes": "rounded-lg border border-border bg-card p-6 shadow-sm transition-shadow hover:shadow-md"
+      },
+      "MetricCardHeader": {
+        "description": "Header with icon and label",
+        "classes": "flex items-center justify-between mb-4"
+      },
+      "MetricCardIcon": {
+        "description": "Icon container",
+        "classes": "p-2 rounded-lg bg-primary/10 text-primary"
+      },
+      "MetricCardLabel": {
+        "description": "Metric label text",
+        "classes": "text-sm font-medium text-muted-foreground"
+      },
+      "MetricCardValue": {
+        "description": "Main metric value",
+        "classes": "text-3xl font-bold tracking-tight text-foreground"
+      },
+      "MetricCardTrend": {
+        "description": "Trend indicator with direction and value",
+        "classes": "flex items-center gap-1 mt-2 text-sm"
+      },
+      "MetricCardTrendUp": {
+        "description": "Positive trend styling",
+        "classes": "text-green-600"
+      },
+      "MetricCardTrendDown": {
+        "description": "Negative trend styling",
+        "classes": "text-red-600"
+      },
+      "MetricCardTrendNeutral": {
+        "description": "Neutral trend styling",
+        "classes": "text-muted-foreground"
+      }
+    },
+    "props": {
+      "icon": "LucideIcon - Icon to display",
+      "label": "string - Metric label",
+      "value": "string | number - Main metric value",
+      "trend": "{value: number, direction: 'up' | 'down' | 'neutral', label?: string} - Optional trend"
+    },
+    "variants": {
+      "default": {
+        "description": "Standard metric card"
+      },
+      "compact": {
+        "description": "Smaller metric card",
+        "classes": "p-4"
+      },
+      "highlighted": {
+        "description": "Highlighted card with accent border",
+        "classes": "border-primary/50 bg-primary/5"
+      }
+    }
+  },
+  "DataTable": {
+    "description": "Feature-rich data table with sorting, filtering, and pagination",
+    "components": {
+      "DataTable": {
+        "description": "Main table container",
+        "classes": "w-full"
+      },
+      "DataTableHeader": {
+        "description": "Table toolbar with search and filters",
+        "classes": "flex items-center justify-between py-4"
+      },
+      "DataTableSearch": {
+        "description": "Search input",
+        "classes": "max-w-sm"
+      },
+      "DataTableFilters": {
+        "description": "Filter controls container",
+        "classes": "flex items-center gap-2"
+      },
+      "DataTableContent": {
+        "description": "Table content wrapper",
+        "classes": "rounded-md border"
+      },
+      "DataTableFooter": {
+        "description": "Table footer with pagination",
+        "classes": "flex items-center justify-between py-4"
+      }
+    },
+    "props": {
+      "columns": "Array<{key: string, header: string, sortable?: boolean, filterable?: boolean, render?: Function}>",
+      "data": "Array<Record<string, any>> - Table data",
+      "pagination": "{currentPage: number, totalPages: number, totalItems: number, itemsPerPage: number, onPageChange: Function, onItemsPerPageChange: Function}",
+      "onSort": "Function - Sort handler",
+      "onFilter": "Function - Filter handler",
+      "selectable": "boolean - Enable row selection",
+      "onSelect": "Function - Selection handler"
+    },
+    "features": {
+      "sorting": {
+        "description": "Column sorting with visual indicators",
+        "classes": "cursor-pointer hover:bg-muted/50"
+      },
+      "filtering": {
+        "description": "Column filtering with dropdown",
+        "classes": "relative"
+      },
+      "selection": {
+        "description": "Row selection with checkbox",
+        "selectedClasses": "bg-muted"
+      },
+      "responsive": {
+        "description": "Responsive behavior on mobile",
+        "mobileClasses": "overflow-x-auto"
+      }
+    }
+  },
+  "Pagination": {
+    "description": "Pagination controls for data tables and lists",
+    "components": {
+      "Pagination": {
+        "description": "Main pagination container",
+        "classes": "flex items-center justify-between"
+      },
+      "PaginationInfo": {
+        "description": "Info text showing current range",
+        "classes": "text-sm text-muted-foreground"
+      },
+      "PaginationControls": {
+        "description": "Navigation buttons container",
+        "classes": "flex items-center gap-2"
+      },
+      "PaginationButton": {
+        "description": "Navigation button",
+        "classes": "h-9 w-9 inline-flex items-center justify-center rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground disabled:opacity-50 disabled:pointer-events-none"
+      },
+      "PaginationButtonActive": {
+        "description": "Active page button",
+        "classes": "bg-primary text-primary-foreground hover:bg-primary/90"
+      },
+      "PaginationPerPage": {
+        "description": "Items per page selector",
+        "classes": "flex items-center gap-2"
+      }
+    },
+    "props": {
+      "currentPage": "number - Current page number",
+      "totalPages": "number - Total number of pages",
+      "totalItems": "number - Total number of items",
+      "itemsPerPage": "number - Items per page",
+      "itemsPerPageOptions": "number[] - Options for items per page (default: [10, 20, 50, 100])",
+      "onPageChange": "Function - Page change handler",
+      "onItemsPerPageChange": "Function - Items per page change handler",
+      "showInfo": "boolean - Show info text (default: true)"
+    }
+  },
+  "SkeletonCard": {
+    "description": "Loading skeleton for card components",
+    "properties": {
+      "classes": "rounded-lg border border-border bg-card p-6"
+    },
+    "variants": {
+      "metric": {
+        "description": "Skeleton for MetricCard",
+        "structure": [
+          { "type": "row", "classes": "flex items-center justify-between mb-4", "children": [
+            { "type": "circle", "classes": "h-10 w-10 rounded-lg" },
+            { "type": "rect", "classes": "h-4 w-20" }
+          ]},
+          { "type": "rect", "classes": "h-8 w-24 mb-2" },
+          { "type": "rect", "classes": "h-4 w-16" }
+        ]
+      },
+      "content": {
+        "description": "Skeleton for content card",
+        "structure": [
+          { "type": "rect", "classes": "h-6 w-3/4 mb-4" },
+          { "type": "rect", "classes": "h-4 w-full mb-2" },
+          { "type": "rect", "classes": "h-4 w-5/6 mb-2" },
+          { "type": "rect", "classes": "h-4 w-4/6" }
+        ]
+      }
+    }
+  },
+  "SkeletonTable": {
+    "description": "Loading skeleton for table components",
+    "properties": {
+      "classes": "w-full"
+    },
+    "structure": {
+      "header": {
+        "classes": "border-b",
+        "cells": 5,
+        "cellClasses": "h-12 px-4"
+      },
+      "rows": {
+        "count": 5,
+        "classes": "border-b",
+        "cells": 5,
+        "cellClasses": "h-16 px-4"
+      }
+    },
+    "props": {
+      "columns": "number - Number of columns",
+      "rows": "number - Number of rows (default: 5)"
+    }
+  },
+  "SkeletonText": {
+    "description": "Loading skeleton for text content",
+    "variants": {
+      "heading": {
+        "classes": "h-8 w-3/4 rounded-md bg-muted animate-pulse"
+      },
+      "subheading": {
+        "classes": "h-6 w-1/2 rounded-md bg-muted animate-pulse"
+      },
+      "paragraph": {
+        "classes": "space-y-2",
+        "lines": [
+          { "classes": "h-4 w-full rounded bg-muted animate-pulse" },
+          { "classes": "h-4 w-5/6 rounded bg-muted animate-pulse" },
+          { "classes": "h-4 w-4/6 rounded bg-muted animate-pulse" }
+        ]
+      },
+      "line": {
+        "classes": "h-4 rounded bg-muted animate-pulse"
+      }
+    },
+    "props": {
+      "variant": "'heading' | 'subheading' | 'paragraph' | 'line'",
+      "width": "string - Custom width (e.g., 'w-1/2', '200px')",
+      "lines": "number - Number of lines for paragraph variant"
+    }
+  },
+  "TopBar": {
+    "description": "Top navigation bar with search, notifications, and user menu",
+    "components": {
+      "TopBar": {
+        "description": "Main top bar container",
+        "classes": "sticky top-0 z-sticky h-16 flex items-center border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+      },
+      "TopBarContent": {
+        "description": "Inner content wrapper",
+        "classes": "flex-1 flex items-center justify-between px-6"
+      },
+      "TopBarLeft": {
+        "description": "Left section (menu toggle, logo)",
+        "classes": "flex items-center gap-4"
+      },
+      "TopBarCenter": {
+        "description": "Center section (search)",
+        "classes": "flex-1 max-w-xl mx-4"
+      },
+      "TopBarRight": {
+        "description": "Right section (notifications, user)",
+        "classes": "flex items-center gap-2"
+      },
+      "TopBarSearch": {
+        "description": "Search input with icon",
+        "classes": "relative w-full",
+        "inputClasses": "w-full pl-10 pr-4"
+      },
+      "TopBarNotification": {
+        "description": "Notification button with badge",
+        "classes": "relative p-2 rounded-md hover:bg-accent",
+        "badgeClasses": "absolute -top-1 -right-1 h-5 w-5 rounded-full bg-destructive text-destructive-foreground text-xs flex items-center justify-center"
+      },
+      "TopBarUserMenu": {
+        "description": "User dropdown menu trigger",
+        "classes": "flex items-center gap-2 p-2 rounded-md hover:bg-accent"
+      }
+    },
+    "props": {
+      "logo": "ReactNode - Logo component",
+      "showSearch": "boolean - Show search input (default: true)",
+      "onSearch": "Function - Search handler",
+      "notifications": "Array<{id: string, title: string, ...}> - Notifications",
+      "user": "{name: string, email: string, avatar?: string} - User info",
+      "onMenuToggle": "Function - Mobile menu toggle"
+    }
+  },
+  "Sidebar": {
+    "description": "Side navigation panel with collapsible items",
+    "components": {
+      "Sidebar": {
+        "description": "Main sidebar container",
+        "classes": "flex flex-col h-full border-r bg-card"
+      },
+      "SidebarHeader": {
+        "description": "Sidebar header with logo",
+        "classes": "flex h-16 items-center border-b px-4"
+      },
+      "SidebarContent": {
+        "description": "Scrollable content area",
+        "classes": "flex-1 overflow-auto py-4"
+      },
+      "SidebarFooter": {
+        "description": "Sidebar footer area",
+        "classes": "border-t p-4"
+      },
+      "SidebarNav": {
+        "description": "Navigation items container",
+        "classes": "space-y-1 px-2"
+      },
+      "SidebarNavItem": {
+        "description": "Navigation item",
+        "classes": "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
+        "activeClasses": "bg-accent text-accent-foreground"
+      },
+      "SidebarNavIcon": {
+        "description": "Navigation item icon",
+        "classes": "h-5 w-5 flex-shrink-0"
+      },
+      "SidebarNavLabel": {
+        "description": "Navigation item label",
+        "classes": "flex-1 truncate"
+      },
+      "SidebarNavBadge": {
+        "description": "Navigation item badge",
+        "classes": "ml-auto rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary"
+      },
+      "SidebarGroup": {
+        "description": "Navigation group with label",
+        "classes": "py-2"
+      },
+      "SidebarGroupLabel": {
+        "description": "Group label",
+        "classes": "px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider"
+      }
+    },
+    "dimensions": {
+      "collapsed": "64px",
+      "expanded": "280px"
+    },
+    "props": {
+      "items": "Array<{icon: LucideIcon, label: string, href: string, badge?: string | number, children?: Array}>",
+      "collapsed": "boolean - Collapsed state",
+      "onCollapse": "Function - Collapse toggle handler",
+      "activeItem": "string - Currently active item href"
+    },
+    "features": {
+      "collapsible": {
+        "description": "Collapse to icon-only mode",
+        "collapsedClasses": "w-16",
+        "expandedClasses": "w-[280px]"
+      },
+      "nestedNav": {
+        "description": "Support for nested navigation items",
+        "childClasses": "pl-10"
+      }
+    }
+  },
+  "DashboardLayout": {
+    "description": "Complete dashboard layout wrapper with sidebar and topbar",
+    "components": {
+      "DashboardLayout": {
+        "description": "Main layout container",
+        "classes": "flex h-screen overflow-hidden"
+      },
+      "DashboardSidebar": {
+        "description": "Sidebar area (hidden on mobile)",
+        "classes": "hidden lg:flex lg:flex-shrink-0"
+      },
+      "DashboardMain": {
+        "description": "Main content area",
+        "classes": "flex flex-1 flex-col overflow-hidden"
+      },
+      "DashboardTopbar": {
+        "description": "Top bar area",
+        "classes": "flex-shrink-0"
+      },
+      "DashboardContent": {
+        "description": "Scrollable content area",
+        "classes": "flex-1 overflow-y-auto"
+      },
+      "DashboardMobileNav": {
+        "description": "Mobile navigation overlay",
+        "classes": "lg:hidden fixed inset-0 z-50 bg-black/80"
+      }
+    },
+    "structure": {
+      "description": "Layout structure diagram",
+      "layout": "[Sidebar] [Main: [TopBar] [Content]]"
+    },
+    "props": {
+      "sidebar": "ReactNode - Sidebar component",
+      "topbar": "ReactNode - Top bar component",
+      "children": "ReactNode - Page content"
+    },
+    "responsive": {
+      "mobile": {
+        "description": "Mobile layout (sidebar as overlay)",
+        "sidebarClasses": "fixed inset-y-0 left-0 z-50 w-[280px] transform transition-transform -translate-x-full data-[open=true]:translate-x-0"
+      },
+      "desktop": {
+        "description": "Desktop layout (sidebar visible)",
+        "sidebarClasses": "relative"
+      }
+    }
+  }
+}

@@ -12,12 +12,21 @@ import {
   loadLayout,
   loadUX,
   loadAccessibility,
+  loadDashboardComponents,
+  loadCharts,
   getFullDesignSystem,
   listComponentNames,
   getComponentSpec,
   getTokenCategory,
   getLayoutPattern,
   getUXGuideline,
+  listUXTopics,
+  listDashboardComponentNames,
+  getDashboardComponentSpec,
+  listChartNames,
+  getChartSpec,
+  getChartCommonProps,
+  getChartSharedComponents,
 } from './utils/data-loader.js';
 
 // Tool definitions
@@ -67,14 +76,14 @@ const tools: Tool[] = [
   },
   {
     name: 'get_ux_guidelines',
-    description: 'Get UX guidelines for interactions, feedback, forms, modals, animations, and more.',
+    description: 'Get UX guidelines for interactions, feedback, forms, modals, animations, carousel, countdown, data visualization, empty states, onboarding, notifications, tables, and more.',
     inputSchema: {
       type: 'object',
       properties: {
         topic: {
           type: 'string',
-          description: 'Specific topic: interactions, feedback, forms, modals, navigation, responsiveness, animations, copywriting, darkMode. Leave empty for all guidelines.',
-          enum: ['interactions', 'feedback', 'forms', 'modals', 'navigation', 'responsiveness', 'animations', 'copywriting', 'darkMode'],
+          description: 'Specific topic. Leave empty for all guidelines.',
+          enum: ['interactions', 'feedback', 'forms', 'modals', 'navigation', 'responsiveness', 'animations', 'copywriting', 'darkMode', 'carousel', 'countdown', 'dataVisualization', 'emptyStates', 'onboarding', 'notifications', 'tables', 'errorBoundary'],
         },
       },
     },
@@ -90,6 +99,67 @@ const tools: Tool[] = [
   {
     name: 'get_full_design_system',
     description: 'Get the complete design system in one call. Useful for initial context loading.',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'get_dashboard_component_spec',
+    description: 'Get the specification for a dashboard-specific component (PageHeader, MetricCard, DataTable, Sidebar, TopBar, etc.).',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        component_name: {
+          type: 'string',
+          description: 'Name of the dashboard component (e.g., PageHeader, MetricCard, DataTable, Pagination, TopBar, Sidebar, DashboardLayout)',
+        },
+      },
+      required: ['component_name'],
+    },
+  },
+  {
+    name: 'list_dashboard_components',
+    description: 'List all available dashboard-specific components.',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'get_chart_spec',
+    description: 'Get the specification for a chart component (AreaChart, BarChart, LineChart, PieChart, RadialBarChart, ComposedChart).',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        chart_name: {
+          type: 'string',
+          description: 'Name of the chart component',
+          enum: ['AreaChart', 'BarChart', 'LineChart', 'PieChart', 'RadialBarChart', 'ComposedChart'],
+        },
+      },
+      required: ['chart_name'],
+    },
+  },
+  {
+    name: 'list_charts',
+    description: 'List all available chart components with their descriptions.',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'get_chart_shared_components',
+    description: 'Get shared chart components (Tooltip, Legend, XAxis, YAxis, CartesianGrid, etc.) that are used across all chart types.',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'get_chart_common_props',
+    description: 'Get common chart properties including colors, typography, grid settings, and animation defaults.',
     inputSchema: {
       type: 'object',
       properties: {},
@@ -271,7 +341,8 @@ function handleGetUXGuidelines(args: { topic?: string }) {
   if (args.topic) {
     const guideline = getUXGuideline(args.topic);
     if (!guideline) {
-      return { error: `Unknown topic: ${args.topic}. Available: interactions, feedback, forms, modals, navigation, responsiveness, animations, copywriting, darkMode` };
+      const available = listUXTopics();
+      return { error: `Unknown topic: ${args.topic}. Available: ${available.join(', ')}` };
     }
     return { [args.topic]: guideline };
   }
@@ -288,6 +359,80 @@ function handleListComponents() {
 
 function handleGetFullDesignSystem() {
   return getFullDesignSystem();
+}
+
+function handleGetDashboardComponentSpec(args: { component_name: string }) {
+  const spec = getDashboardComponentSpec(args.component_name);
+  if (!spec) {
+    const available = listDashboardComponentNames();
+    return { error: `Dashboard component "${args.component_name}" not found. Available components: ${available.join(', ')}` };
+  }
+  return { [args.component_name]: spec };
+}
+
+function handleListDashboardComponents() {
+  const components = listDashboardComponentNames();
+  return {
+    count: components.length,
+    components: components,
+    categories: {
+      layout: ['PageHeader', 'PageContainer', 'DashboardLayout'],
+      navigation: ['TopBar', 'Sidebar'],
+      dataDisplay: ['MetricCard', 'DataTable', 'Pagination'],
+      feedback: ['SkeletonCard', 'SkeletonTable', 'SkeletonText'],
+    },
+  };
+}
+
+function handleGetChartSpec(args: { chart_name: string }) {
+  const spec = getChartSpec(args.chart_name);
+  if (!spec) {
+    const available = listChartNames();
+    return { error: `Chart "${args.chart_name}" not found. Available charts: ${available.join(', ')}` };
+  }
+  return { [args.chart_name]: spec };
+}
+
+function handleListCharts() {
+  const charts = loadCharts();
+  const chartNames = listChartNames();
+
+  return {
+    count: chartNames.length,
+    charts: chartNames.map(name => ({
+      name,
+      description: (charts as any)[name]?.description || '',
+    })),
+    categories: {
+      basic: ['LineChart', 'BarChart', 'AreaChart'],
+      circular: ['PieChart', 'RadialBarChart'],
+      advanced: ['ComposedChart'],
+    },
+    sharedComponents: ['XAxis', 'YAxis', 'CartesianGrid', 'Tooltip', 'Legend', 'ReferenceLine', 'ResponsiveContainer'],
+    utilities: ['ChartCard', 'sparkline', 'emptyState', 'loadingState'],
+  };
+}
+
+function handleGetChartSharedComponents() {
+  const sharedComponents = getChartSharedComponents();
+  const charts = loadCharts();
+  return {
+    sharedComponents,
+    ChartCard: charts.ChartCard,
+    sparkline: charts.sparkline,
+    accessibility: charts.accessibility,
+    emptyState: charts.emptyState,
+    loadingState: charts.loadingState,
+  };
+}
+
+function handleGetChartCommonProps() {
+  const commonProps = getChartCommonProps();
+  const charts = loadCharts();
+  return {
+    commonProps,
+    overview: charts.overview,
+  };
 }
 
 function handleGenerateCSS(args: { component: string; variant?: string; options?: { includeHover?: boolean; includeFocus?: boolean; includeDarkMode?: boolean } }) {
@@ -957,6 +1102,24 @@ export function createServer() {
           break;
         case 'get_full_design_system':
           result = handleGetFullDesignSystem();
+          break;
+        case 'get_dashboard_component_spec':
+          result = handleGetDashboardComponentSpec(args as { component_name: string });
+          break;
+        case 'list_dashboard_components':
+          result = handleListDashboardComponents();
+          break;
+        case 'get_chart_spec':
+          result = handleGetChartSpec(args as { chart_name: string });
+          break;
+        case 'list_charts':
+          result = handleListCharts();
+          break;
+        case 'get_chart_shared_components':
+          result = handleGetChartSharedComponents();
+          break;
+        case 'get_chart_common_props':
+          result = handleGetChartCommonProps();
           break;
 
         // Generate tools

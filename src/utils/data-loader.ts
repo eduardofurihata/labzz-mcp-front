@@ -82,11 +82,52 @@ export interface AccessibilityRules {
   testing: any;
 }
 
+export interface DashboardComponentSpec {
+  description: string;
+  components?: Record<string, any>;
+  properties?: any;
+  props?: any;
+  variants?: Record<string, any>;
+  features?: any;
+  dimensions?: any;
+  structure?: any;
+  responsive?: any;
+  [key: string]: any;
+}
+
+export interface ChartSpec {
+  description: string;
+  components?: Record<string, any>;
+  variants?: Record<string, any>;
+  styling?: any;
+  example?: any;
+  [key: string]: any;
+}
+
+export interface ChartsData {
+  overview: any;
+  commonProps: any;
+  AreaChart: ChartSpec;
+  BarChart: ChartSpec;
+  LineChart: ChartSpec;
+  PieChart: ChartSpec;
+  RadialBarChart: ChartSpec;
+  ComposedChart: ChartSpec;
+  sharedComponents: Record<string, any>;
+  ChartCard: any;
+  sparkline: any;
+  accessibility: any;
+  emptyState: any;
+  loadingState: any;
+}
+
 let tokensCache: DesignTokens | null = null;
+let dashboardComponentsCache: Record<string, DashboardComponentSpec> | null = null;
 let componentsCache: Record<string, ComponentSpec> | null = null;
 let layoutCache: LayoutPatterns | null = null;
 let uxCache: UXGuidelines | null = null;
 let accessibilityCache: AccessibilityRules | null = null;
+let chartsCache: ChartsData | null = null;
 
 function loadJSON<T>(filename: string): T {
   const filePath = join(DATA_DIR, filename);
@@ -129,10 +170,64 @@ export function loadAccessibility(): AccessibilityRules {
   return accessibilityCache;
 }
 
+export function loadDashboardComponents(): Record<string, DashboardComponentSpec> {
+  if (!dashboardComponentsCache) {
+    dashboardComponentsCache = loadJSON<Record<string, DashboardComponentSpec>>('dashboard-components.json');
+  }
+  return dashboardComponentsCache;
+}
+
+export function loadCharts(): ChartsData {
+  if (!chartsCache) {
+    chartsCache = loadJSON<ChartsData>('charts.json');
+  }
+  return chartsCache;
+}
+
+export function listChartNames(): string[] {
+  const charts = loadCharts();
+  return ['AreaChart', 'BarChart', 'LineChart', 'PieChart', 'RadialBarChart', 'ComposedChart'];
+}
+
+export function getChartSpec(name: string): ChartSpec | null {
+  const charts = loadCharts();
+  const chartMap: Record<string, ChartSpec> = {
+    AreaChart: charts.AreaChart,
+    BarChart: charts.BarChart,
+    LineChart: charts.LineChart,
+    PieChart: charts.PieChart,
+    RadialBarChart: charts.RadialBarChart,
+    ComposedChart: charts.ComposedChart,
+  };
+  return chartMap[name] || null;
+}
+
+export function getChartCommonProps(): any {
+  const charts = loadCharts();
+  return charts.commonProps;
+}
+
+export function getChartSharedComponents(): Record<string, any> {
+  const charts = loadCharts();
+  return charts.sharedComponents;
+}
+
+export function listDashboardComponentNames(): string[] {
+  const components = loadDashboardComponents();
+  return Object.keys(components);
+}
+
+export function getDashboardComponentSpec(name: string): DashboardComponentSpec | null {
+  const components = loadDashboardComponents();
+  return components[name] || null;
+}
+
 export function getFullDesignSystem() {
   return {
     tokens: loadTokens(),
     components: loadComponents(),
+    dashboardComponents: loadDashboardComponents(),
+    charts: loadCharts(),
     layout: loadLayout(),
     ux: loadUX(),
     accessibility: loadAccessibility(),
@@ -191,6 +286,36 @@ export function getUXGuideline(topic: string): any {
     animations: ux.animations,
     copywriting: ux.copywriting,
     darkMode: ux.darkMode,
+    carousel: (ux as any).carousel,
+    countdown: (ux as any).countdown,
+    dataVisualization: (ux as any).dataVisualization,
+    emptyStates: (ux as any).emptyStates,
+    onboarding: (ux as any).onboarding,
+    notifications: (ux as any).notifications,
+    tables: (ux as any).tables,
+    errorBoundary: (ux as any).errorBoundary,
   };
   return topicMap[topic] || null;
+}
+
+export function listUXTopics(): string[] {
+  return [
+    'interactions',
+    'feedback',
+    'forms',
+    'modals',
+    'navigation',
+    'responsiveness',
+    'animations',
+    'copywriting',
+    'darkMode',
+    'carousel',
+    'countdown',
+    'dataVisualization',
+    'emptyStates',
+    'onboarding',
+    'notifications',
+    'tables',
+    'errorBoundary',
+  ];
 }
