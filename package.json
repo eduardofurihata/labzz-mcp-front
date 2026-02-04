@@ -1,6 +1,6 @@
 {
   "name": "@eduardofurihata/labzz-mcp-front",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "MCP Server exposing Labzz design system for AI-assisted frontend development",
   "type": "module",
   "main": "dist/index.js",
