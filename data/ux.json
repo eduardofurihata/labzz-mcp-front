@@ -1,0 +1,289 @@
+{
+  "interactions": {
+    "hover": {
+      "description": "Hover state guidelines",
+      "timing": "150ms",
+      "easing": "ease-in-out",
+      "effects": {
+        "colorChange": {
+          "description": "Subtle color shift on interactive elements",
+          "example": "hover:bg-accent"
+        },
+        "elevation": {
+          "description": "Add shadow on hover for cards",
+          "example": "hover:shadow-md"
+        },
+        "scale": {
+          "description": "Subtle scale for clickable items",
+          "example": "hover:scale-[1.02]"
+        }
+      }
+    },
+    "focus": {
+      "description": "Focus state for accessibility",
+      "ring": {
+        "width": "2px",
+        "color": "ring (primary)",
+        "offset": "2px"
+      },
+      "classes": "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+    },
+    "active": {
+      "description": "Active/pressed state",
+      "effects": {
+        "darken": "Slightly darker background",
+        "scale": "scale-[0.98]"
+      }
+    },
+    "disabled": {
+      "description": "Disabled state guidelines",
+      "opacity": 0.5,
+      "cursor": "not-allowed",
+      "classes": "opacity-50 cursor-not-allowed pointer-events-none"
+    },
+    "loading": {
+      "description": "Loading state indicators",
+      "patterns": {
+        "spinner": {
+          "description": "Animated spinner icon",
+          "usage": "Buttons, async actions"
+        },
+        "skeleton": {
+          "description": "Placeholder shapes with pulse animation",
+          "usage": "Content loading"
+        },
+        "progress": {
+          "description": "Progress bar for determinate loading",
+          "usage": "File uploads, multi-step processes"
+        },
+        "overlay": {
+          "description": "Semi-transparent overlay with spinner",
+          "usage": "Full page or section loading"
+        }
+      }
+    }
+  },
+  "feedback": {
+    "success": {
+      "description": "Positive feedback",
+      "color": "green-500",
+      "icon": "CheckCircle",
+      "patterns": {
+        "toast": "Brief success message",
+        "inline": "Inline success state with icon",
+        "modal": "Success confirmation dialog"
+      }
+    },
+    "error": {
+      "description": "Error feedback",
+      "color": "destructive",
+      "icon": "AlertCircle",
+      "patterns": {
+        "toast": "Error notification",
+        "inline": "Form field error message",
+        "alert": "Prominent error banner"
+      },
+      "messages": {
+        "required": "This field is required",
+        "email": "Please enter a valid email address",
+        "minLength": "Must be at least {min} characters",
+        "maxLength": "Must be no more than {max} characters",
+        "pattern": "Invalid format"
+      }
+    },
+    "warning": {
+      "description": "Warning feedback",
+      "color": "yellow-500",
+      "icon": "AlertTriangle",
+      "usage": "Potentially destructive actions, data loss warnings"
+    },
+    "info": {
+      "description": "Informational feedback",
+      "color": "blue-500",
+      "icon": "Info",
+      "usage": "Helpful tips, contextual information"
+    }
+  },
+  "forms": {
+    "layout": {
+      "description": "Form layout guidelines",
+      "labelPosition": "top",
+      "labelGap": "0.5rem",
+      "fieldGap": "1.5rem",
+      "groupGap": "2rem"
+    },
+    "validation": {
+      "timing": "onBlur",
+      "showError": {
+        "position": "below",
+        "color": "destructive",
+        "fontSize": "sm"
+      },
+      "showSuccess": {
+        "icon": "CheckCircle",
+        "color": "green-500"
+      }
+    },
+    "placeholders": {
+      "description": "Placeholder text guidelines",
+      "style": "Use examples, not instructions",
+      "good": "john@example.com",
+      "bad": "Enter your email"
+    },
+    "requiredFields": {
+      "indicator": "*",
+      "position": "after label"
+    }
+  },
+  "modals": {
+    "description": "Modal dialog guidelines",
+    "overlay": {
+      "background": "black/80",
+      "blur": "4px",
+      "clickToClose": true
+    },
+    "animation": {
+      "enter": {
+        "overlay": "fade-in",
+        "content": "fade-in zoom-in-95"
+      },
+      "exit": {
+        "overlay": "fade-out",
+        "content": "fade-out zoom-out-95"
+      },
+      "duration": "200ms"
+    },
+    "sizes": {
+      "sm": "max-w-sm",
+      "default": "max-w-lg",
+      "lg": "max-w-2xl",
+      "xl": "max-w-4xl",
+      "fullscreen": "max-w-full h-full"
+    },
+    "behavior": {
+      "trapFocus": true,
+      "closeOnEscape": true,
+      "preventScroll": true
+    }
+  },
+  "navigation": {
+    "transitions": {
+      "page": {
+        "type": "fade",
+        "duration": "200ms"
+      },
+      "sidebar": {
+        "type": "slide",
+        "duration": "300ms"
+      }
+    },
+    "activeState": {
+      "visual": "Background highlight + left border or underline",
+      "classes": "bg-accent text-accent-foreground"
+    },
+    "breadcrumbs": {
+      "maxItems": 4,
+      "truncation": "middle items with ellipsis"
+    }
+  },
+  "responsiveness": {
+    "touchTargets": {
+      "minimum": "44px",
+      "recommended": "48px",
+      "description": "Minimum touch target size for mobile"
+    },
+    "mobileFirst": {
+      "description": "Design for mobile first, then enhance for larger screens",
+      "breakpoints": {
+        "mobile": "< 768px",
+        "tablet": "768px - 1023px",
+        "desktop": ">= 1024px"
+      }
+    },
+    "patterns": {
+      "navigation": {
+        "mobile": "Hamburger menu or bottom nav",
+        "desktop": "Side or top navigation"
+      },
+      "tables": {
+        "mobile": "Card layout or horizontal scroll",
+        "desktop": "Full table"
+      },
+      "forms": {
+        "mobile": "Single column",
+        "desktop": "Multi-column where appropriate"
+      }
+    }
+  },
+  "animations": {
+    "principles": {
+      "purposeful": "Every animation should serve a purpose",
+      "quick": "Keep animations fast (150-300ms)",
+      "subtle": "Avoid flashy or distracting animations",
+      "respectMotion": "Honor prefers-reduced-motion"
+    },
+    "usage": {
+      "enter": {
+        "description": "Element appearing",
+        "animation": "fade-in + scale-in or slide-in",
+        "duration": "200ms"
+      },
+      "exit": {
+        "description": "Element disappearing",
+        "animation": "fade-out + scale-out or slide-out",
+        "duration": "150ms"
+      },
+      "hover": {
+        "description": "Interactive feedback",
+        "duration": "150ms"
+      },
+      "state": {
+        "description": "State changes",
+        "duration": "200ms"
+      }
+    },
+    "reducedMotion": {
+      "description": "Respect user preference for reduced motion",
+      "classes": "motion-reduce:transition-none motion-reduce:animate-none"
+    }
+  },
+  "copywriting": {
+    "buttons": {
+      "primary": "Action-oriented verbs",
+      "examples": {
+        "good": ["Save", "Create account", "Get started"],
+        "bad": ["Submit", "Click here", "OK"]
+      }
+    },
+    "errors": {
+      "tone": "Helpful, not blaming",
+      "examples": {
+        "good": "Please enter a valid email address",
+        "bad": "Invalid email"
+      }
+    },
+    "empty": {
+      "description": "Empty state messages",
+      "structure": {
+        "title": "What's missing",
+        "description": "Why it matters",
+        "action": "What to do next"
+      }
+    }
+  },
+  "darkMode": {
+    "description": "Dark mode considerations",
+    "colors": {
+      "contrast": "Ensure sufficient contrast in dark mode",
+      "brightness": "Reduce brightness of vibrant colors"
+    },
+    "images": {
+      "consideration": "May need different images for dark mode",
+      "technique": "Use CSS filter or separate assets"
+    },
+    "shadows": {
+      "note": "Shadows are less visible in dark mode",
+      "alternative": "Use borders or subtle glows"
+    }
+  }
+}

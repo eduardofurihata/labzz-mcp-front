@@ -1,0 +1,236 @@
+{
+  "grid": {
+    "description": "Grid system for page layouts",
+    "container": {
+      "maxWidth": "1280px",
+      "padding": "1.5rem",
+      "centered": true,
+      "classes": "mx-auto max-w-7xl px-6"
+    },
+    "columns": {
+      "1": "grid-cols-1",
+      "2": "grid-cols-2",
+      "3": "grid-cols-3",
+      "4": "grid-cols-4",
+      "6": "grid-cols-6",
+      "12": "grid-cols-12"
+    },
+    "gaps": {
+      "sm": "gap-2",
+      "md": "gap-4",
+      "lg": "gap-6",
+      "xl": "gap-8"
+    },
+    "responsive": {
+      "description": "Mobile-first responsive grid patterns",
+      "patterns": {
+        "cards2to4": "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6",
+        "cards1to3": "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6",
+        "sidebar": "grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6",
+        "contentWithAside": "grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8"
+      }
+    }
+  },
+  "flexbox": {
+    "description": "Flexbox utilities for component layouts",
+    "patterns": {
+      "row": "flex flex-row",
+      "column": "flex flex-col",
+      "center": "flex items-center justify-center",
+      "between": "flex items-center justify-between",
+      "start": "flex items-start",
+      "end": "flex items-end justify-end",
+      "wrap": "flex flex-wrap"
+    },
+    "gaps": {
+      "sm": "gap-2",
+      "md": "gap-4",
+      "lg": "gap-6"
+    }
+  },
+  "navigation": {
+    "sidebar": {
+      "description": "Side navigation panel",
+      "width": {
+        "collapsed": "64px",
+        "expanded": "280px"
+      },
+      "structure": {
+        "header": {
+          "height": "64px",
+          "classes": "flex h-16 items-center border-b px-4"
+        },
+        "nav": {
+          "classes": "flex-1 overflow-auto py-4"
+        },
+        "footer": {
+          "classes": "border-t p-4"
+        }
+      },
+      "item": {
+        "height": "40px",
+        "padding": "8px 12px",
+        "borderRadius": "6px",
+        "classes": "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+        "states": {
+          "default": "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
+          "active": "bg-accent text-accent-foreground"
+        }
+      }
+    },
+    "header": {
+      "description": "Top navigation bar",
+      "height": "64px",
+      "classes": "sticky top-0 z-sticky flex h-16 items-center border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60",
+      "structure": {
+        "logo": {
+          "classes": "flex items-center gap-2"
+        },
+        "nav": {
+          "classes": "hidden md:flex items-center gap-6"
+        },
+        "actions": {
+          "classes": "flex items-center gap-4"
+        }
+      }
+    },
+    "breadcrumbs": {
+      "description": "Breadcrumb navigation",
+      "classes": "flex items-center gap-2 text-sm text-muted-foreground",
+      "separator": {
+        "icon": "ChevronRight",
+        "classes": "h-4 w-4"
+      },
+      "item": {
+        "default": "hover:text-foreground transition-colors",
+        "current": "text-foreground font-medium"
+      }
+    },
+    "tabs": {
+      "description": "Tab navigation within pages",
+      "classes": "border-b border-border",
+      "item": {
+        "classes": "px-4 py-2 -mb-px border-b-2 border-transparent text-muted-foreground hover:text-foreground transition-colors",
+        "active": "border-primary text-foreground font-medium"
+      }
+    }
+  },
+  "pageStructure": {
+    "dashboard": {
+      "description": "Dashboard page layout with sidebar",
+      "structure": {
+        "layout": "flex min-h-screen",
+        "sidebar": "hidden lg:flex w-64 flex-col border-r bg-card",
+        "main": "flex-1 flex flex-col",
+        "header": "sticky top-0 z-10 border-b bg-background",
+        "content": "flex-1 p-6"
+      }
+    },
+    "landing": {
+      "description": "Landing page layout",
+      "structure": {
+        "layout": "flex flex-col min-h-screen",
+        "header": "sticky top-0 z-50 bg-background/95 backdrop-blur border-b",
+        "main": "flex-1",
+        "footer": "border-t bg-muted/50"
+      },
+      "sections": {
+        "hero": {
+          "classes": "py-20 md:py-32",
+          "container": "container mx-auto px-6 text-center"
+        },
+        "features": {
+          "classes": "py-16 md:py-24",
+          "container": "container mx-auto px-6"
+        },
+        "cta": {
+          "classes": "py-16 md:py-24 bg-primary text-primary-foreground"
+        }
+      }
+    },
+    "form": {
+      "description": "Form page layout",
+      "structure": {
+        "container": "mx-auto max-w-2xl py-8 px-6",
+        "header": "mb-8",
+        "content": "space-y-6",
+        "actions": "flex items-center justify-end gap-4 pt-6 border-t"
+      }
+    },
+    "settings": {
+      "description": "Settings page layout",
+      "structure": {
+        "container": "container mx-auto py-8 px-6",
+        "sidebar": "w-64 space-y-1",
+        "content": "flex-1 space-y-6"
+      }
+    }
+  },
+  "sections": {
+    "description": "Common section patterns",
+    "header": {
+      "description": "Page section header",
+      "classes": "mb-6",
+      "title": "text-2xl font-bold tracking-tight",
+      "description": "text-muted-foreground mt-1"
+    },
+    "content": {
+      "padding": {
+        "sm": "p-4",
+        "md": "p-6",
+        "lg": "p-8"
+      }
+    },
+    "divider": {
+      "horizontal": "border-t border-border my-6",
+      "vertical": "border-l border-border mx-4 h-full"
+    }
+  },
+  "responsive": {
+    "breakpoints": {
+      "sm": {
+        "value": "640px",
+        "description": "Small devices (phones in landscape)"
+      },
+      "md": {
+        "value": "768px",
+        "description": "Medium devices (tablets)"
+      },
+      "lg": {
+        "value": "1024px",
+        "description": "Large devices (desktops)"
+      },
+      "xl": {
+        "value": "1280px",
+        "description": "Extra large devices (large desktops)"
+      },
+      "2xl": {
+        "value": "1536px",
+        "description": "2X large devices (wide screens)"
+      }
+    },
+    "patterns": {
+      "hideOnMobile": "hidden md:block",
+      "showOnMobile": "md:hidden",
+      "stackOnMobile": "flex flex-col md:flex-row",
+      "fullWidthOnMobile": "w-full md:w-auto"
+    }
+  },
+  "spacing": {
+    "pageMargin": {
+      "mobile": "1rem",
+      "tablet": "1.5rem",
+      "desktop": "2rem"
+    },
+    "sectionGap": {
+      "sm": "2rem",
+      "md": "4rem",
+      "lg": "6rem"
+    },
+    "componentGap": {
+      "sm": "0.5rem",
+      "md": "1rem",
+      "lg": "1.5rem"
+    }
+  }
+}
