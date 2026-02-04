@@ -1,11 +1,11 @@
 {
   "name": "@eduardofurihata/labzz-mcp-front",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "MCP Server exposing Labzz design system for AI-assisted frontend development",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "labzz-mcp-front": "./dist/index.js"
+    "labzz-mcp-front": "dist/index.js"
   },
   "scripts": {
     "build": "tsc",
@@ -24,7 +24,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/eduardofurihata/labzz-mcp-front.git"
+    "url": "git+https://github.com/eduardofurihata/labzz-mcp-front.git"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"

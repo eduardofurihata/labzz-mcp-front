@@ -25,3 +25,4 @@ npm-debug.log*
 
 # Optional: uncomment if you want to commit the build
 # !dist/
+.npmrc
