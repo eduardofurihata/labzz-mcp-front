@@ -13,7 +13,27 @@ MCP Server that exposes the Labzz design system for AI-assisted frontend develop
 
 ## Installation
 
+### Quick Install (Claude Code CLI)
+
+**Option 1: Install from GitHub (recommended)**
 ```bash
+claude mcp add labzz-mcp-front -- npx --yes github:eduardofurihata/labzz-mcp-front
+```
+
+**Option 2: Install from GitHub Packages**
+```bash
+claude mcp add labzz-mcp-front -- npx --yes --registry=https://npm.pkg.github.com @eduardofurihata/labzz-mcp-front
+```
+
+Verify installation:
+```bash
+claude mcp list
+```
+
+### Manual Installation (from source)
+
+```bash
+git clone https://github.com/eduardofurihata/labzz-mcp-front.git
 cd labzz-mcp-front
 npm install
 npm run build
