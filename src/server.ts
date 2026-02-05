@@ -5,6 +5,8 @@ import {
   ListToolsRequestSchema,
   Tool,
 } from '@modelcontextprotocol/sdk/types.js';
+import express from 'express';
+import cors from 'cors';
 
 import {
   loadTokens,
@@ -1299,6 +1301,167 @@ export function createServer() {
   return server;
 }
 
+// Tool handler map for HTTP transport
+function handleToolCall(name: string, args: any): any {
+  switch (name) {
+    case 'get_design_tokens': return handleGetDesignTokens(args);
+    case 'get_component_spec': return handleGetComponentSpec(args);
+    case 'get_layout_patterns': return handleGetLayoutPatterns(args);
+    case 'get_ux_guidelines': return handleGetUXGuidelines(args);
+    case 'list_components': return handleListComponents();
+    case 'get_full_design_system': return handleGetFullDesignSystem();
+    case 'get_dashboard_component_spec': return handleGetDashboardComponentSpec(args);
+    case 'list_dashboard_components': return handleListDashboardComponents();
+    case 'get_chart_spec': return handleGetChartSpec(args);
+    case 'list_charts': return handleListCharts();
+    case 'get_chart_shared_components': return handleGetChartSharedComponents();
+    case 'get_chart_common_props': return handleGetChartCommonProps();
+    case 'get_landing_component_spec': return handleGetLandingComponentSpec(args);
+    case 'list_landing_components': return handleListLandingComponents();
+    case 'get_effect_spec': return handleGetEffectSpec(args);
+    case 'list_effects': return handleListEffects();
+    case 'generate_css': return handleGenerateCSS(args);
+    case 'generate_tailwind_classes': return handleGenerateTailwindClasses(args);
+    case 'generate_css_variables': return handleGenerateCSSVariables(args);
+    case 'generate_component_skeleton': return handleGenerateComponentSkeleton(args);
+    case 'validate_colors': return handleValidateColors(args);
+    case 'validate_spacing': return handleValidateSpacing(args);
+    case 'validate_component': return handleValidateComponent(args);
+    case 'audit_design': return handleAuditDesign(args);
+    default: throw new Error(`Unknown tool: ${name}`);
+  }
+}
+
+// HTTP Transport Server
+export async function runHttpServer(port: number = 3000) {
+  const app = express();
+  app.use(cors());
+  app.use(express.json());
+
+  // Health check
+  app.get('/health', (_req, res) => {
+    res.json({ status: 'ok', server: 'labzz-mcp-front', version: '1.0.4' });
+  });
+
+  // List all available tools
+  app.get('/tools', (_req, res) => {
+    res.json({ tools });
+  });
+
+  // Call a tool via POST
+  app.post('/tools/:toolName', (req, res) => {
+    try {
+      const { toolName } = req.params;
+      const args = req.body || {};
+      const result = handleToolCall(toolName, args);
+      res.json({ result });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      res.status(400).json({ error: message });
+    }
+  });
+
+  // Convenience GET endpoints for read-only tools
+  app.get('/tokens', (req, res) => {
+    const category = req.query.category as string | undefined;
+    res.json(handleGetDesignTokens({ category }));
+  });
+
+  app.get('/components', (_req, res) => {
+    res.json(handleListComponents());
+  });
+
+  app.get('/components/:name', (req, res) => {
+    try {
+      res.json(handleGetComponentSpec({ component_name: req.params.name }));
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      res.status(404).json({ error: message });
+    }
+  });
+
+  app.get('/dashboard-components', (_req, res) => {
+    res.json(handleListDashboardComponents());
+  });
+
+  app.get('/dashboard-components/:name', (req, res) => {
+    try {
+      res.json(handleGetDashboardComponentSpec({ component_name: req.params.name }));
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      res.status(404).json({ error: message });
+    }
+  });
+
+  app.get('/landing-components', (_req, res) => {
+    res.json(handleListLandingComponents());
+  });
+
+  app.get('/landing-components/:name', (req, res) => {
+    try {
+      res.json(handleGetLandingComponentSpec({ component_name: req.params.name }));
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      res.status(404).json({ error: message });
+    }
+  });
+
+  app.get('/effects', (_req, res) => {
+    res.json(handleListEffects());
+  });
+
+  app.get('/effects/:name', (req, res) => {
+    try {
+      res.json(handleGetEffectSpec({ effect_name: req.params.name }));
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      res.status(404).json({ error: message });
+    }
+  });
+
+  app.get('/charts', (_req, res) => {
+    res.json(handleListCharts());
+  });
+
+  app.get('/charts/:name', (req, res) => {
+    try {
+      res.json(handleGetChartSpec({ chart_name: req.params.name }));
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      res.status(404).json({ error: message });
+    }
+  });
+
+  app.get('/layout', (req, res) => {
+    const pattern = req.query.pattern as string | undefined;
+    res.json(handleGetLayoutPatterns({ pattern }));
+  });
+
+  app.get('/ux', (req, res) => {
+    const topic = req.query.topic as string | undefined;
+    res.json(handleGetUXGuidelines({ topic }));
+  });
+
+  app.get('/full', (_req, res) => {
+    res.json(handleGetFullDesignSystem());
+  });
+
+  app.listen(port, () => {
+    console.log(`Labzz MCP Front HTTP server running on http://localhost:${port}`);
+    console.log(`  GET  /health                - Health check`);
+    console.log(`  GET  /tools                 - List all tools`);
+    console.log(`  POST /tools/:name           - Call any tool`);
+    console.log(`  GET  /tokens?category=...   - Design tokens`);
+    console.log(`  GET  /components            - List components`);
+    console.log(`  GET  /components/:name       - Component spec`);
+    console.log(`  GET  /landing-components     - Landing components`);
+    console.log(`  GET  /effects               - Visual effects`);
+    console.log(`  GET  /charts                - Chart components`);
+    console.log(`  GET  /full                  - Full design system`);
+  });
+}
+
+// Stdio Transport Server (default - Claude Code, Cursor, etc.)
 export async function runServer() {
   const server = createServer();
   const transport = new StdioServerTransport();
