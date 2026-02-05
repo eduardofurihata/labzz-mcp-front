@@ -1,6 +1,6 @@
 {
   "name": "labzz-mcp-front",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "MCP Server exposing Labzz design system for AI-assisted frontend development",
   "type": "module",
   "main": "dist/index.js",
@@ -11,8 +11,13 @@
     "build": "tsc",
     "dev": "tsc --watch",
     "start": "node dist/index.js",
-    "start:http": "node dist/index.js --http"
+    "start:http": "node dist/index.js --http",
+    "prepare": "npm run build"
   },
+  "files": [
+    "dist/",
+    "data/"
+  ],
   "keywords": [
     "mcp",
     "design-system",

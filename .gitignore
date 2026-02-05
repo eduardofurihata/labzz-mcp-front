@@ -1,8 +1,8 @@
 # Dependencies
 node_modules/
 
-# Build output
-dist/
+# Build output (dist/ committed for npx github: compatibility)
+*.tsbuildinfo
 
 # IDE
 .idea/
@@ -23,6 +23,4 @@ npm-debug.log*
 .env.local
 .env.*.local
 
-# Optional: uncomment if you want to commit the build
-# !dist/
 .npmrc
