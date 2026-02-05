@@ -365,7 +365,7 @@
     }
   },
   "Sidebar": {
-    "description": "Side navigation panel with collapsible items",
+    "description": "Side navigation panel with collapsible items - REFERENCE: labzz-lp-vendas",
     "components": {
       "Sidebar": {
         "description": "Main sidebar container",
@@ -385,20 +385,49 @@
       },
       "SidebarNav": {
         "description": "Navigation items container",
-        "classes": "space-y-1 px-2"
+        "classes": "space-y-1 px-3"
       },
       "SidebarNavItem": {
-        "description": "Navigation item",
-        "classes": "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
-        "activeClasses": "bg-accent text-accent-foreground"
+        "description": "Navigation item with icon container and optional subtitle",
+        "height": "56px",
+        "classes": "flex items-center gap-4 rounded-lg px-4 py-3.5 text-sm font-medium transition-all duration-200 text-left w-full",
+        "states": {
+          "default": {
+            "classes": "text-muted-foreground hover:bg-muted hover:text-foreground"
+          },
+          "active": {
+            "classes": "bg-primary text-primary-foreground",
+            "description": "IMPORTANT: Use bg-primary NOT bg-accent for active state"
+          }
+        }
+      },
+      "SidebarNavItemWithSubtitle": {
+        "description": "Navigation item structure with title and subtitle",
+        "structure": {
+          "container": "flex items-center gap-4 rounded-lg px-4 py-3.5 text-sm font-medium transition-all duration-200 w-full",
+          "iconContainer": {
+            "classes": "flex items-center justify-center w-9 h-9 rounded-lg flex-shrink-0",
+            "defaultBg": "bg-muted",
+            "activeBg": "bg-primary-foreground/20"
+          },
+          "contentArea": {
+            "classes": "flex flex-col flex-1 min-w-0 text-left",
+            "title": "text-sm font-medium truncate",
+            "subtitle": "text-xs text-muted-foreground truncate"
+          }
+        }
       },
       "SidebarNavIcon": {
-        "description": "Navigation item icon",
-        "classes": "h-5 w-5 flex-shrink-0"
+        "description": "Navigation item icon - optionally inside container",
+        "classes": "h-5 w-5 flex-shrink-0",
+        "inContainer": {
+          "container": "flex items-center justify-center w-9 h-9 rounded-lg bg-muted",
+          "activeContainer": "bg-primary-foreground/20"
+        }
       },
       "SidebarNavLabel": {
         "description": "Navigation item label",
-        "classes": "flex-1 truncate"
+        "classes": "flex-1 truncate text-left"
       },
       "SidebarNavBadge": {
         "description": "Navigation item badge",
@@ -410,7 +439,7 @@
       },
       "SidebarGroupLabel": {
         "description": "Group label",
-        "classes": "px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider"
+        "classes": "px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider"
       }
     },
     "dimensions": {
@@ -418,7 +447,7 @@
       "expanded": "280px"
     },
     "props": {
-      "items": "Array<{icon: LucideIcon, label: string, href: string, badge?: string | number, children?: Array}>",
+      "items": "Array<{icon: LucideIcon, label: string, subtitle?: string, href: string, badge?: string | number, children?: Array}>",
       "collapsed": "boolean - Collapsed state",
       "onCollapse": "Function - Collapse toggle handler",
       "activeItem": "string - Currently active item href"
@@ -431,8 +460,16 @@
       },
       "nestedNav": {
         "description": "Support for nested navigation items",
-        "childClasses": "pl-10"
+        "childClasses": "pl-12"
+      },
+      "iconContainers": {
+        "description": "Icons inside rounded containers for visual emphasis",
+        "enabled": true
       }
+    },
+    "referenceImplementation": {
+      "note": "Based on labzz-lp-vendas dashboard sidebar",
+      "criticalDifference": "Active state uses bg-primary (blue) NOT bg-accent (yellow)"
     }
   },
   "DashboardLayout": {

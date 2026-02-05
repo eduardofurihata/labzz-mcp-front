@@ -1,0 +1,45 @@
+{
+  "name": "pre-ui-component-validation",
+  "description": "Enforces design system compliance before UI component implementation",
+  "event": "PreToolUse",
+  "hooks": [
+    {
+      "matcher": {
+        "tool_name": "Write",
+        "file_patterns": [
+          "**/*.tsx",
+          "**/*.jsx",
+          "**/components/**",
+          "**/pages/**",
+          "**/app/**"
+        ]
+      },
+      "prompt": {
+        "message": "DESIGN SYSTEM COMPLIANCE CHECK\n\nBefore writing this UI code, verify:\n\n1. SPECS FETCHED?\n   - Have you called get_landing_component_spec() for landing components?\n   - Have you called get_dashboard_component_spec() for dashboard components?\n   - Have you called get_effect_spec() for visual effects?\n   - Have you called get_design_tokens() for colors/typography/spacing?\n\n2. CRITICAL VALUES CHECKLIST:\n   □ Sidebar active state uses bg-primary (NOT bg-accent)\n   □ fadeInUp animation uses translateY(40px)\n   □ slideUp animation uses translateY(30px)\n   □ Card glow uses radial-gradient (NOT box-shadow)\n   □ Card border-radius: rounded-xl sm:rounded-2xl\n   □ Card padding: p-4 sm:p-6\n   □ Stagger animation delay: 100ms between items\n\n3. RESPONSIVE TYPOGRAPHY:\n   □ Hero title: text-5xl md:text-7xl lg:text-8xl\n   □ Section title: text-2xl md:text-4xl lg:text-5xl\n   □ Card title: text-lg sm:text-xl md:text-2xl\n   □ Price: text-2xl sm:text-3xl md:text-4xl\n\nIf you haven't fetched specs or verified these values, STOP and fetch them first.\nDo NOT proceed with implementation until specs are confirmed.",
+        "remember_decision": false
+      }
+    },
+    {
+      "matcher": {
+        "tool_name": "Edit",
+        "file_patterns": [
+          "**/*.tsx",
+          "**/*.jsx",
+          "**/components/**",
+          "**/pages/**",
+          "**/app/**"
+        ]
+      },
+      "prompt": {
+        "message": "DESIGN SYSTEM EDIT CHECK\n\nBefore editing this UI code:\n\n1. Have you verified the current implementation against the design specs?\n2. Will this edit maintain design system compliance?\n\nKey values to preserve:\n- Sidebar active: bg-primary (blue, NOT yellow)\n- Animation translateY: 40px (fadeInUp), 30px (slideUp)\n- Card glow: radial-gradient approach\n- Responsive classes: mobile-first with breakpoint modifiers\n\nIf unsure, fetch the relevant spec with get_*_spec() tools first.",
+        "remember_decision": false
+      }
+    }
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "author": "Labzz Design System",
+    "purpose": "Prevents UI implementations that don't match design specifications",
+    "related_skills": ["ui-implementation", "visual-verification"]
+  }
+}

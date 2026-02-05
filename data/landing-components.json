@@ -1,0 +1,630 @@
+{
+  "_metadata": {
+    "description": "Landing page components based on labzz-lp-vendas reference implementation",
+    "version": "1.0.0",
+    "referenceProject": "labzz-lp-vendas"
+  },
+  "HeroSection": {
+    "description": "Full-screen hero section for landing pages with animated elements",
+    "container": {
+      "classes": "relative min-h-screen flex items-start justify-center overflow-hidden",
+      "paddingTop": {
+        "mobile": "pt-20",
+        "desktop": "md:pt-24"
+      }
+    },
+    "backgroundEffects": {
+      "pattern": {
+        "description": "Subtle dot pattern overlay",
+        "classes": "absolute inset-0 opacity-5",
+        "style": {
+          "backgroundImage": "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
+          "backgroundSize": "40px 40px"
+        }
+      },
+      "accentGlow": {
+        "description": "Large blurred glow behind content",
+        "classes": "absolute top-1/4 left-1/2 -translate-x-1/2 rounded-full",
+        "size": {
+          "width": "600px",
+          "height": "600px"
+        },
+        "color": "bg-cyan-500/10",
+        "blur": "blur-[150px]"
+      },
+      "particles": {
+        "description": "Optional animated particles background",
+        "componentRef": "ParticlesBackground"
+      }
+    },
+    "content": {
+      "wrapper": "container relative z-10 text-center px-4",
+      "elements": {
+        "badge": {
+          "description": "Top badge/tag for event or category",
+          "classes": "inline-block px-4 py-2 mb-6 text-sm font-medium tracking-wider uppercase border rounded-full",
+          "borderColor": "border-cyan-500/30",
+          "textColor": "text-cyan-400",
+          "animation": {
+            "name": "fade-in",
+            "delay": "0s"
+          }
+        },
+        "logo": {
+          "description": "Brand logo image",
+          "classes": "mx-auto object-contain",
+          "sizes": {
+            "mobile": "h-24",
+            "tablet": "md:h-32",
+            "desktop": "lg:h-40"
+          },
+          "marginBottom": "mb-8",
+          "animation": {
+            "name": "fade-in",
+            "delay": "0.05s"
+          }
+        },
+        "title": {
+          "description": "Main headline with gradient on first word",
+          "tag": "h1",
+          "classes": "font-bold font-heading",
+          "sizes": {
+            "mobile": "text-5xl",
+            "tablet": "md:text-7xl",
+            "desktop": "lg:text-8xl"
+          },
+          "marginBottom": "mb-6",
+          "gradient": {
+            "description": "Apply to first word/section",
+            "classes": "text-gradient-primary",
+            "css": "background-image: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(172 79% 55%) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"
+          },
+          "animation": {
+            "name": "slide-up",
+            "delay": "0s"
+          }
+        },
+        "subtitle": {
+          "description": "Secondary headline",
+          "tag": "p",
+          "classes": "max-w-2xl mx-auto",
+          "textColor": "text-gray-400",
+          "sizes": {
+            "mobile": "text-xl",
+            "desktop": "md:text-2xl"
+          },
+          "marginBottom": "mb-4",
+          "animation": {
+            "name": "slide-up",
+            "delay": "0.1s"
+          }
+        },
+        "description": {
+          "description": "Supporting paragraph",
+          "tag": "p",
+          "classes": "max-w-xl mx-auto",
+          "textColor": "text-gray-400/80",
+          "fontSize": "text-lg",
+          "marginBottom": "mb-12",
+          "animation": {
+            "name": "slide-up",
+            "delay": "0.2s"
+          }
+        },
+        "cta": {
+          "description": "Primary call-to-action button",
+          "tag": "button",
+          "classes": "group inline-flex items-center gap-3 font-semibold rounded-lg transition-all duration-300",
+          "padding": "px-8 py-4",
+          "fontSize": "text-lg",
+          "backgroundColor": "bg-cyan-500 hover:bg-cyan-600",
+          "textColor": "text-white",
+          "shadow": "shadow-lg shadow-cyan-500/20",
+          "icon": {
+            "name": "ArrowDown",
+            "classes": "w-5 h-5 group-hover:translate-y-1 transition-transform"
+          },
+          "animation": {
+            "name": "scale-in",
+            "delay": "0.3s"
+          }
+        }
+      }
+    },
+    "scrollIndicator": {
+      "description": "Animated scroll down indicator",
+      "classes": "absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce",
+      "icon": {
+        "name": "ArrowDown",
+        "classes": "w-6 h-6 text-gray-400"
+      }
+    },
+    "customLogo": {
+      "description": "Optional custom logo positioned in corner",
+      "classes": "absolute top-8 left-8 z-20",
+      "imgClasses": "h-16 md:h-20 object-contain"
+    }
+  },
+  "PlanCard": {
+    "description": "Pricing/product card for sales landing pages",
+    "container": {
+      "classes": "relative flex flex-col h-full overflow-hidden transition-all duration-300 group cursor-pointer",
+      "borderRadius": {
+        "mobile": "rounded-xl",
+        "desktop": "sm:rounded-2xl"
+      },
+      "themes": {
+        "dark": {
+          "background": "bg-neutral-900",
+          "border": "border border-neutral-800"
+        },
+        "light": {
+          "background": "bg-white",
+          "border": "border border-gray-200",
+          "shadow": "shadow-lg"
+        }
+      },
+      "dynamicBorderColor": {
+        "description": "Border color based on product primary color",
+        "style": "borderColor: `${corPrimaria}40`"
+      },
+      "animation": {
+        "name": "fadeInUp",
+        "stagger": {
+          "description": "Delay based on card index",
+          "style": "animationDelay: `${index * 100}ms`",
+          "fillMode": "forwards"
+        },
+        "initialState": "opacity-0"
+      },
+      "hoverEffects": {
+        "transform": "hover:scale-[1.02] hover:-translate-y-1",
+        "shadow": {
+          "dark": "hover:shadow-2xl",
+          "light": "hover:shadow-2xl"
+        }
+      }
+    },
+    "glowEffect": {
+      "description": "Radial gradient glow on hover",
+      "classes": "absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none",
+      "style": "background: radial-gradient(circle at 50% 0%, ${corPrimaria}15, transparent 70%)"
+    },
+    "badge": {
+      "description": "Featured/popular badge",
+      "position": "absolute top-3 sm:top-4 right-3 sm:right-4 z-10",
+      "classes": "font-bold rounded-full shadow-lg",
+      "padding": {
+        "mobile": "px-2 py-0.5",
+        "desktop": "sm:px-3 sm:py-1"
+      },
+      "fontSize": {
+        "mobile": "text-[10px]",
+        "desktop": "sm:text-xs"
+      },
+      "themes": {
+        "dark": "bg-cyan-500 text-white",
+        "light": "bg-blue-500 text-white"
+      },
+      "text": "POPULAR"
+    },
+    "header": {
+      "description": "Card header with title and description",
+      "classes": "border-b",
+      "padding": {
+        "mobile": "p-4",
+        "desktop": "sm:p-6"
+      },
+      "borderColor": {
+        "dark": "border-neutral-800",
+        "light": "border-gray-200"
+      },
+      "title": {
+        "tag": "h3",
+        "classes": "font-bold",
+        "fontSize": {
+          "mobile": "text-lg",
+          "tablet": "sm:text-xl",
+          "desktop": "md:text-2xl"
+        },
+        "marginBottom": {
+          "mobile": "mb-1",
+          "desktop": "sm:mb-2"
+        },
+        "textColor": {
+          "dark": "text-white",
+          "light": "text-gray-900"
+        }
+      },
+      "description": {
+        "tag": "p",
+        "classes": "line-clamp-2",
+        "fontSize": {
+          "mobile": "text-xs",
+          "desktop": "sm:text-sm"
+        },
+        "textColor": {
+          "dark": "text-gray-400",
+          "light": "text-gray-600"
+        }
+      }
+    },
+    "pricing": {
+      "description": "Price display section",
+      "padding": {
+        "mobile": "p-4",
+        "desktop": "sm:p-6"
+      },
+      "currencySymbol": {
+        "text": "R$",
+        "classes": {
+          "mobile": "text-xs",
+          "desktop": "sm:text-sm"
+        },
+        "textColor": {
+          "dark": "text-gray-400",
+          "light": "text-gray-600"
+        }
+      },
+      "value": {
+        "classes": "font-bold",
+        "fontSize": {
+          "mobile": "text-2xl",
+          "tablet": "sm:text-3xl",
+          "desktop": "md:text-4xl"
+        },
+        "textColor": {
+          "dark": "text-white",
+          "light": "text-gray-900"
+        }
+      },
+      "installments": {
+        "classes": {
+          "mobile": "text-xs mt-1",
+          "desktop": "sm:text-sm sm:mt-2"
+        },
+        "textColor": {
+          "dark": "text-gray-400",
+          "light": "text-gray-600"
+        },
+        "template": "ou em até {maxParcelas}x de R$ {valorParcela}"
+      }
+    },
+    "features": {
+      "description": "Benefits/features list",
+      "container": "flex-1 pt-0",
+      "padding": {
+        "mobile": "p-4",
+        "desktop": "sm:p-6"
+      },
+      "list": {
+        "classes": {
+          "mobile": "space-y-2",
+          "desktop": "sm:space-y-3"
+        }
+      },
+      "item": {
+        "classes": "flex items-start gap-2",
+        "icon": {
+          "name": "Check",
+          "classes": {
+            "mobile": "w-4 h-4",
+            "desktop": "sm:w-5 sm:h-5"
+          },
+          "position": "flex-shrink-0 mt-0.5",
+          "color": {
+            "dark": "text-cyan-500",
+            "light": "text-green-500"
+          }
+        },
+        "text": {
+          "classes": {
+            "mobile": "text-xs",
+            "desktop": "sm:text-sm"
+          },
+          "textColor": {
+            "dark": "text-gray-300",
+            "light": "text-gray-700"
+          }
+        }
+      },
+      "maxVisible": 5
+    },
+    "cta": {
+      "description": "Call-to-action button",
+      "container": "mt-auto pt-0",
+      "padding": {
+        "mobile": "p-4",
+        "desktop": "sm:p-6"
+      },
+      "button": {
+        "classes": "w-full font-semibold rounded-lg transition-all duration-200",
+        "padding": {
+          "mobile": "py-2.5 px-4",
+          "desktop": "sm:py-3 sm:px-6"
+        },
+        "fontSize": {
+          "mobile": "text-sm",
+          "desktop": "sm:text-base"
+        },
+        "activeState": "active:scale-95",
+        "themes": {
+          "dark": {
+            "background": "bg-cyan-500",
+            "hover": "hover:bg-cyan-400",
+            "textColor": "text-white",
+            "shadow": "shadow-lg shadow-cyan-500/20",
+            "hoverShadow": "hover:shadow-xl hover:shadow-cyan-500/30"
+          },
+          "light": {
+            "textColor": "text-white",
+            "hover": "hover:opacity-90"
+          }
+        },
+        "dynamicBackground": {
+          "description": "Use product primary color",
+          "style": "backgroundColor: produto.corPrimaria || corPrimaria"
+        },
+        "text": "Selecionar Plano"
+      }
+    }
+  },
+  "PlanCardsGrid": {
+    "description": "Grid container for plan cards with optional carousel",
+    "section": {
+      "id": "plans",
+      "classes": "py-24"
+    },
+    "gridLayout": {
+      "description": "Adaptive grid based on product count",
+      "patterns": {
+        "1": "grid-cols-1 max-w-md mx-auto",
+        "2": "grid-cols-1 md:grid-cols-2 max-w-3xl mx-auto",
+        "3": "grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto",
+        "4+": "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+      },
+      "gap": {
+        "mobile": "gap-4",
+        "desktop": "sm:gap-6"
+      },
+      "containerPadding": {
+        "mobile": "px-2",
+        "desktop": "sm:px-4"
+      }
+    },
+    "carousel": {
+      "description": "Carousel mode for 5+ products",
+      "threshold": 4,
+      "trackClasses": "flex overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide",
+      "slideClasses": "carousel-slide flex-shrink-0 w-full snap-start snap-always",
+      "navigation": {
+        "button": {
+          "classes": "absolute top-1/2 -translate-y-1/2 z-10 w-16 h-full flex items-center justify-center transition-opacity duration-300",
+          "visibilityOnHover": "opacity-0 hover:opacity-100",
+          "iconContainer": {
+            "classes": "w-12 h-12 rounded-full backdrop-blur-sm flex items-center justify-center transition-all duration-200 hover:scale-110",
+            "themes": {
+              "dark": "bg-white/10 hover:bg-white/20",
+              "light": "bg-black/10 hover:bg-black/20 shadow-lg"
+            }
+          },
+          "iconSize": "w-6 h-6"
+        },
+        "prev": {
+          "position": "left-0",
+          "icon": "ChevronLeft"
+        },
+        "next": {
+          "position": "right-0",
+          "icon": "ChevronRight"
+        }
+      },
+      "indicators": {
+        "container": "flex justify-center gap-2 mt-8",
+        "dot": {
+          "base": "h-2 rounded-full transition-all duration-300",
+          "inactive": "w-2 bg-neutral-600 hover:bg-neutral-500",
+          "active": "w-8",
+          "activeColor": "Uses corPrimaria"
+        }
+      },
+      "autoPlay": {
+        "enabled": true,
+        "interval": 5000,
+        "pauseOnHover": true
+      },
+      "keyboard": {
+        "ArrowLeft": "Previous slide",
+        "ArrowRight": "Next slide",
+        "Home": "First slide",
+        "End": "Last slide"
+      }
+    }
+  },
+  "BenefitsSection": {
+    "description": "Feature/benefits cards section",
+    "section": {
+      "classes": "py-16 md:py-24"
+    },
+    "header": {
+      "classes": "text-center mb-12",
+      "title": {
+        "classes": "font-bold mb-4",
+        "fontSize": {
+          "mobile": "text-2xl",
+          "desktop": "md:text-4xl"
+        },
+        "gradient": {
+          "description": "Gradient on last word",
+          "classes": "text-gradient-primary"
+        }
+      },
+      "subtitle": {
+        "classes": "max-w-2xl mx-auto",
+        "textColor": "text-muted-foreground"
+      }
+    },
+    "grid": {
+      "classes": "grid gap-6",
+      "columns": {
+        "mobile": "grid-cols-1",
+        "tablet": "md:grid-cols-2",
+        "desktop": "lg:grid-cols-3"
+      }
+    },
+    "card": {
+      "classes": "group p-6 rounded-xl border transition-all duration-300",
+      "themes": {
+        "dark": {
+          "background": "bg-neutral-900/50",
+          "border": "border-neutral-800",
+          "hoverBorder": "hover:border-primary/50"
+        },
+        "light": {
+          "background": "bg-white",
+          "border": "border-gray-200",
+          "hoverBorder": "hover:border-primary/50"
+        }
+      },
+      "icon": {
+        "container": {
+          "classes": "inline-flex items-center justify-center w-12 h-12 rounded-lg mb-4",
+          "background": "bg-primary/10"
+        },
+        "classes": "w-6 h-6 text-primary"
+      },
+      "title": {
+        "classes": "font-semibold mb-2",
+        "fontSize": "text-lg"
+      },
+      "description": {
+        "classes": "text-sm",
+        "textColor": "text-muted-foreground"
+      },
+      "hoverLine": {
+        "description": "Decorative gradient line on hover",
+        "classes": "h-0.5 w-0 group-hover:w-full transition-all duration-300",
+        "gradient": "bg-gradient-to-r from-primary to-secondary"
+      },
+      "animation": {
+        "name": "fadeInUp",
+        "stagger": "0.1s"
+      }
+    }
+  },
+  "TestimonialsSection": {
+    "description": "Customer testimonials section",
+    "section": {
+      "classes": "py-16 md:py-24"
+    },
+    "grid": {
+      "classes": "grid gap-6",
+      "columns": {
+        "mobile": "grid-cols-1",
+        "tablet": "md:grid-cols-2",
+        "desktop": "lg:grid-cols-3"
+      }
+    },
+    "card": {
+      "classes": "p-6 rounded-xl border transition-all duration-300 relative",
+      "themes": {
+        "dark": {
+          "background": "bg-neutral-900/50",
+          "border": "border-neutral-800",
+          "hoverBorder": "hover:border-primary/40"
+        },
+        "light": {
+          "background": "bg-white",
+          "border": "border-gray-200",
+          "hoverBorder": "hover:border-primary/40"
+        }
+      },
+      "quoteIcon": {
+        "position": "absolute top-4 right-4",
+        "classes": "w-8 h-8 text-muted-foreground/20"
+      },
+      "rating": {
+        "classes": "flex gap-1 mb-4",
+        "star": {
+          "classes": "w-4 h-4",
+          "filledColor": "text-yellow-400",
+          "emptyColor": "text-gray-300"
+        }
+      },
+      "quote": {
+        "classes": "mb-4 italic",
+        "textColor": "text-muted-foreground"
+      },
+      "author": {
+        "container": "flex items-center gap-3",
+        "avatar": {
+          "classes": "w-10 h-10 rounded-full flex items-center justify-center font-semibold",
+          "background": "bg-primary/10",
+          "textColor": "text-primary"
+        },
+        "info": {
+          "name": {
+            "classes": "font-medium"
+          },
+          "role": {
+            "classes": "text-sm",
+            "textColor": "text-muted-foreground"
+          }
+        }
+      }
+    }
+  },
+  "StatsSection": {
+    "description": "Key metrics/statistics display",
+    "grid": {
+      "classes": "grid gap-8 text-center",
+      "columns": {
+        "mobile": "grid-cols-2",
+        "desktop": "md:grid-cols-4"
+      }
+    },
+    "stat": {
+      "value": {
+        "classes": "font-bold",
+        "fontSize": {
+          "mobile": "text-3xl",
+          "desktop": "md:text-5xl"
+        },
+        "gradient": "text-gradient-primary",
+        "animation": {
+          "countUp": true,
+          "duration": "2s"
+        }
+      },
+      "label": {
+        "classes": "mt-2",
+        "textColor": "text-muted-foreground"
+      }
+    }
+  },
+  "CTASection": {
+    "description": "Full-width call-to-action section",
+    "classes": "py-16 md:py-24",
+    "background": "bg-primary",
+    "textColor": "text-primary-foreground",
+    "content": {
+      "classes": "text-center max-w-2xl mx-auto",
+      "title": {
+        "classes": "font-bold mb-4",
+        "fontSize": {
+          "mobile": "text-2xl",
+          "desktop": "md:text-4xl"
+        }
+      },
+      "description": {
+        "classes": "mb-8 opacity-90"
+      },
+      "button": {
+        "classes": "inline-flex items-center gap-2 px-8 py-4 rounded-lg font-semibold transition-all",
+        "background": "bg-white",
+        "textColor": "text-primary",
+        "hover": "hover:bg-gray-100"
+      }
+    }
+  }
+}

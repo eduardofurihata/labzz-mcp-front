@@ -14,6 +14,8 @@ import {
   loadAccessibility,
   loadDashboardComponents,
   loadCharts,
+  loadLandingComponents,
+  loadEffects,
   getFullDesignSystem,
   listComponentNames,
   getComponentSpec,
@@ -27,6 +29,10 @@ import {
   getChartSpec,
   getChartCommonProps,
   getChartSharedComponents,
+  listLandingComponentNames,
+  getLandingComponentSpec,
+  listEffectNames,
+  getEffectSpec,
 } from './utils/data-loader.js';
 
 // Tool definitions
@@ -160,6 +166,50 @@ const tools: Tool[] = [
   {
     name: 'get_chart_common_props',
     description: 'Get common chart properties including colors, typography, grid settings, and animation defaults.',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'get_landing_component_spec',
+    description: 'Get the specification for a landing page component (HeroSection, PlanCard, BenefitsSection, TestimonialsSection, etc.). Based on labzz-lp-vendas reference.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        component_name: {
+          type: 'string',
+          description: 'Name of the landing component (e.g., HeroSection, PlanCard, PlanCardsGrid, BenefitsSection, TestimonialsSection, StatsSection, CTASection)',
+        },
+      },
+      required: ['component_name'],
+    },
+  },
+  {
+    name: 'list_landing_components',
+    description: 'List all available landing page components with descriptions.',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+  {
+    name: 'get_effect_spec',
+    description: 'Get the specification for a visual effect (ParticlesBackground, GlowEffects, BackgroundPatterns, TextEffects, HoverEffects, etc.).',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        effect_name: {
+          type: 'string',
+          description: 'Name of the effect (e.g., ParticlesBackground, GlowEffects, BackgroundPatterns, TextEffects, HoverEffects, ScrollIndicator, LoadingShimmer)',
+        },
+      },
+      required: ['effect_name'],
+    },
+  },
+  {
+    name: 'list_effects',
+    description: 'List all available visual effects.',
     inputSchema: {
       type: 'object',
       properties: {},
@@ -432,6 +482,64 @@ function handleGetChartCommonProps() {
   return {
     commonProps,
     overview: charts.overview,
+  };
+}
+
+function handleGetLandingComponentSpec(args: { component_name: string }) {
+  const spec = getLandingComponentSpec(args.component_name);
+  if (!spec) {
+    const available = listLandingComponentNames();
+    return { error: `Landing component "${args.component_name}" not found. Available components: ${available.join(', ')}` };
+  }
+  return { [args.component_name]: spec };
+}
+
+function handleListLandingComponents() {
+  const components = loadLandingComponents();
+  const componentNames = listLandingComponentNames();
+
+  return {
+    count: componentNames.length,
+    components: componentNames.map(name => ({
+      name,
+      description: components[name]?.description || '',
+    })),
+    categories: {
+      hero: ['HeroSection'],
+      pricing: ['PlanCard', 'PlanCardsGrid'],
+      content: ['BenefitsSection', 'TestimonialsSection', 'StatsSection'],
+      cta: ['CTASection'],
+    },
+    reference: 'Based on labzz-lp-vendas implementation',
+  };
+}
+
+function handleGetEffectSpec(args: { effect_name: string }) {
+  const spec = getEffectSpec(args.effect_name);
+  if (!spec) {
+    const available = listEffectNames();
+    return { error: `Effect "${args.effect_name}" not found. Available effects: ${available.join(', ')}` };
+  }
+  return { [args.effect_name]: spec };
+}
+
+function handleListEffects() {
+  const effects = loadEffects();
+  const effectNames = listEffectNames();
+
+  return {
+    count: effectNames.length,
+    effects: effectNames.map(name => ({
+      name,
+      description: effects[name]?.description || '',
+    })),
+    categories: {
+      background: ['ParticlesBackground', 'BackgroundPatterns'],
+      glow: ['GlowEffects'],
+      text: ['TextEffects'],
+      interaction: ['HoverEffects'],
+      feedback: ['ScrollIndicator', 'LoadingShimmer'],
+    },
   };
 }
 
@@ -1120,6 +1228,18 @@ export function createServer() {
           break;
         case 'get_chart_common_props':
           result = handleGetChartCommonProps();
+          break;
+        case 'get_landing_component_spec':
+          result = handleGetLandingComponentSpec(args as { component_name: string });
+          break;
+        case 'list_landing_components':
+          result = handleListLandingComponents();
+          break;
+        case 'get_effect_spec':
+          result = handleGetEffectSpec(args as { effect_name: string });
+          break;
+        case 'list_effects':
+          result = handleListEffects();
           break;
 
         // Generate tools

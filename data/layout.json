@@ -232,5 +232,128 @@
       "md": "1rem",
       "lg": "1.5rem"
     }
+  },
+  "responsivePatterns": {
+    "_description": "Detailed responsive patterns based on labzz-lp-vendas reference",
+    "typography": {
+      "heroTitle": {
+        "classes": "text-5xl md:text-7xl lg:text-8xl",
+        "description": "Main hero headline - dramatic size scaling"
+      },
+      "sectionTitle": {
+        "classes": "text-2xl md:text-4xl lg:text-5xl",
+        "description": "Section headings"
+      },
+      "cardTitle": {
+        "classes": "text-lg sm:text-xl md:text-2xl",
+        "description": "Card/item titles"
+      },
+      "cardDescription": {
+        "classes": "text-xs sm:text-sm",
+        "description": "Card descriptions and secondary text"
+      },
+      "price": {
+        "classes": "text-2xl sm:text-3xl md:text-4xl",
+        "description": "Pricing display"
+      },
+      "body": {
+        "classes": "text-base md:text-lg",
+        "description": "Body text"
+      },
+      "small": {
+        "classes": "text-xs sm:text-sm",
+        "description": "Small text, captions"
+      }
+    },
+    "padding": {
+      "card": {
+        "classes": "p-4 sm:p-6",
+        "description": "Card internal padding"
+      },
+      "section": {
+        "classes": "py-12 sm:py-16 md:py-20 lg:py-24",
+        "description": "Section vertical padding"
+      },
+      "container": {
+        "classes": "px-4 sm:px-6 lg:px-8",
+        "description": "Container horizontal padding"
+      },
+      "button": {
+        "classes": "py-2.5 sm:py-3 px-4 sm:px-6",
+        "description": "Button padding"
+      },
+      "input": {
+        "classes": "px-3 py-2 sm:px-4 sm:py-2.5",
+        "description": "Input field padding"
+      }
+    },
+    "borderRadius": {
+      "card": {
+        "classes": "rounded-xl sm:rounded-2xl",
+        "description": "Card border radius - more rounded on larger screens"
+      },
+      "button": {
+        "classes": "rounded-lg",
+        "description": "Button border radius"
+      },
+      "badge": {
+        "classes": "rounded-full",
+        "description": "Badge border radius"
+      }
+    },
+    "grid": {
+      "cards4": {
+        "classes": "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
+        "description": "4-column card grid with responsive breakpoints"
+      },
+      "cards3": {
+        "classes": "grid-cols-1 md:grid-cols-2 lg:grid-cols-3",
+        "description": "3-column card grid"
+      },
+      "cards2": {
+        "classes": "grid-cols-1 md:grid-cols-2",
+        "description": "2-column card grid"
+      },
+      "stats": {
+        "classes": "grid-cols-2 md:grid-cols-4",
+        "description": "Stats display - 2 on mobile, 4 on desktop"
+      },
+      "gap": {
+        "cards": "gap-4 sm:gap-6",
+        "sections": "gap-6 md:gap-8"
+      }
+    },
+    "spacing": {
+      "cardGap": {
+        "classes": "space-y-2 sm:space-y-3",
+        "description": "Vertical spacing between card items"
+      },
+      "sectionMargin": {
+        "classes": "mb-8 sm:mb-12 md:mb-16",
+        "description": "Section bottom margin"
+      },
+      "elementGap": {
+        "classes": "gap-1 sm:gap-2",
+        "description": "Small element gaps"
+      }
+    },
+    "icons": {
+      "small": {
+        "classes": "w-4 h-4 sm:w-5 sm:h-5",
+        "description": "Small icons with responsive sizing"
+      },
+      "medium": {
+        "classes": "w-5 h-5 sm:w-6 sm:h-6",
+        "description": "Medium icons"
+      },
+      "large": {
+        "classes": "w-6 h-6 sm:w-8 sm:h-8",
+        "description": "Large icons"
+      }
+    },
+    "badge": {
+      "classes": "px-2 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs",
+      "description": "Badge sizing"
+    }
   }
 }

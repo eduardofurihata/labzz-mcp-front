@@ -128,6 +128,8 @@ let layoutCache: LayoutPatterns | null = null;
 let uxCache: UXGuidelines | null = null;
 let accessibilityCache: AccessibilityRules | null = null;
 let chartsCache: ChartsData | null = null;
+let landingComponentsCache: Record<string, any> | null = null;
+let effectsCache: Record<string, any> | null = null;
 
 function loadJSON<T>(filename: string): T {
   const filePath = join(DATA_DIR, filename);
@@ -184,6 +186,40 @@ export function loadCharts(): ChartsData {
   return chartsCache;
 }
 
+export function loadLandingComponents(): Record<string, any> {
+  if (!landingComponentsCache) {
+    landingComponentsCache = loadJSON<Record<string, any>>('landing-components.json');
+  }
+  return landingComponentsCache;
+}
+
+export function loadEffects(): Record<string, any> {
+  if (!effectsCache) {
+    effectsCache = loadJSON<Record<string, any>>('effects.json');
+  }
+  return effectsCache;
+}
+
+export function listLandingComponentNames(): string[] {
+  const components = loadLandingComponents();
+  return Object.keys(components).filter(key => !key.startsWith('_'));
+}
+
+export function getLandingComponentSpec(name: string): any {
+  const components = loadLandingComponents();
+  return components[name] || null;
+}
+
+export function listEffectNames(): string[] {
+  const effects = loadEffects();
+  return Object.keys(effects).filter(key => !key.startsWith('_'));
+}
+
+export function getEffectSpec(name: string): any {
+  const effects = loadEffects();
+  return effects[name] || null;
+}
+
 export function listChartNames(): string[] {
   const charts = loadCharts();
   return ['AreaChart', 'BarChart', 'LineChart', 'PieChart', 'RadialBarChart', 'ComposedChart'];
@@ -227,6 +263,8 @@ export function getFullDesignSystem() {
     tokens: loadTokens(),
     components: loadComponents(),
     dashboardComponents: loadDashboardComponents(),
+    landingComponents: loadLandingComponents(),
+    effects: loadEffects(),
     charts: loadCharts(),
     layout: loadLayout(),
     ux: loadUX(),

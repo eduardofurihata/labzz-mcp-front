@@ -1,0 +1,13 @@
+{
+  "name": "labzz-design-system",
+  "version": "1.0.0",
+  "description": "Design system enforcement plugin for Labzz MCP Front. Ensures UI implementations match the design system specifications from labzz-lp-vendas reference.",
+  "author": "Labzz",
+  "skills": [
+    "skills/ui-implementation.md",
+    "skills/visual-verification.md"
+  ],
+  "hooks": [
+    "hooks/pre-ui-component.json"
+  ]
+}
