@@ -641,7 +641,7 @@ function handleGetScreenshot(args: { page_name: string }) {
     pageType: result.meta.pageType,
     components: result.meta.components,
     theme: result.meta.theme,
-    image: result.base64,
+    image: `data:image/png;base64,${result.base64}`,
   };
 }
 
@@ -1373,9 +1373,38 @@ export function createServer() {
           break;
 
         // Screenshot tools
-        case 'get_screenshot':
-          result = handleGetScreenshot(args as { page_name: string });
-          break;
+        case 'get_screenshot': {
+          const screenshotData = getScreenshotBase64((args as { page_name: string }).page_name);
+          if (!screenshotData) {
+            const available = listScreenshotNames();
+            return {
+              content: [{
+                type: 'text' as const,
+                text: JSON.stringify({ error: `Screenshot "${(args as { page_name: string }).page_name}" not found. Available: ${available.join(', ')}` }, null, 2),
+              }],
+              isError: true,
+            };
+          }
+          return {
+            content: [
+              {
+                type: 'text' as const,
+                text: JSON.stringify({
+                  page: (args as { page_name: string }).page_name,
+                  description: screenshotData.meta.description,
+                  pageType: screenshotData.meta.pageType,
+                  components: screenshotData.meta.components,
+                  theme: screenshotData.meta.theme,
+                }, null, 2),
+              },
+              {
+                type: 'image' as const,
+                data: screenshotData.base64,
+                mimeType: 'image/png',
+              },
+            ],
+          };
+        }
         case 'list_screenshots':
           result = handleListScreenshots();
           break;

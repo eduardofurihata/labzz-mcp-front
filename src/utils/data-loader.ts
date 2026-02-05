@@ -245,7 +245,7 @@ export function getScreenshotBase64(name: string): { meta: any; base64: string }
 
   const buffer = readFileSync(filePath);
   const base64 = buffer.toString('base64');
-  return { meta, base64: `data:image/png;base64,${base64}` };
+  return { meta, base64 };
 }
 
 export function listLandingComponentNames(): string[] {
