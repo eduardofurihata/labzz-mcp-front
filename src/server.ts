@@ -35,6 +35,9 @@ import {
   getLandingComponentSpec,
   listEffectNames,
   getEffectSpec,
+  loadPageTemplates,
+  listPageTemplateNames,
+  getPageTemplate,
 } from './utils/data-loader.js';
 
 // Tool definitions
@@ -212,6 +215,30 @@ const tools: Tool[] = [
   {
     name: 'list_effects',
     description: 'List all available visual effects.',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+
+  // === PAGE TEMPLATE TOOLS ===
+  {
+    name: 'get_page_template',
+    description: 'Get a complete page template with JSX structure, slots, and usage guidance. Templates include: DashboardPage, ListPage, FormPage, SettingsPage, LoginPage, DetailPage, LandingPage, EmptyState, ErrorState.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        template_name: {
+          type: 'string',
+          description: 'Name of the page template (e.g., DashboardPage, ListPage, FormPage, SettingsPage, LoginPage, DetailPage, LandingPage, EmptyState, ErrorState)',
+        },
+      },
+      required: ['template_name'],
+    },
+  },
+  {
+    name: 'list_page_templates',
+    description: 'List all available page templates with descriptions and when to use each one.',
     inputSchema: {
       type: 'object',
       properties: {},
@@ -541,6 +568,35 @@ function handleListEffects() {
       text: ['TextEffects'],
       interaction: ['HoverEffects'],
       feedback: ['ScrollIndicator', 'LoadingShimmer'],
+    },
+  };
+}
+
+function handleGetPageTemplate(args: { template_name: string }) {
+  const template = getPageTemplate(args.template_name);
+  if (!template) {
+    const available = listPageTemplateNames();
+    return { error: `Page template "${args.template_name}" not found. Available templates: ${available.join(', ')}` };
+  }
+  return { [args.template_name]: template };
+}
+
+function handleListPageTemplates() {
+  const templates = loadPageTemplates();
+  const templateNames = listPageTemplateNames();
+
+  return {
+    count: templateNames.length,
+    templates: templateNames.map(name => ({
+      name,
+      description: templates[name]?.description || '',
+      when: templates[name]?.when || '',
+    })),
+    categories: {
+      dashboard: ['DashboardPage', 'ListPage', 'DetailPage'],
+      forms: ['FormPage', 'SettingsPage', 'LoginPage'],
+      marketing: ['LandingPage'],
+      feedback: ['EmptyState', 'ErrorState'],
     },
   };
 }
@@ -1244,6 +1300,14 @@ export function createServer() {
           result = handleListEffects();
           break;
 
+        // Page template tools
+        case 'get_page_template':
+          result = handleGetPageTemplate(args as { template_name: string });
+          break;
+        case 'list_page_templates':
+          result = handleListPageTemplates();
+          break;
+
         // Generate tools
         case 'generate_css':
           result = handleGenerateCSS(args as { component: string; variant?: string; options?: any });
@@ -1320,6 +1384,8 @@ function handleToolCall(name: string, args: any): any {
     case 'list_landing_components': return handleListLandingComponents();
     case 'get_effect_spec': return handleGetEffectSpec(args);
     case 'list_effects': return handleListEffects();
+    case 'get_page_template': return handleGetPageTemplate(args);
+    case 'list_page_templates': return handleListPageTemplates();
     case 'generate_css': return handleGenerateCSS(args);
     case 'generate_tailwind_classes': return handleGenerateTailwindClasses(args);
     case 'generate_css_variables': return handleGenerateCSSVariables(args);
@@ -1419,6 +1485,19 @@ export async function runHttpServer(port: number = 3000) {
     }
   });
 
+  app.get('/page-templates', (_req, res) => {
+    res.json(handleListPageTemplates());
+  });
+
+  app.get('/page-templates/:name', (req, res) => {
+    try {
+      res.json(handleGetPageTemplate({ template_name: req.params.name }));
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      res.status(404).json({ error: message });
+    }
+  });
+
   app.get('/charts', (_req, res) => {
     res.json(handleListCharts());
   });
@@ -1455,6 +1534,7 @@ export async function runHttpServer(port: number = 3000) {
     console.log(`  GET  /components            - List components`);
     console.log(`  GET  /components/:name       - Component spec`);
     console.log(`  GET  /landing-components     - Landing components`);
+    console.log(`  GET  /page-templates         - Page templates`);
     console.log(`  GET  /effects               - Visual effects`);
     console.log(`  GET  /charts                - Chart components`);
     console.log(`  GET  /full                  - Full design system`);

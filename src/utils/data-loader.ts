@@ -130,6 +130,7 @@ let accessibilityCache: AccessibilityRules | null = null;
 let chartsCache: ChartsData | null = null;
 let landingComponentsCache: Record<string, any> | null = null;
 let effectsCache: Record<string, any> | null = null;
+let pageTemplatesCache: Record<string, any> | null = null;
 
 function loadJSON<T>(filename: string): T {
   const filePath = join(DATA_DIR, filename);
@@ -200,6 +201,23 @@ export function loadEffects(): Record<string, any> {
   return effectsCache;
 }
 
+export function loadPageTemplates(): Record<string, any> {
+  if (!pageTemplatesCache) {
+    pageTemplatesCache = loadJSON<Record<string, any>>('page-templates.json');
+  }
+  return pageTemplatesCache;
+}
+
+export function listPageTemplateNames(): string[] {
+  const templates = loadPageTemplates();
+  return Object.keys(templates).filter(key => !key.startsWith('_'));
+}
+
+export function getPageTemplate(name: string): any {
+  const templates = loadPageTemplates();
+  return templates[name] || null;
+}
+
 export function listLandingComponentNames(): string[] {
   const components = loadLandingComponents();
   return Object.keys(components).filter(key => !key.startsWith('_'));
@@ -266,6 +284,7 @@ export function getFullDesignSystem() {
     landingComponents: loadLandingComponents(),
     effects: loadEffects(),
     charts: loadCharts(),
+    pageTemplates: loadPageTemplates(),
     layout: loadLayout(),
     ux: loadUX(),
     accessibility: loadAccessibility(),

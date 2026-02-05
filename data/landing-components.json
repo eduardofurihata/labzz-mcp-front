@@ -143,6 +143,21 @@
       "description": "Optional custom logo positioned in corner",
       "classes": "absolute top-8 left-8 z-20",
       "imgClasses": "h-16 md:h-20 object-contain"
+    },
+    "jsx": {
+      "import": "import { ArrowDown } from 'lucide-react'",
+      "examples": {
+        "basic": "<section className=\"relative min-h-screen flex items-start justify-center overflow-hidden pt-20 md:pt-24\">\n  <div className=\"absolute inset-0 opacity-5\" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />\n  <div className=\"absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-cyan-500/10 blur-[150px]\" />\n  <div className=\"container relative z-10 text-center px-4\">\n    <span className=\"inline-block px-4 py-2 mb-6 text-sm font-medium tracking-wider uppercase border border-cyan-500/30 text-cyan-400 rounded-full\">Evento Especial</span>\n    <img src=\"/logo.png\" alt=\"Logo\" className=\"mx-auto h-24 md:h-32 lg:h-40 object-contain mb-8\" />\n    <h1 className=\"font-bold font-heading text-5xl md:text-7xl lg:text-8xl mb-6\">\n      <span className=\"text-gradient-primary\">Transforme</span> sua presença digital\n    </h1>\n    <p className=\"max-w-2xl mx-auto text-xl md:text-2xl text-gray-400 mb-12\">A plataforma completa para suas vendas online</p>\n    <button className=\"group inline-flex items-center gap-3 px-8 py-4 text-lg font-semibold rounded-lg bg-cyan-500 hover:bg-cyan-600 text-white shadow-lg shadow-cyan-500/20 transition-all duration-300\">\n      Ver Planos <ArrowDown className=\"w-5 h-5 group-hover:translate-y-1 transition-transform\" />\n    </button>\n  </div>\n  <div className=\"absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce\">\n    <ArrowDown className=\"w-6 h-6 text-gray-400\" />\n  </div>\n</section>"
+      }
+    },
+    "structure": {
+      "anatomy": ["section (relative min-h-screen flex items-start justify-center)", "bgPattern (absolute inset-0 opacity-5 radial-gradient)", "glowEffect (absolute, bg-cyan-500/10 blur-[150px])", "container (relative z-10 text-center px-4)", "badge (rounded-full border uppercase)", "logo (mx-auto object-contain)", "title (h1 font-bold font-heading, gradient keyword)", "subtitle (max-w-2xl text-gray-400)", "ctaButton (inline-flex bg-cyan-500 shadow)", "scrollIndicator (absolute bottom-8 animate-bounce)"],
+      "layout": "section relative > [bgEffects(absolute), container(relative z-10, center stack), scrollIndicator(absolute bottom)]"
+    },
+    "visual": {
+      "description": "Full-screen com fundo escuro. Dots pattern sutil. Glow cyan difuso. Conteúdo centralizado: badge, logo, título enorme com gradiente, subtítulo cinza, CTA cyan.",
+      "dimensions": "min-h-screen, título text-5xl a text-8xl responsive",
+      "spacing": "pt-20 md:pt-24, mb-6/mb-8/mb-12 entre elementos"
     }
   },
   "PlanCard": {
@@ -367,6 +382,21 @@
         },
         "text": "Selecionar Plano"
       }
+    },
+    "jsx": {
+      "import": "import { Check } from 'lucide-react'",
+      "examples": {
+        "basic": "<div className=\"relative flex flex-col h-full overflow-hidden transition-all duration-300 group cursor-pointer rounded-xl sm:rounded-2xl bg-neutral-900 border border-neutral-800 hover:scale-[1.02] hover:-translate-y-1 hover:shadow-2xl opacity-0 animate-fadeInUp\" style={{ borderColor: `${corPrimaria}40`, animationDelay: `${index * 100}ms`, animationFillMode: 'forwards' }}>\n  <div className=\"absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none\" style={{ background: `radial-gradient(circle at 50% 0%, ${corPrimaria}15, transparent 70%)` }} />\n  {featured && <span className=\"absolute top-3 sm:top-4 right-3 sm:right-4 z-10 px-2 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-bold rounded-full shadow-lg bg-cyan-500 text-white\">POPULAR</span>}\n  <div className=\"p-4 sm:p-6 border-b border-neutral-800\">\n    <h3 className=\"text-lg sm:text-xl md:text-2xl font-bold text-white mb-1 sm:mb-2\">{title}</h3>\n    <p className=\"text-xs sm:text-sm text-gray-400 line-clamp-2\">{description}</p>\n  </div>\n  <div className=\"p-4 sm:p-6\">\n    <div className=\"flex items-baseline gap-1\">\n      <span className=\"text-xs sm:text-sm text-gray-400\">R$</span>\n      <span className=\"text-2xl sm:text-3xl md:text-4xl font-bold text-white\">{price}</span>\n    </div>\n    <p className=\"text-xs sm:text-sm text-gray-400 mt-1 sm:mt-2\">ou em até {parcelas}x de R$ {valorParcela}</p>\n  </div>\n  <div className=\"flex-1 p-4 sm:p-6 pt-0\">\n    <ul className=\"space-y-2 sm:space-y-3\">\n      {features.map((f, i) => (\n        <li key={i} className=\"flex items-start gap-2\">\n          <Check className=\"w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 mt-0.5 text-cyan-500\" />\n          <span className=\"text-xs sm:text-sm text-gray-300\">{f}</span>\n        </li>\n      ))}\n    </ul>\n  </div>\n  <div className=\"mt-auto p-4 sm:p-6 pt-0\">\n    <button className=\"w-full py-2.5 sm:py-3 px-4 sm:px-6 text-sm sm:text-base font-semibold rounded-lg bg-cyan-500 hover:bg-cyan-400 text-white shadow-lg shadow-cyan-500/20 transition-all active:scale-95\" style={{ backgroundColor: corPrimaria }}>Selecionar Plano</button>\n  </div>\n</div>"
+      }
+    },
+    "structure": {
+      "anatomy": ["card (relative flex flex-col h-full, rounded-xl, border, hover effects)", "glowEffect (absolute inset-0 on hover)", "badge? (absolute top-right)", "header (p-4 sm:p-6 border-b > title + description)", "pricing (p-4 sm:p-6 > currency + value + installments)", "features (flex-1 p-4 sm:p-6 pt-0 > ul > li[Check + text])", "cta (mt-auto p-4 sm:p-6 pt-0 > button w-full)"],
+      "layout": "flex flex-col h-full [glow(abs), badge?(abs), header, pricing, features(flex-1), cta(mt-auto)]"
+    },
+    "visual": {
+      "description": "Card vertical escuro (bg-neutral-900), borda com cor do produto. Hover: scale + translate Y + sombra + glow. Badge 'POPULAR' opcional. Features com checks cyan. CTA na cor do produto.",
+      "dimensions": "Largura flexível em grid 1-4 colunas, h-full",
+      "spacing": "p-4 sm:p-6 em cada seção, space-y-2 sm:space-y-3 features"
     }
   },
   "PlanCardsGrid": {
@@ -439,6 +469,21 @@
         "Home": "First slide",
         "End": "Last slide"
       }
+    },
+    "jsx": {
+      "import": "",
+      "examples": {
+        "grid": "<section id=\"plans\" className=\"py-24\">\n  <div className=\"container mx-auto px-2 sm:px-4\">\n    <div className=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto gap-4 sm:gap-6\">\n      {products.map((product, index) => (\n        <PlanCard key={product.id} product={product} index={index} />\n      ))}\n    </div>\n  </div>\n</section>"
+      }
+    },
+    "structure": {
+      "anatomy": ["section (py-24)", "container (mx-auto px-2 sm:px-4)", "grid (grid-cols-1 md:2 lg:3 max-w-5xl mx-auto gap-4 sm:gap-6)", "PlanCard items"],
+      "layout": "section > container > adaptive grid"
+    },
+    "visual": {
+      "description": "Grid responsivo de PlanCards. 1 coluna mobile, 2 tablet, 3 desktop. Centralizado com max-w-5xl.",
+      "dimensions": "py-24, max-w-5xl, gap-4 sm:gap-6",
+      "spacing": "px-2 sm:px-4, gap-4 sm:gap-6"
     }
   },
   "BenefitsSection": {
@@ -510,6 +555,21 @@
         "name": "fadeInUp",
         "stagger": "0.1s"
       }
+    },
+    "jsx": {
+      "import": "import { Zap, Shield, BarChart3 } from 'lucide-react'",
+      "examples": {
+        "basic": "<section className=\"py-16 md:py-24\">\n  <div className=\"container mx-auto px-4\">\n    <div className=\"text-center mb-12\">\n      <h2 className=\"text-2xl md:text-4xl font-bold mb-4\">Por que escolher <span className=\"text-gradient-primary\">nossa plataforma</span></h2>\n      <p className=\"max-w-2xl mx-auto text-muted-foreground\">Tudo o que você precisa para vender mais</p>\n    </div>\n    <div className=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6\">\n      {benefits.map((b, i) => (\n        <div key={i} className=\"group p-6 rounded-xl border bg-neutral-900/50 border-neutral-800 hover:border-primary/50 transition-all duration-300\">\n          <div className=\"inline-flex items-center justify-center w-12 h-12 rounded-lg bg-primary/10 mb-4\">\n            <b.icon className=\"w-6 h-6 text-primary\" />\n          </div>\n          <h3 className=\"text-lg font-semibold mb-2\">{b.title}</h3>\n          <p className=\"text-sm text-muted-foreground\">{b.description}</p>\n          <div className=\"h-0.5 w-0 group-hover:w-full bg-gradient-to-r from-primary to-secondary transition-all duration-300 mt-4\" />\n        </div>\n      ))}\n    </div>\n  </div>\n</section>"
+      }
+    },
+    "structure": {
+      "anatomy": ["section (py-16 md:py-24)", "header (text-center mb-12 > title gradient + subtitle)", "grid (3-col gap-6)", "card (group p-6 rounded-xl border hover:border-primary/50)", "iconContainer (w-12 h-12 rounded-lg bg-primary/10)", "hoverLine (h-0.5 w-0 group-hover:w-full gradient)"],
+      "layout": "section > container > [header, grid 3-col[card[icon, title, desc, line]]]"
+    },
+    "visual": {
+      "description": "Header centralizado com gradiente na última palavra. Grid de 3 colunas de cards com ícone, título, descrição e linha decorativa que aparece no hover.",
+      "dimensions": "py-16 md:py-24, cards p-6, icons w-12 h-12",
+      "spacing": "mb-12 header, gap-6 grid, mb-4 icon, mb-2 title"
     }
   },
   "TestimonialsSection": {
@@ -572,6 +632,21 @@
           }
         }
       }
+    },
+    "jsx": {
+      "import": "import { Quote, Star } from 'lucide-react'",
+      "examples": {
+        "basic": "<section className=\"py-16 md:py-24\">\n  <div className=\"container mx-auto px-4\">\n    <div className=\"text-center mb-12\">\n      <h2 className=\"text-2xl md:text-4xl font-bold mb-4\">O que nossos <span className=\"text-gradient-primary\">clientes dizem</span></h2>\n      <p className=\"max-w-2xl mx-auto text-muted-foreground\">Depoimentos reais de quem já transformou seus resultados</p>\n    </div>\n    <div className=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6\">\n      {testimonials.map((t, i) => (\n        <div key={i} className=\"p-6 rounded-xl border bg-neutral-900/50 border-neutral-800 hover:border-primary/40 transition-all duration-300 relative\">\n          <Quote className=\"absolute top-4 right-4 w-8 h-8 text-muted-foreground/20\" />\n          <div className=\"flex gap-1 mb-4\">\n            {Array.from({ length: 5 }).map((_, s) => (\n              <Star key={s} className={`w-4 h-4 ${s < t.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />\n            ))}\n          </div>\n          <p className=\"mb-4 italic text-muted-foreground\">\"{t.quote}\"</p>\n          <div className=\"flex items-center gap-3\">\n            <div className=\"w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-semibold text-primary\">{t.name[0]}</div>\n            <div>\n              <p className=\"font-medium\">{t.name}</p>\n              <p className=\"text-sm text-muted-foreground\">{t.role}</p>\n            </div>\n          </div>\n        </div>\n      ))}\n    </div>\n  </div>\n</section>"
+      }
+    },
+    "structure": {
+      "anatomy": ["section (py-16 md:py-24)", "header (text-center mb-12 > title gradient + subtitle)", "grid (3-col gap-6)", "card (p-6 rounded-xl border relative)", "quoteIcon (absolute top-4 right-4)", "stars (flex gap-1 mb-4)", "quote (mb-4 italic text-muted-foreground)", "author (flex items-center gap-3 > avatar + info)"],
+      "layout": "section > container > [header, grid 3-col[card[quoteIcon(abs), stars, quote, author[avatar, name+role]]]]"
+    },
+    "visual": {
+      "description": "Header centralizado com gradiente. Grid 3 colunas de cards com ícone de aspas, estrelas amarelas, citação itálica, e autor com avatar circular com inicial.",
+      "dimensions": "py-16 md:py-24, cards p-6, avatar w-10 h-10, stars w-4 h-4",
+      "spacing": "mb-12 header, gap-6 grid, mb-4 stars/quote, gap-3 author"
     }
   },
   "StatsSection": {
@@ -600,6 +675,22 @@
         "classes": "mt-2",
         "textColor": "text-muted-foreground"
       }
+    },
+    "jsx": {
+      "import": "",
+      "examples": {
+        "basic": "<section className=\"py-16 md:py-24 border-y border-neutral-800\">\n  <div className=\"container mx-auto px-4\">\n    <div className=\"grid grid-cols-2 md:grid-cols-4 gap-8 text-center\">\n      {stats.map((s, i) => (\n        <div key={i}>\n          <span className=\"text-3xl md:text-5xl font-bold text-gradient-primary\">{s.value}</span>\n          <p className=\"mt-2 text-muted-foreground\">{s.label}</p>\n        </div>\n      ))}\n    </div>\n  </div>\n</section>",
+        "withIcons": "<section className=\"py-16 md:py-24\">\n  <div className=\"container mx-auto px-4\">\n    <div className=\"grid grid-cols-2 md:grid-cols-4 gap-8 text-center\">\n      {stats.map((s, i) => (\n        <div key={i} className=\"flex flex-col items-center\">\n          <div className=\"w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4\">\n            <s.icon className=\"w-6 h-6 text-primary\" />\n          </div>\n          <span className=\"text-3xl md:text-5xl font-bold text-gradient-primary\">{s.value}</span>\n          <p className=\"mt-2 text-muted-foreground\">{s.label}</p>\n        </div>\n      ))}\n    </div>\n  </div>\n</section>"
+      }
+    },
+    "structure": {
+      "anatomy": ["section (py-16 md:py-24, optional border-y)", "grid (grid-cols-2 md:grid-cols-4 gap-8 text-center)", "stat item (value gradient + label muted)"],
+      "layout": "section > container > grid 2/4-col[stat[value, label]]"
+    },
+    "visual": {
+      "description": "Seção com 4 métricas em grid. Valores grandes com gradiente primário. Labels cinza abaixo. Opcional: borda superior/inferior, ícones acima dos números.",
+      "dimensions": "py-16 md:py-24, values text-3xl md:text-5xl",
+      "spacing": "gap-8, mt-2 label"
     }
   },
   "CTASection": {
@@ -625,6 +716,22 @@
         "textColor": "text-primary",
         "hover": "hover:bg-gray-100"
       }
+    },
+    "jsx": {
+      "import": "import { ArrowRight } from 'lucide-react'",
+      "examples": {
+        "basic": "<section className=\"py-16 md:py-24 bg-primary\">\n  <div className=\"container mx-auto px-4\">\n    <div className=\"text-center max-w-2xl mx-auto text-primary-foreground\">\n      <h2 className=\"text-2xl md:text-4xl font-bold mb-4\">Pronto para começar?</h2>\n      <p className=\"mb-8 opacity-90\">Junte-se a milhares de clientes que já transformaram seus resultados</p>\n      <button className=\"inline-flex items-center gap-2 px-8 py-4 rounded-lg font-semibold bg-white text-primary hover:bg-gray-100 transition-all\">\n        Começar Agora <ArrowRight className=\"w-5 h-5\" />\n      </button>\n    </div>\n  </div>\n</section>",
+        "withGradient": "<section className=\"py-16 md:py-24 bg-gradient-to-r from-primary to-secondary\">\n  <div className=\"container mx-auto px-4\">\n    <div className=\"text-center max-w-2xl mx-auto text-white\">\n      <h2 className=\"text-2xl md:text-4xl font-bold mb-4\">Não perca essa oportunidade</h2>\n      <p className=\"mb-8 opacity-90\">Oferta por tempo limitado</p>\n      <button className=\"inline-flex items-center gap-2 px-8 py-4 rounded-lg font-semibold bg-white text-primary hover:bg-gray-100 transition-all shadow-lg\">\n        Garantir Minha Vaga <ArrowRight className=\"w-5 h-5\" />\n      </button>\n    </div>\n  </div>\n</section>"
+      }
+    },
+    "structure": {
+      "anatomy": ["section (py-16 md:py-24 bg-primary)", "container (text-center max-w-2xl mx-auto text-primary-foreground)", "title (font-bold mb-4)", "description (mb-8 opacity-90)", "button (inline-flex bg-white text-primary rounded-lg)"],
+      "layout": "section bg-primary > container centered > [title, description, button]"
+    },
+    "visual": {
+      "description": "Seção full-width com fundo primary (ou gradiente). Texto branco centralizado com max-w-2xl. Título, parágrafo com opacidade, e botão branco com texto na cor primária.",
+      "dimensions": "py-16 md:py-24, button px-8 py-4",
+      "spacing": "mb-4 title, mb-8 description, gap-2 button icon"
     }
   }
 }
