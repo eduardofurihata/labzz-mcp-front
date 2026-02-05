@@ -1,4 +1,4 @@
-import { readFileSync } from 'fs';
+import { readFileSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -131,6 +131,7 @@ let chartsCache: ChartsData | null = null;
 let landingComponentsCache: Record<string, any> | null = null;
 let effectsCache: Record<string, any> | null = null;
 let pageTemplatesCache: Record<string, any> | null = null;
+let screenshotsCache: Record<string, any> | null = null;
 
 function loadJSON<T>(filename: string): T {
   const filePath = join(DATA_DIR, filename);
@@ -216,6 +217,35 @@ export function listPageTemplateNames(): string[] {
 export function getPageTemplate(name: string): any {
   const templates = loadPageTemplates();
   return templates[name] || null;
+}
+
+export function loadScreenshots(): Record<string, any> {
+  if (!screenshotsCache) {
+    screenshotsCache = loadJSON<Record<string, any>>('screenshots.json');
+  }
+  return screenshotsCache;
+}
+
+export function listScreenshotNames(): string[] {
+  const screenshots = loadScreenshots();
+  return Object.keys(screenshots).filter(key => !key.startsWith('_'));
+}
+
+export function getScreenshotMeta(name: string): any {
+  const screenshots = loadScreenshots();
+  return screenshots[name] || null;
+}
+
+export function getScreenshotBase64(name: string): { meta: any; base64: string } | null {
+  const meta = getScreenshotMeta(name);
+  if (!meta || !meta.file) return null;
+
+  const filePath = join(DATA_DIR, meta.file);
+  if (!existsSync(filePath)) return null;
+
+  const buffer = readFileSync(filePath);
+  const base64 = buffer.toString('base64');
+  return { meta, base64: `data:image/png;base64,${base64}` };
 }
 
 export function listLandingComponentNames(): string[] {

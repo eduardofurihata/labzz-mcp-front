@@ -38,6 +38,10 @@ import {
   loadPageTemplates,
   listPageTemplateNames,
   getPageTemplate,
+  loadScreenshots,
+  listScreenshotNames,
+  getScreenshotMeta,
+  getScreenshotBase64,
 } from './utils/data-loader.js';
 
 // Tool definitions
@@ -239,6 +243,30 @@ const tools: Tool[] = [
   {
     name: 'list_page_templates',
     description: 'List all available page templates with descriptions and when to use each one.',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
+  },
+
+  // === SCREENSHOT TOOLS ===
+  {
+    name: 'get_screenshot',
+    description: 'Get a screenshot of a reference page as base64 image. Use this to visually verify component appearance and page layouts.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        page_name: {
+          type: 'string',
+          description: 'Name of the page screenshot (e.g., dashboard-overview, login, register, landing-home, obrigado, error-404, dashboard-leads, dashboard-landing-pages, dashboard-produtos, dashboard-perfil, dashboard-configuracoes)',
+        },
+      },
+      required: ['page_name'],
+    },
+  },
+  {
+    name: 'list_screenshots',
+    description: 'List all available page screenshots with descriptions, page types, and visible components.',
     inputSchema: {
       type: 'object',
       properties: {},
@@ -597,6 +625,42 @@ function handleListPageTemplates() {
       forms: ['FormPage', 'SettingsPage', 'LoginPage'],
       marketing: ['LandingPage'],
       feedback: ['EmptyState', 'ErrorState'],
+    },
+  };
+}
+
+function handleGetScreenshot(args: { page_name: string }) {
+  const result = getScreenshotBase64(args.page_name);
+  if (!result) {
+    const available = listScreenshotNames();
+    return { error: `Screenshot "${args.page_name}" not found. Available: ${available.join(', ')}` };
+  }
+  return {
+    page: args.page_name,
+    description: result.meta.description,
+    pageType: result.meta.pageType,
+    components: result.meta.components,
+    theme: result.meta.theme,
+    image: result.base64,
+  };
+}
+
+function handleListScreenshots() {
+  const screenshots = loadScreenshots();
+  const names = listScreenshotNames();
+
+  return {
+    count: names.length,
+    screenshots: names.map(name => ({
+      name,
+      description: screenshots[name]?.description || '',
+      pageType: screenshots[name]?.pageType || '',
+      components: screenshots[name]?.components || [],
+      theme: screenshots[name]?.theme || 'light',
+    })),
+    categories: {
+      public: ['landing-home', 'login', 'register', 'obrigado', 'error-404'],
+      dashboard: ['dashboard-overview', 'dashboard-leads', 'dashboard-landing-pages', 'dashboard-produtos', 'dashboard-perfil', 'dashboard-configuracoes'],
     },
   };
 }
@@ -1308,6 +1372,14 @@ export function createServer() {
           result = handleListPageTemplates();
           break;
 
+        // Screenshot tools
+        case 'get_screenshot':
+          result = handleGetScreenshot(args as { page_name: string });
+          break;
+        case 'list_screenshots':
+          result = handleListScreenshots();
+          break;
+
         // Generate tools
         case 'generate_css':
           result = handleGenerateCSS(args as { component: string; variant?: string; options?: any });
@@ -1386,6 +1458,8 @@ function handleToolCall(name: string, args: any): any {
     case 'list_effects': return handleListEffects();
     case 'get_page_template': return handleGetPageTemplate(args);
     case 'list_page_templates': return handleListPageTemplates();
+    case 'get_screenshot': return handleGetScreenshot(args);
+    case 'list_screenshots': return handleListScreenshots();
     case 'generate_css': return handleGenerateCSS(args);
     case 'generate_tailwind_classes': return handleGenerateTailwindClasses(args);
     case 'generate_css_variables': return handleGenerateCSSVariables(args);
@@ -1485,6 +1559,19 @@ export async function runHttpServer(port: number = 3000) {
     }
   });
 
+  app.get('/screenshots', (_req, res) => {
+    res.json(handleListScreenshots());
+  });
+
+  app.get('/screenshots/:name', (req, res) => {
+    try {
+      res.json(handleGetScreenshot({ page_name: req.params.name }));
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      res.status(404).json({ error: message });
+    }
+  });
+
   app.get('/page-templates', (_req, res) => {
     res.json(handleListPageTemplates());
   });
@@ -1534,6 +1621,7 @@ export async function runHttpServer(port: number = 3000) {
     console.log(`  GET  /components            - List components`);
     console.log(`  GET  /components/:name       - Component spec`);
     console.log(`  GET  /landing-components     - Landing components`);
+    console.log(`  GET  /screenshots             - Page screenshots`);
     console.log(`  GET  /page-templates         - Page templates`);
     console.log(`  GET  /effects               - Visual effects`);
     console.log(`  GET  /charts                - Chart components`);

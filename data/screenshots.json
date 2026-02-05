@@ -1,0 +1,85 @@
+{
+  "_metadata": {
+    "description": "Screenshot manifest mapping pages to visual references",
+    "capturedAt": "2026-02-05",
+    "viewport": "1440x900",
+    "source": "https://lp-vendas.labzz.studio"
+  },
+  "landing-home": {
+    "description": "Landing page principal - hero, feature cards, status badges",
+    "file": "screenshots/01-landing-home.png",
+    "pageType": "LandingPage",
+    "components": ["HeroSection", "BenefitsSection", "Badge"],
+    "theme": "light"
+  },
+  "login": {
+    "description": "Página de login - formulário centralizado com ícone, inputs com ícones, CTA escuro",
+    "file": "screenshots/02-login.png",
+    "pageType": "LoginPage",
+    "components": ["Input", "Button", "Card"],
+    "theme": "light"
+  },
+  "register": {
+    "description": "Página de registro - formulário em seções (Dados Pessoais, Dados da Empresa), inputs com ícones, info box",
+    "file": "screenshots/03-register.png",
+    "pageType": "FormPage",
+    "components": ["Input", "Button", "Card", "Label"],
+    "theme": "light"
+  },
+  "obrigado": {
+    "description": "Página de obrigado/sucesso - dark mode, ícone check verde, steps numerados, CTAs, info box",
+    "file": "screenshots/04-obrigado.png",
+    "pageType": "DetailPage",
+    "components": ["Button", "Card", "Alert"],
+    "theme": "dark"
+  },
+  "error-404": {
+    "description": "Página 404 - centralizada, ícone ilustrativo, título, descrição, dois CTAs",
+    "file": "screenshots/05-error-404.png",
+    "pageType": "ErrorState",
+    "components": ["Button"],
+    "theme": "light"
+  },
+  "dashboard-overview": {
+    "description": "Dashboard principal - sidebar, topbar com search, 4 MetricCards, gráfico de barras semanal, ações rápidas, banners educativos",
+    "file": "screenshots/06-dashboard-overview.png",
+    "pageType": "DashboardPage",
+    "components": ["Sidebar", "TopBar", "PageHeader", "MetricCard", "Card", "DashboardLayout"],
+    "theme": "light"
+  },
+  "dashboard-leads": {
+    "description": "Lista de leads - PageHeader com ação, 3 stat cards, search + filtros (select), tabela com empty state",
+    "file": "screenshots/07-dashboard-leads.png",
+    "pageType": "ListPage",
+    "components": ["PageHeader", "Card", "Input", "Select", "DataTable", "Sidebar", "TopBar"],
+    "theme": "light"
+  },
+  "dashboard-landing-pages": {
+    "description": "Gestão de landing pages - PageHeader com botão primário, empty state com ícone e CTA",
+    "file": "screenshots/08-dashboard-landing-pages.png",
+    "pageType": "ListPage",
+    "components": ["PageHeader", "Button", "Sidebar", "TopBar"],
+    "theme": "light"
+  },
+  "dashboard-produtos": {
+    "description": "Gestão de produtos - PageHeader com botão sync, empty state com ícone calendário e CTA",
+    "file": "screenshots/09-dashboard-produtos.png",
+    "pageType": "ListPage",
+    "components": ["PageHeader", "Button", "Sidebar", "TopBar"],
+    "theme": "light"
+  },
+  "dashboard-perfil": {
+    "description": "Perfil do usuário - card de info com avatar/badges, form de edição, form de senha com dicas de segurança",
+    "file": "screenshots/10-dashboard-perfil.png",
+    "pageType": "FormPage",
+    "components": ["PageHeader", "Card", "Badge", "Input", "Button", "Sidebar", "TopBar"],
+    "theme": "light"
+  },
+  "dashboard-configuracoes": {
+    "description": "Configurações com tabs (Integração/Parcelamento) - status card, form de token, info de segurança, links de documentação",
+    "file": "screenshots/11-dashboard-configuracoes.png",
+    "pageType": "SettingsPage",
+    "components": ["PageHeader", "Tabs", "Card", "Input", "Button", "Alert", "Sidebar", "TopBar"],
+    "theme": "light"
+  }
+}
