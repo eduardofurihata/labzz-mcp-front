@@ -128,7 +128,7 @@ Retorna os 5 arquivos de configuracao visual de uma vez. **Obrigatorio no inicio
 
 | Chave | Arquivo | Conteudo |
 |-------|---------|----------|
-| `globals` | globals.css | Variaveis CSS de tema, fontes (Space Grotesk + Inter), estilos base |
+| `globals` | globals.css | Variaveis CSS de tema, fonte Inter, estilos base |
 | `tailwindConfig` | tailwind.config.ts | Cores customizadas (#0D2872, #355EC4, #FFBE00), sombras, animacoes, fontes |
 | `utils` | utils.ts | Funcao `cn()` para merge de classes (clsx + tailwind-merge) |
 | `designTokens` | design-tokens.ts | Spacing, typography, borderRadius, shadows, transitions, easing, breakpoints, iconSizes, zIndex |
@@ -370,7 +370,7 @@ Os arquivos retornados sao TEMPLATES DE DESIGN SYSTEM — nao sao apps prontos p
 
 | Uso | Fonte | Peso | Escala |
 |-----|-------|------|--------|
-| Headings | Space Grotesk | 700 (bold) | text-xl a text-4xl |
+| Headings | Inter | 700 (bold) | text-xl a text-4xl |
 | Body | Inter | 400 (regular), 500 (medium), 600 (semibold) | text-sm a text-base |
 | Labels | Inter | 500 (medium) | text-sm |
 | Captions | Inter | 400 (regular) | text-xs |

@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 @layer base {
   :root {
@@ -57,7 +57,7 @@
     --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.05);
 
     /* Custom tokens */
-    --heading-font: 'Space Grotesk', sans-serif;
+    --heading-font: 'Inter', sans-serif;
     --body-font: 'Inter', sans-serif;
     --glow-primary: 0 0 40px hsl(222 79% 25% / 0.15);
     --glow-primary-strong: 0 0 60px hsl(222 79% 25% / 0.25);

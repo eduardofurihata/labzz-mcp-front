@@ -18,7 +18,7 @@ const config: Config = {
   	extend: {
   		fontFamily: {
   			heading: [
-  				'Space Grotesk',
+  				'Inter',
   				'sans-serif'
   			],
   			body: [

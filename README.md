@@ -181,7 +181,7 @@ audit_design({
 
 ### Typography
 
-- **Headings**: Space Grotesk (700)
+- **Headings**: Inter (700)
 - **Body**: Inter (400, 500, 600)
 - **Scale**: xs (12px) to 6xl (60px)
 
