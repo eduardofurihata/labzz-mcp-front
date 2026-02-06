@@ -1,0 +1,276 @@
+{
+  "_metadata": {
+    "description": "Catálogo do Labzz Design System. Cada pattern contém código .tsx real extraído e sanitizado do projeto de referência.",
+    "source": "labzz-lp-vendas",
+    "version": "2.1.0"
+  },
+  "styles": {
+    "globals": {
+      "file": "patterns/styles/globals.css",
+      "description": "CSS global com variáveis de tema, fontes e estilos base"
+    },
+    "tailwind": {
+      "file": "patterns/styles/tailwind.config.ts",
+      "description": "Configuração Tailwind com cores, fontes, sombras e animações customizadas"
+    },
+    "utils": {
+      "file": "patterns/styles/utils.ts",
+      "description": "Utilitário cn() para merge de classes Tailwind (clsx + tailwind-merge)"
+    },
+    "design-tokens": {
+      "file": "patterns/styles/design-tokens.ts",
+      "description": "Tokens do design system: spacing, typography, borderRadius, shadows, transitions, easing, breakpoints, iconSizes, zIndex e animations"
+    },
+    "reference-package": {
+      "file": "patterns/styles/reference-package.json",
+      "description": "package.json de referência com todas as dependências necessárias (Radix UI, Recharts, Sonner, Lucide, date-fns, etc.)"
+    }
+  },
+  "layouts": {
+    "dashboard-layout": {
+      "file": "patterns/layouts/dashboard-layout.tsx",
+      "description": "Layout completo do dashboard: Sidebar (w-64) + TopBar (h-20) + área de conteúdo com scroll",
+      "components": ["sidebar", "topbar"],
+      "screenshot": "screenshots/06-dashboard-overview.png"
+    },
+    "auth-layout": {
+      "file": "patterns/layouts/auth-layout.tsx",
+      "description": "Layout de autenticação: página centralizada com fundo claro",
+      "screenshot": "screenshots/02-login.png"
+    }
+  },
+  "components": {
+    "sidebar": {
+      "file": "patterns/components/layout/sidebar.tsx",
+      "category": "layout",
+      "description": "Sidebar com logo BUILDER, gradiente from-slate-50, menus com icon containers 36x36, active state com gradient indicator, logout com hover vermelho",
+      "tags": ["light", "gradient", "icon-containers", "active-indicator"],
+      "screenshot": "screenshots/06-dashboard-overview.png"
+    },
+    "topbar": {
+      "file": "patterns/components/layout/topbar.tsx",
+      "category": "layout",
+      "description": "Barra superior h-20 com busca centralizada, notificações com badge, menu do usuário com avatar e dropdown",
+      "tags": ["search", "notifications", "user-menu", "backdrop-blur"]
+    },
+    "page-header": {
+      "file": "patterns/components/layout/page-header.tsx",
+      "category": "layout",
+      "description": "Header de página sticky com ícone, título, subtítulo e área de ações"
+    },
+    "page-container": {
+      "file": "patterns/components/layout/page-container.tsx",
+      "category": "layout",
+      "description": "Container de conteúdo max-w-[1600px] mx-auto px-8 py-12"
+    },
+    "breadcrumb": {
+      "file": "patterns/components/layout/breadcrumb.tsx",
+      "category": "layout",
+      "description": "Navegação breadcrumb com separador chevron"
+    },
+    "metric-card": {
+      "file": "patterns/components/data-display/metric-card.tsx",
+      "category": "data-display",
+      "description": "Card de KPI com ícone em container bg-primary/10, valor text-3xl, label e trend indicator",
+      "tags": ["kpi", "trend", "icon-container"]
+    },
+    "data-table": {
+      "file": "patterns/components/data-display/data-table.tsx",
+      "category": "data-display",
+      "description": "Tabela com busca, filtros, seleção e paginação"
+    },
+    "pagination": {
+      "file": "patterns/components/data-display/pagination.tsx",
+      "category": "data-display",
+      "description": "Controles de paginação com info e botões de navegação"
+    },
+    "skeleton-card": {
+      "file": "patterns/components/feedback/skeleton-card.tsx",
+      "category": "feedback",
+      "description": "Skeleton loading para cards"
+    },
+    "skeleton-table": {
+      "file": "patterns/components/feedback/skeleton-table.tsx",
+      "category": "feedback",
+      "description": "Skeleton loading para tabelas"
+    },
+    "skeleton-text": {
+      "file": "patterns/components/feedback/skeleton-text.tsx",
+      "category": "feedback",
+      "description": "Skeleton loading para texto com linhas configuráveis",
+      "tags": ["skeleton", "loading", "text", "placeholder"]
+    },
+    "spinner": {
+      "file": "patterns/components/feedback/spinner.tsx",
+      "category": "feedback",
+      "description": "Spinner de loading animado"
+    },
+    "empty-state": {
+      "file": "patterns/components/feedback/empty-state.tsx",
+      "category": "feedback",
+      "description": "Estado vazio reutilizável com ícone, título, descrição e CTA opcional",
+      "tags": ["empty", "placeholder", "no-data", "feedback"]
+    },
+    "delete-confirm-modal": {
+      "file": "patterns/components/feedback/delete-confirm-modal.tsx",
+      "category": "feedback",
+      "description": "Modal de confirmação de exclusão em duas etapas com suporte a múltiplos tipos de entidade",
+      "tags": ["modal", "delete", "confirm", "destructive"]
+    },
+    "form-modal": {
+      "file": "patterns/components/feedback/form-modal.tsx",
+      "category": "feedback",
+      "description": "Modal genérico com formulário, campos dinâmicos e salvamento assíncrono",
+      "tags": ["modal", "form", "dialog", "create", "edit"]
+    },
+    "area-chart": {
+      "file": "patterns/components/charts/area-chart.tsx",
+      "category": "charts",
+      "description": "Gráfico de área com Recharts"
+    },
+    "bar-chart": {
+      "file": "patterns/components/charts/bar-chart.tsx",
+      "category": "charts",
+      "description": "Gráfico de barras com Recharts"
+    },
+    "line-chart": {
+      "file": "patterns/components/charts/line-chart.tsx",
+      "category": "charts",
+      "description": "Gráfico de linhas com Recharts"
+    },
+    "pie-chart": {
+      "file": "patterns/components/charts/pie-chart.tsx",
+      "category": "charts",
+      "description": "Gráfico de pizza com Recharts"
+    },
+    "button": { "file": "patterns/components/ui/button.tsx", "category": "ui", "description": "Botão com variants: default, secondary, outline, ghost, destructive, link" },
+    "card": { "file": "patterns/components/ui/card.tsx", "category": "ui", "description": "Card container com header, content e footer" },
+    "input": { "file": "patterns/components/ui/input.tsx", "category": "ui", "description": "Input de texto com suporte a ícone" },
+    "label": { "file": "patterns/components/ui/label.tsx", "category": "ui", "description": "Label para campos de formulário" },
+    "dialog": { "file": "patterns/components/ui/dialog.tsx", "category": "ui", "description": "Modal dialog com overlay e animação" },
+    "dropdown-menu": { "file": "patterns/components/ui/dropdown-menu.tsx", "category": "ui", "description": "Menu dropdown com items e separadores" },
+    "select": { "file": "patterns/components/ui/select.tsx", "category": "ui", "description": "Select dropdown com trigger e opções" },
+    "table": { "file": "patterns/components/ui/table.tsx", "category": "ui", "description": "Tabela base com header, body, row e cell" },
+    "badge": { "file": "patterns/components/ui/badge.tsx", "category": "ui", "description": "Badge com variants: default, secondary, success, destructive, outline" },
+    "tabs": { "file": "patterns/components/ui/tabs.tsx", "category": "ui", "description": "Tabs com trigger e content" },
+    "modern-tabs": {
+      "file": "patterns/components/ui/modern-tabs.tsx",
+      "category": "ui",
+      "description": "Tabs modernas com estilo customizado baseado em Radix, com ModernTabs, ModernTabsList, ModernTabsTrigger e ModernTabsContent",
+      "tags": ["tabs", "radix", "modern", "navigation"]
+    },
+    "toast": {
+      "file": "patterns/components/ui/toast.tsx",
+      "category": "ui",
+      "description": "Sistema de notificações toast com ToastProvider, 4 tipos (success/error/info/warning), auto-dismiss e hook useToast",
+      "tags": ["toast", "notification", "feedback", "sonner"]
+    },
+    "alert": { "file": "patterns/components/ui/alert.tsx", "category": "ui", "description": "Alerta com variants: default, destructive" },
+    "separator": { "file": "patterns/components/ui/separator.tsx", "category": "ui", "description": "Linha separadora horizontal ou vertical" },
+    "checkbox": { "file": "patterns/components/ui/checkbox.tsx", "category": "ui", "description": "Checkbox com label" },
+    "textarea": { "file": "patterns/components/ui/textarea.tsx", "category": "ui", "description": "Área de texto multilinhas" },
+    "switch": { "file": "patterns/components/ui/switch.tsx", "category": "ui", "description": "Toggle switch on/off" },
+    "skeleton": { "file": "patterns/components/ui/skeleton.tsx", "category": "ui", "description": "Skeleton base com animate-pulse" },
+    "sheet": { "file": "patterns/components/ui/sheet.tsx", "category": "ui", "description": "Painel lateral deslizante" },
+    "scroll-area": { "file": "patterns/components/ui/scroll-area.tsx", "category": "ui", "description": "Área com scroll customizado" },
+    "accordion": { "file": "patterns/components/ui/accordion.tsx", "category": "ui", "description": "Accordion expansível" },
+    "hero": { "file": "patterns/components/landing/hero.tsx", "category": "landing", "description": "Seção hero da landing page com título, subtítulo e CTA" },
+    "plan-cards": { "file": "patterns/components/landing/plan-cards.tsx", "category": "landing", "description": "Grid de cards de planos/preços" },
+    "stats-section": { "file": "patterns/components/landing/stats-section.tsx", "category": "landing", "description": "Seção de estatísticas com números grandes" },
+    "testimonials-section": { "file": "patterns/components/landing/testimonials-section.tsx", "category": "landing", "description": "Seção de depoimentos com avatares e quotes" },
+    "particles-background": { "file": "patterns/components/effects/particles-background.tsx", "category": "effects", "description": "Background animado com partículas" }
+  },
+  "pages": {
+    "dashboard-overview": {
+      "file": "patterns/pages/dashboard-overview.tsx",
+      "description": "Dashboard principal com 4 MetricCards, gráfico de vendas semanais, ações rápidas",
+      "layout": "dashboard-layout",
+      "components": ["metric-card", "bar-chart", "page-header"],
+      "screenshot": "screenshots/06-dashboard-overview.png"
+    },
+    "dashboard-leads": {
+      "file": "patterns/pages/dashboard-leads.tsx",
+      "description": "Lista de leads com stat cards, busca, filtros e tabela",
+      "layout": "dashboard-layout",
+      "components": ["data-table", "page-header", "metric-card"],
+      "screenshot": "screenshots/07-dashboard-leads.png"
+    },
+    "dashboard-produtos": {
+      "file": "patterns/pages/dashboard-produtos.tsx",
+      "description": "Gestão de produtos com busca e tabela/cards",
+      "layout": "dashboard-layout",
+      "components": ["page-header", "data-table"],
+      "screenshot": "screenshots/09-dashboard-produtos.png"
+    },
+    "dashboard-landing-pages": {
+      "file": "patterns/pages/dashboard-landing-pages.tsx",
+      "description": "Gestão de landing pages",
+      "layout": "dashboard-layout",
+      "components": ["page-header"],
+      "screenshot": "screenshots/08-dashboard-landing-pages.png"
+    },
+    "dashboard-configuracoes": {
+      "file": "patterns/pages/dashboard-configuracoes.tsx",
+      "description": "Configurações com tabs de integração e parcelamento",
+      "layout": "dashboard-layout",
+      "components": ["page-header", "tabs"],
+      "screenshot": "screenshots/11-dashboard-configuracoes.png"
+    },
+    "dashboard-perfil": {
+      "file": "patterns/pages/dashboard-perfil.tsx",
+      "description": "Perfil do usuário com card de info, form de edição e form de senha",
+      "layout": "dashboard-layout",
+      "components": ["page-header", "card", "input"],
+      "screenshot": "screenshots/10-dashboard-perfil.png"
+    },
+    "dashboard-vendas": {
+      "file": "patterns/pages/dashboard-vendas.tsx",
+      "description": "Histórico de vendas com tabela e filtros",
+      "layout": "dashboard-layout",
+      "components": ["page-header", "data-table"]
+    },
+    "dashboard-usuarios": {
+      "file": "patterns/pages/dashboard-usuarios.tsx",
+      "description": "Gestão de usuários",
+      "layout": "dashboard-layout",
+      "components": ["page-header", "data-table"]
+    },
+    "dashboard-create-example": {
+      "file": "patterns/pages/dashboard-create-example.tsx",
+      "description": "Exemplo de página de criação/edição com formulário completo, seções, validação visual, breadcrumb e ações. Use como pattern para qualquer página de criação.",
+      "layout": "dashboard-layout",
+      "components": ["page-header", "card", "input", "select", "textarea", "switch", "button"]
+    },
+    "dashboard-detail-example": {
+      "file": "patterns/pages/dashboard-detail-example.tsx",
+      "description": "Exemplo de página de detalhe com header sticky, avatar, status badge, grid 2 colunas, timeline de interações e ações rápidas. Use como pattern para qualquer página de detalhe.",
+      "layout": "dashboard-layout",
+      "components": ["page-header", "card", "badge", "button", "dialog"]
+    },
+    "login": {
+      "file": "patterns/pages/login.tsx",
+      "description": "Página de login com formulário centralizado, ícone, inputs com ícones",
+      "layout": "auth-layout",
+      "components": ["input", "button", "card"],
+      "screenshot": "screenshots/02-login.png"
+    },
+    "register": {
+      "file": "patterns/pages/register.tsx",
+      "description": "Página de registro com formulário em seções",
+      "layout": "auth-layout",
+      "components": ["input", "button", "card"],
+      "screenshot": "screenshots/03-register.png"
+    },
+    "landing-home": {
+      "file": "patterns/pages/landing-home.tsx",
+      "description": "Landing page de vendas com hero, planos, benefícios, depoimentos",
+      "components": ["hero", "plan-cards", "stats-section", "testimonials-section"],
+      "screenshot": "screenshots/01-landing-home.png"
+    },
+    "obrigado": {
+      "file": "patterns/pages/obrigado.tsx",
+      "description": "Página de obrigado/sucesso após compra",
+      "screenshot": "screenshots/04-obrigado.png"
+    }
+  }
+}

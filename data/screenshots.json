@@ -8,6 +8,7 @@
   "landing-home": {
     "description": "Landing page principal - hero, feature cards, status badges",
     "file": "screenshots/01-landing-home.png",
+    "pattern": "patterns/pages/landing-home.tsx",
     "pageType": "LandingPage",
     "components": ["HeroSection", "BenefitsSection", "Badge"],
     "theme": "light"
@@ -15,6 +16,7 @@
   "login": {
     "description": "Página de login - formulário centralizado com ícone, inputs com ícones, CTA escuro",
     "file": "screenshots/02-login.png",
+    "pattern": "patterns/pages/login.tsx",
     "pageType": "LoginPage",
     "components": ["Input", "Button", "Card"],
     "theme": "light"
@@ -22,6 +24,7 @@
   "register": {
     "description": "Página de registro - formulário em seções (Dados Pessoais, Dados da Empresa), inputs com ícones, info box",
     "file": "screenshots/03-register.png",
+    "pattern": "patterns/pages/register.tsx",
     "pageType": "FormPage",
     "components": ["Input", "Button", "Card", "Label"],
     "theme": "light"
@@ -29,6 +32,7 @@
   "obrigado": {
     "description": "Página de obrigado/sucesso - dark mode, ícone check verde, steps numerados, CTAs, info box",
     "file": "screenshots/04-obrigado.png",
+    "pattern": "patterns/pages/obrigado.tsx",
     "pageType": "DetailPage",
     "components": ["Button", "Card", "Alert"],
     "theme": "dark"
@@ -43,6 +47,7 @@
   "dashboard-overview": {
     "description": "Dashboard principal - sidebar, topbar com search, 4 MetricCards, gráfico de barras semanal, ações rápidas, banners educativos",
     "file": "screenshots/06-dashboard-overview.png",
+    "pattern": "patterns/pages/dashboard-overview.tsx",
     "pageType": "DashboardPage",
     "components": ["Sidebar", "TopBar", "PageHeader", "MetricCard", "Card", "DashboardLayout"],
     "theme": "light"
@@ -50,6 +55,7 @@
   "dashboard-leads": {
     "description": "Lista de leads - PageHeader com ação, 3 stat cards, search + filtros (select), tabela com empty state",
     "file": "screenshots/07-dashboard-leads.png",
+    "pattern": "patterns/pages/dashboard-leads.tsx",
     "pageType": "ListPage",
     "components": ["PageHeader", "Card", "Input", "Select", "DataTable", "Sidebar", "TopBar"],
     "theme": "light"
@@ -57,6 +63,7 @@
   "dashboard-landing-pages": {
     "description": "Gestão de landing pages - PageHeader com botão primário, empty state com ícone e CTA",
     "file": "screenshots/08-dashboard-landing-pages.png",
+    "pattern": "patterns/pages/dashboard-landing-pages.tsx",
     "pageType": "ListPage",
     "components": ["PageHeader", "Button", "Sidebar", "TopBar"],
     "theme": "light"
@@ -64,6 +71,7 @@
   "dashboard-produtos": {
     "description": "Gestão de produtos - PageHeader com botão sync, empty state com ícone calendário e CTA",
     "file": "screenshots/09-dashboard-produtos.png",
+    "pattern": "patterns/pages/dashboard-produtos.tsx",
     "pageType": "ListPage",
     "components": ["PageHeader", "Button", "Sidebar", "TopBar"],
     "theme": "light"
@@ -71,6 +79,7 @@
   "dashboard-perfil": {
     "description": "Perfil do usuário - card de info com avatar/badges, form de edição, form de senha com dicas de segurança",
     "file": "screenshots/10-dashboard-perfil.png",
+    "pattern": "patterns/pages/dashboard-perfil.tsx",
     "pageType": "FormPage",
     "components": ["PageHeader", "Card", "Badge", "Input", "Button", "Sidebar", "TopBar"],
     "theme": "light"
@@ -78,6 +87,7 @@
   "dashboard-configuracoes": {
     "description": "Configurações com tabs (Integração/Parcelamento) - status card, form de token, info de segurança, links de documentação",
     "file": "screenshots/11-dashboard-configuracoes.png",
+    "pattern": "patterns/pages/dashboard-configuracoes.tsx",
     "pageType": "SettingsPage",
     "components": ["PageHeader", "Tabs", "Card", "Input", "Button", "Alert", "Sidebar", "TopBar"],
     "theme": "light"

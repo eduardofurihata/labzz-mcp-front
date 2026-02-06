@@ -1,0 +1,230 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+@layer base {
+  :root {
+    /* Base - Light Theme */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+
+    /* Surfaces */
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+
+    /* Brand Colors - Órbita */
+    /* Primária: #0D2872 (azul escuro) */
+    --primary: 222 79% 25%;
+    --primary-foreground: 0 0% 98%;
+
+    /* Secundária: #355EC4 (azul médio) */
+    --secondary: 222 57% 49%;
+    --secondary-foreground: 0 0% 98%;
+
+    /* Terciária: #FFBE00 (amarelo) */
+    --accent: 45 100% 50%;
+    --accent-foreground: 0 0% 9%;
+
+    /* Muted */
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+
+    /* Borders & Inputs */
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 222 79% 25%;
+
+    /* Semantic */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    /* Radius - Softer */
+    --radius: 0.5rem;
+
+    /* Spacing tokens */
+    --spacing-section: 3rem;
+    --spacing-component: 1.5rem;
+    --spacing-element: 1rem;
+
+    /* Shadows - Modern soft shadows */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.05);
+
+    /* Custom tokens */
+    --heading-font: 'Space Grotesk', sans-serif;
+    --body-font: 'Inter', sans-serif;
+    --glow-primary: 0 0 40px hsl(222 79% 25% / 0.15);
+    --glow-primary-strong: 0 0 60px hsl(222 79% 25% / 0.25);
+    --surface-elevated: 0 0% 97%;
+    --surface-overlay: 0 0% 100% / 0.95%;
+    --chart-1: 222 79% 25%;
+    --chart-2: 222 57% 49%;
+    --chart-3: 45 100% 50%;
+    --chart-4: 173 58% 39%;
+    --chart-5: 27 87% 67%;
+  }
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+
+    /* Brand Colors - Órbita (Dark Mode) */
+    --primary: 222 57% 49%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 222 79% 25%;
+    --secondary-foreground: 0 0% 98%;
+    --accent: 45 100% 50%;
+    --accent-foreground: 0 0% 9%;
+
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 222 57% 49%;
+    --chart-1: 222 79% 25%;
+    --chart-2: 222 57% 49%;
+    --chart-3: 45 100% 50%;
+    --chart-4: 173 58% 39%;
+    --chart-5: 27 87% 67%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--body-font);
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--heading-font);
+    @apply font-bold tracking-tight;
+  }
+}
+
+@layer components {
+  .text-gradient-primary {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(172 79% 55%) 100%);
+  }
+
+  .border-glow {
+    box-shadow: var(--glow-primary);
+  }
+
+  .border-glow-strong {
+    box-shadow: var(--glow-primary-strong);
+  }
+
+  .surface-elevated {
+    background-color: hsl(var(--surface-elevated));
+  }
+
+  .surface-overlay {
+    background-color: hsl(var(--surface-overlay));
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.6s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.4s ease-out forwards;
+  }
+
+  .animate-pulse-glow {
+    animation: pulseGlow 2s ease-in-out infinite;
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes pulseGlow {
+    0%, 100% {
+      box-shadow: 0 0 20px hsl(172 79% 41% / 0.3);
+    }
+    50% {
+      box-shadow: 0 0 40px hsl(172 79% 41% / 0.5);
+    }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fadeInUp {
+    animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}

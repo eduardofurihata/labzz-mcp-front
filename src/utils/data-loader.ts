@@ -1,408 +1,72 @@
-import { readFileSync, existsSync } from 'fs';
-import { join, dirname } from 'path';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+const DATA_DIR = join(__dirname, '..', '..', 'data');
 
-const DATA_DIR = join(__dirname, '../../data');
-
-export interface DesignTokens {
-  colors: {
-    light: Record<string, { value: string; hsl?: string; usage: string }>;
-    dark: Record<string, { value: string; hsl?: string; usage: string }>;
-    semantic: Record<string, { value: string; hsl?: string; usage: string }>;
-    chart: Record<string, { value: string; usage: string }>;
-  };
-  typography: {
-    fonts: Record<string, any>;
-    scale: Record<string, any>;
-    weights: Record<string, number>;
-  };
-  spacing: {
-    base: string;
-    scale: Record<string, string>;
-    semantic: Record<string, any>;
-  };
-  borderRadius: Record<string, string>;
-  shadows: Record<string, any>;
-  animations: {
-    durations: Record<string, string>;
-    easings: Record<string, string>;
-    keyframes: Record<string, any>;
-  };
-  zIndex: Record<string, string | number>;
-  breakpoints: Record<string, string>;
-  containers: Record<string, string>;
-}
-
-export interface ComponentSpec {
+interface CatalogEntry {
+  file: string;
   description: string;
-  variants?: Record<string, any>;
-  sizes?: Record<string, any>;
-  states?: Record<string, any>;
-  baseStyles?: any;
-  components?: Record<string, any>;
-  properties?: any;
-  accessibility?: any;
-  [key: string]: any;
+  category?: string;
+  tags?: string[];
+  components?: string[];
+  layout?: string;
+  screenshot?: string;
 }
 
-export interface LayoutPatterns {
-  grid: any;
-  flexbox: any;
-  navigation: any;
-  pageStructure: any;
-  sections: any;
-  responsive: any;
-  spacing: any;
+interface Catalog {
+  _metadata: { description: string; source: string; version: string };
+  styles: Record<string, CatalogEntry>;
+  layouts: Record<string, CatalogEntry>;
+  components: Record<string, CatalogEntry>;
+  pages: Record<string, CatalogEntry>;
 }
 
-export interface UXGuidelines {
-  interactions: any;
-  feedback: any;
-  forms: any;
-  modals: any;
-  navigation: any;
-  responsiveness: any;
-  animations: any;
-  copywriting: any;
-  darkMode: any;
+let catalogCache: Catalog | null = null;
+
+export function loadCatalog(): Catalog {
+  if (catalogCache) return catalogCache;
+  const raw = readFileSync(join(DATA_DIR, 'catalog.json'), 'utf-8');
+  catalogCache = JSON.parse(raw) as Catalog;
+  return catalogCache;
 }
 
-export interface AccessibilityRules {
-  colorContrast: any;
-  focusManagement: any;
-  touchTargets: any;
-  screenReaders: any;
-  keyboard: any;
-  motion: any;
-  forms: any;
-  images: any;
-  testing: any;
+export function readPattern(filePath: string): string {
+  return readFileSync(join(DATA_DIR, filePath), 'utf-8');
 }
 
-export interface DashboardComponentSpec {
-  description: string;
-  components?: Record<string, any>;
-  properties?: any;
-  props?: any;
-  variants?: Record<string, any>;
-  features?: any;
-  dimensions?: any;
-  structure?: any;
-  responsive?: any;
-  [key: string]: any;
+export function getScreenshotBase64(screenshotPath: string): string {
+  const fullPath = join(DATA_DIR, screenshotPath);
+  const buffer = readFileSync(fullPath);
+  return buffer.toString('base64');
 }
 
-export interface ChartSpec {
-  description: string;
-  components?: Record<string, any>;
-  variants?: Record<string, any>;
-  styling?: any;
-  example?: any;
-  [key: string]: any;
-}
+export function searchCatalog(query: string): Array<{ type: string; name: string; entry: CatalogEntry }> {
+  const catalog = loadCatalog();
+  const terms = query.toLowerCase().split(/\s+/);
+  const results: Array<{ type: string; name: string; entry: CatalogEntry; score: number }> = [];
 
-export interface ChartsData {
-  overview: any;
-  commonProps: any;
-  AreaChart: ChartSpec;
-  BarChart: ChartSpec;
-  LineChart: ChartSpec;
-  PieChart: ChartSpec;
-  RadialBarChart: ChartSpec;
-  ComposedChart: ChartSpec;
-  sharedComponents: Record<string, any>;
-  ChartCard: any;
-  sparkline: any;
-  accessibility: any;
-  emptyState: any;
-  loadingState: any;
-}
+  for (const [type, entries] of Object.entries(catalog)) {
+    if (type === '_metadata') continue;
+    for (const [name, entry] of Object.entries(entries as Record<string, CatalogEntry>)) {
+      const searchable = [
+        name,
+        entry.description || '',
+        entry.category || '',
+        ...(entry.tags || []),
+      ].join(' ').toLowerCase();
 
-let tokensCache: DesignTokens | null = null;
-let dashboardComponentsCache: Record<string, DashboardComponentSpec> | null = null;
-let componentsCache: Record<string, ComponentSpec> | null = null;
-let layoutCache: LayoutPatterns | null = null;
-let uxCache: UXGuidelines | null = null;
-let accessibilityCache: AccessibilityRules | null = null;
-let chartsCache: ChartsData | null = null;
-let landingComponentsCache: Record<string, any> | null = null;
-let effectsCache: Record<string, any> | null = null;
-let pageTemplatesCache: Record<string, any> | null = null;
-let screenshotsCache: Record<string, any> | null = null;
-
-function loadJSON<T>(filename: string): T {
-  const filePath = join(DATA_DIR, filename);
-  const content = readFileSync(filePath, 'utf-8');
-  return JSON.parse(content) as T;
-}
-
-export function loadTokens(): DesignTokens {
-  if (!tokensCache) {
-    tokensCache = loadJSON<DesignTokens>('tokens.json');
+      const score = terms.filter(t => searchable.includes(t)).length;
+      if (score > 0) {
+        results.push({ type, name, entry, score });
+      }
+    }
   }
-  return tokensCache;
-}
 
-export function loadComponents(): Record<string, ComponentSpec> {
-  if (!componentsCache) {
-    componentsCache = loadJSON<Record<string, ComponentSpec>>('components.json');
-  }
-  return componentsCache;
-}
-
-export function loadLayout(): LayoutPatterns {
-  if (!layoutCache) {
-    layoutCache = loadJSON<LayoutPatterns>('layout.json');
-  }
-  return layoutCache;
-}
-
-export function loadUX(): UXGuidelines {
-  if (!uxCache) {
-    uxCache = loadJSON<UXGuidelines>('ux.json');
-  }
-  return uxCache;
-}
-
-export function loadAccessibility(): AccessibilityRules {
-  if (!accessibilityCache) {
-    accessibilityCache = loadJSON<AccessibilityRules>('accessibility.json');
-  }
-  return accessibilityCache;
-}
-
-export function loadDashboardComponents(): Record<string, DashboardComponentSpec> {
-  if (!dashboardComponentsCache) {
-    dashboardComponentsCache = loadJSON<Record<string, DashboardComponentSpec>>('dashboard-components.json');
-  }
-  return dashboardComponentsCache;
-}
-
-export function loadCharts(): ChartsData {
-  if (!chartsCache) {
-    chartsCache = loadJSON<ChartsData>('charts.json');
-  }
-  return chartsCache;
-}
-
-export function loadLandingComponents(): Record<string, any> {
-  if (!landingComponentsCache) {
-    landingComponentsCache = loadJSON<Record<string, any>>('landing-components.json');
-  }
-  return landingComponentsCache;
-}
-
-export function loadEffects(): Record<string, any> {
-  if (!effectsCache) {
-    effectsCache = loadJSON<Record<string, any>>('effects.json');
-  }
-  return effectsCache;
-}
-
-export function loadPageTemplates(): Record<string, any> {
-  if (!pageTemplatesCache) {
-    pageTemplatesCache = loadJSON<Record<string, any>>('page-templates.json');
-  }
-  return pageTemplatesCache;
-}
-
-export function listPageTemplateNames(): string[] {
-  const templates = loadPageTemplates();
-  return Object.keys(templates).filter(key => !key.startsWith('_'));
-}
-
-export function getPageTemplate(name: string): any {
-  const templates = loadPageTemplates();
-  return templates[name] || null;
-}
-
-export function loadScreenshots(): Record<string, any> {
-  if (!screenshotsCache) {
-    screenshotsCache = loadJSON<Record<string, any>>('screenshots.json');
-  }
-  return screenshotsCache;
-}
-
-export function listScreenshotNames(): string[] {
-  const screenshots = loadScreenshots();
-  return Object.keys(screenshots).filter(key => !key.startsWith('_'));
-}
-
-export function getScreenshotMeta(name: string): any {
-  const screenshots = loadScreenshots();
-  return screenshots[name] || null;
-}
-
-export function getScreenshotBase64(name: string): { meta: any; base64: string } | null {
-  const meta = getScreenshotMeta(name);
-  if (!meta || !meta.file) return null;
-
-  const filePath = join(DATA_DIR, meta.file);
-  if (!existsSync(filePath)) return null;
-
-  const buffer = readFileSync(filePath);
-  const base64 = buffer.toString('base64');
-  return { meta, base64 };
-}
-
-export function listLandingComponentNames(): string[] {
-  const components = loadLandingComponents();
-  return Object.keys(components).filter(key => !key.startsWith('_'));
-}
-
-export function getLandingComponentSpec(name: string): any {
-  const components = loadLandingComponents();
-  return components[name] || null;
-}
-
-export function listEffectNames(): string[] {
-  const effects = loadEffects();
-  return Object.keys(effects).filter(key => !key.startsWith('_'));
-}
-
-export function getEffectSpec(name: string): any {
-  const effects = loadEffects();
-  return effects[name] || null;
-}
-
-export function listChartNames(): string[] {
-  const charts = loadCharts();
-  return ['AreaChart', 'BarChart', 'LineChart', 'PieChart', 'RadialBarChart', 'ComposedChart'];
-}
-
-export function getChartSpec(name: string): ChartSpec | null {
-  const charts = loadCharts();
-  const chartMap: Record<string, ChartSpec> = {
-    AreaChart: charts.AreaChart,
-    BarChart: charts.BarChart,
-    LineChart: charts.LineChart,
-    PieChart: charts.PieChart,
-    RadialBarChart: charts.RadialBarChart,
-    ComposedChart: charts.ComposedChart,
-  };
-  return chartMap[name] || null;
-}
-
-export function getChartCommonProps(): any {
-  const charts = loadCharts();
-  return charts.commonProps;
-}
-
-export function getChartSharedComponents(): Record<string, any> {
-  const charts = loadCharts();
-  return charts.sharedComponents;
-}
-
-export function listDashboardComponentNames(): string[] {
-  const components = loadDashboardComponents();
-  return Object.keys(components);
-}
-
-export function getDashboardComponentSpec(name: string): DashboardComponentSpec | null {
-  const components = loadDashboardComponents();
-  return components[name] || null;
-}
-
-export function getFullDesignSystem() {
-  return {
-    tokens: loadTokens(),
-    components: loadComponents(),
-    dashboardComponents: loadDashboardComponents(),
-    landingComponents: loadLandingComponents(),
-    effects: loadEffects(),
-    charts: loadCharts(),
-    pageTemplates: loadPageTemplates(),
-    layout: loadLayout(),
-    ux: loadUX(),
-    accessibility: loadAccessibility(),
-  };
-}
-
-export function listComponentNames(): string[] {
-  const components = loadComponents();
-  return Object.keys(components);
-}
-
-export function getComponentSpec(name: string): ComponentSpec | null {
-  const components = loadComponents();
-  return components[name] || null;
-}
-
-export function getTokenCategory(category: string): any {
-  const tokens = loadTokens();
-  const categoryMap: Record<string, any> = {
-    colors: tokens.colors,
-    typography: tokens.typography,
-    spacing: tokens.spacing,
-    borderRadius: tokens.borderRadius,
-    shadows: tokens.shadows,
-    animations: tokens.animations,
-    zIndex: tokens.zIndex,
-    breakpoints: tokens.breakpoints,
-    containers: tokens.containers,
-  };
-  return categoryMap[category] || null;
-}
-
-export function getLayoutPattern(pattern: string): any {
-  const layout = loadLayout();
-  const patternMap: Record<string, any> = {
-    grid: layout.grid,
-    flexbox: layout.flexbox,
-    navigation: layout.navigation,
-    pageStructure: layout.pageStructure,
-    sections: layout.sections,
-    responsive: layout.responsive,
-    spacing: layout.spacing,
-  };
-  return patternMap[pattern] || null;
-}
-
-export function getUXGuideline(topic: string): any {
-  const ux = loadUX();
-  const topicMap: Record<string, any> = {
-    interactions: ux.interactions,
-    feedback: ux.feedback,
-    forms: ux.forms,
-    modals: ux.modals,
-    navigation: ux.navigation,
-    responsiveness: ux.responsiveness,
-    animations: ux.animations,
-    copywriting: ux.copywriting,
-    darkMode: ux.darkMode,
-    carousel: (ux as any).carousel,
-    countdown: (ux as any).countdown,
-    dataVisualization: (ux as any).dataVisualization,
-    emptyStates: (ux as any).emptyStates,
-    onboarding: (ux as any).onboarding,
-    notifications: (ux as any).notifications,
-    tables: (ux as any).tables,
-    errorBoundary: (ux as any).errorBoundary,
-  };
-  return topicMap[topic] || null;
-}
-
-export function listUXTopics(): string[] {
-  return [
-    'interactions',
-    'feedback',
-    'forms',
-    'modals',
-    'navigation',
-    'responsiveness',
-    'animations',
-    'copywriting',
-    'darkMode',
-    'carousel',
-    'countdown',
-    'dataVisualization',
-    'emptyStates',
-    'onboarding',
-    'notifications',
-    'tables',
-    'errorBoundary',
-  ];
+  return results
+    .sort((a, b) => b.score - a.score)
+    .map(({ type, name, entry }) => ({ type, name, entry }));
 }
