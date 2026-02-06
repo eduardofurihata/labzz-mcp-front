@@ -1,12 +1,18 @@
 ---
 name: ui-implementation
-description: Use this skill when implementing UI components, landing pages, or dashboard interfaces. Ensures the implementation follows the Labzz design system specifications exactly.
+description: Use this skill when implementing UI components, landing pages, or dashboard interfaces. Ensures the implementation follows the Labzz design system visual identity while adapting content to the user's project.
 user_invocable: true
 ---
 
 # UI Implementation Skill
 
-This skill ensures UI implementations match the Labzz design system specifications from the `labzz-lp-vendas` reference project.
+This skill ensures UI implementations follow the Labzz design system VISUAL IDENTITY (structure, classes, layout, effects) while ADAPTING CONTENT to the project being built.
+
+## Conceito Fundamental
+
+O MCP Labzz serve **templates de referência visual** — não apps prontos para copiar.
+- **IDENTIDADE VISUAL** (estrutura, classes, layout, efeitos) → copie fielmente
+- **CONTEÚDO** (dados, textos, métricas, menus) → adapte ao projeto do usuário
 
 ## When to Use
 
@@ -19,27 +25,22 @@ Use this skill when:
 
 ## Mandatory Process
 
-### Phase 1: Gather Specifications
+### Phase 1: Gather Visual Specifications
 
 Before writing ANY code, you MUST:
 
-1. **Identify Component Type**
-   - Is this a landing page component? → Use `get_landing_component_spec`
-   - Is this a dashboard component? → Use `get_dashboard_component_spec`
-   - Is this a basic UI component? → Use `get_component_spec`
-   - Does it need visual effects? → Use `get_effect_spec`
+1. **Fetch the visual template** via MCP tools:
+   - Page template → `get_page("page-name")`
+   - Component template → `get_component("component-name")`
+   - Layout template → `get_layout("layout-name")`
+   - Styles/tokens → `get_styles()`
 
-2. **Fetch All Relevant Specs**
-   ```
-   For a PlanCard, fetch:
-   - get_landing_component_spec("PlanCard")
-   - get_landing_component_spec("PlanCardsGrid")
-   - get_effect_spec("GlowEffects")
-   - get_design_tokens("animations")
-   ```
+2. **Separate VISUAL from CONTENT** in the returned code:
+   - **VISUAL (copiar)**: classes Tailwind, hierarquia de divs, wrappers, animações, responsive breakpoints
+   - **CONTENT (adaptar)**: textos, números, labels, itens de menu, dados, props de negócio
 
-3. **Document Exact Values**
-   Create a checklist of EXACT values from the specs:
+3. **Document Exact Visual Values**
+   Create a checklist of EXACT values from the template:
    - [ ] Border radius: `rounded-xl sm:rounded-2xl`
    - [ ] Padding: `p-4 sm:p-6`
    - [ ] Animation: `fadeInUp` with `translateY(40px)`
@@ -50,33 +51,31 @@ Before writing ANY code, you MUST:
 
 When implementing:
 
-1. **Use Exact Classes** - Copy classes directly from specs, don't paraphrase
-2. **Include All States** - Default, hover, active, focus, disabled
-3. **Add Responsive Variants** - Mobile-first with breakpoint modifiers
-4. **Include Animations** - With correct delays and fill-mode
+1. **Use Exact Classes** - Copy classes directly from templates, don't paraphrase
+2. **Adapt Content** - Replace example data with real project data (metrics, labels, menu items, etc.)
+3. **Include All States** - Default, hover, active, focus, disabled
+4. **Add Responsive Variants** - Mobile-first with breakpoint modifiers
+5. **Include Animations** - With correct delays and fill-mode
 
 ### Phase 3: Verification Checklist
 
-After implementation, verify against spec:
+After implementation, verify:
 
-#### Visual Checklist
-- [ ] Border radius matches spec exactly
-- [ ] Padding/spacing matches spec exactly
+#### Visual Identity Checklist (must match template)
+- [ ] Border radius matches template exactly
+- [ ] Padding/spacing matches template exactly
 - [ ] Colors use design tokens (primary, secondary, accent)
 - [ ] Typography uses correct font family and size scale
-- [ ] Shadow/glow effects match spec
-
-#### Interaction Checklist
-- [ ] Hover state matches spec (transform, shadow, glow)
-- [ ] Active/pressed state exists
-- [ ] Focus ring uses ring color from tokens
+- [ ] Shadow/glow effects match template
+- [ ] Hover state matches template (transform, shadow, glow)
 - [ ] Animations use correct duration and easing
+- [ ] Responsive breakpoints applied correctly
 
-#### Responsive Checklist
-- [ ] Mobile styles are default
-- [ ] Tablet breakpoint (md:) applied
-- [ ] Desktop breakpoint (lg:) applied
-- [ ] Touch targets are 44px minimum
+#### Content Adaptation Checklist (must NOT copy template data)
+- [ ] Metrics/KPIs reflect the real project, not template examples
+- [ ] Menu items match the project's actual navigation
+- [ ] Texts and labels are relevant to the project
+- [ ] Product/entity names are from the project, not template placeholders
 
 ## Critical Specifications
 
@@ -110,26 +109,19 @@ Card title: text-lg sm:text-xl md:text-2xl
 Price: text-2xl sm:text-3xl md:text-4xl
 ```
 
-## Example Implementation
+## Example: Correct vs Incorrect Usage
 
-When user asks: "Create a pricing card"
+When user asks: "Create a dashboard overview for my e-commerce app"
 
-1. **Fetch specs**:
-   - `get_landing_component_spec("PlanCard")`
-   - `get_effect_spec("GlowEffects")`
-   - `get_design_tokens("animations")`
+### CORRECT
+1. Fetch `get_page("dashboard-overview")` → get the visual template
+2. Copy the **structure**: MetricCard grid, chart layout, table structure, classes
+3. **Replace content**: swap "R$ 2.450" with real revenue data, swap menu items with e-commerce navigation, swap example products with real products
 
-2. **Extract exact values**:
-   ```
-   Container: relative flex flex-col h-full rounded-xl sm:rounded-2xl overflow-hidden
-   Animation: opacity-0 animate-fadeInUp with stagger
-   Hover: hover:scale-[1.02] hover:-translate-y-1
-   Glow: radial-gradient(circle at 50% 0%, ${color}15, transparent 70%)
-   ```
-
-3. **Implement with exact classes**
-
-4. **Verify against checklist**
+### INCORRECT
+1. Fetch `get_page("dashboard-overview")` → get the visual template
+2. Copy **everything** including "R$ 2.450", "127 leads", example menu items
+3. Deliver a page that looks like the template demo instead of the user's app
 
 ## Never Do
 
@@ -137,4 +129,5 @@ When user asks: "Create a pricing card"
 - Never use generic colors like "blue" - use design tokens
 - Never skip hover/active states
 - Never forget animation delays on lists/grids
-- Never assume "close enough" is acceptable
+- Never copy example data/metrics as if they were real project data
+- Never copy menu items or navigation from the template without adapting to the project

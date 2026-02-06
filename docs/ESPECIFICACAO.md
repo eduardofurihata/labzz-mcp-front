@@ -2,15 +2,15 @@
 
 ## O que e este MCP
 
-O `labzz-mcp-front` e um servidor MCP (Model Context Protocol) que funciona como um **Design System vivo**. Ele serve **codigo .tsx/.css real** extraido e sanitizado da dashboard do projeto de referencia [labzz-lp-vendas](https://github.com/eduardofurihata/labzz-lp-vendas).
+O `labzz-mcp-front` e um servidor MCP (Model Context Protocol) que funciona como um **Design System vivo**. Ele serve **templates de referencia visual** (.tsx/.css) extraidos e sanitizados da dashboard do projeto de referencia [labzz-lp-vendas](https://github.com/eduardofurihata/labzz-lp-vendas).
 
-Diferente de design systems tradicionais que servem tokens abstratos ou documentacao, este MCP entrega o **codigo fonte que ja funciona**. Quando a AI chama `get_page("dashboard-overview")`, ela recebe o `.tsx` completo da pagina + um screenshot PNG de como a pagina deve ficar.
+Diferente de design systems tradicionais que servem tokens abstratos ou documentacao, este MCP entrega **templates visuais com codigo real**. Quando a AI chama `get_page("dashboard-overview")`, ela recebe o `.tsx` completo da pagina + um screenshot PNG de referencia. A AI deve **copiar a identidade visual** (estrutura, classes, layout, efeitos) e **adaptar o conteudo** (dados, metricas, menus) ao projeto que esta sendo construido.
 
 ### Problema que resolve
 
 Um desenvolvedor terceiro precisa criar novos projetos (dashboards, paineis, apps SaaS, etc.) usando AI/vibecoding. Esses projetos sao variados em funcionalidade, mas **todos devem ter 100% de consistencia visual** com a dashboard Labzz original.
 
-Sem este MCP, a AI inventaria cores, espacamentos, componentes e layouts - cada projeto sairia diferente. Com o MCP, a AI recebe o codigo real e replica a identidade visual fielmente.
+Sem este MCP, a AI inventaria cores, espacamentos, componentes e layouts - cada projeto sairia diferente. Com o MCP, a AI recebe templates visuais de referencia e replica a **identidade visual** fielmente, enquanto adapta o **conteudo** para o projeto real.
 
 ### Para quem e
 
@@ -89,11 +89,12 @@ Todo o codigo visual foi copiado do projeto de referencia e **sanitizado**:
 
 | Mantido | Motivo |
 |---------|--------|
-| Todas as classes Tailwind | Definem a identidade visual |
-| Estrutura JSX completa | Layout e composicao |
-| Imports de componentes UI e icones | Dependencias visuais |
-| Dados de navegacao (menus, links) | Estrutura do app |
-| Textos e labels em portugues | Conteudo de referencia |
+| Todas as classes Tailwind | Definem a identidade visual (COPIAR obrigatoriamente) |
+| Estrutura JSX completa | Layout e composicao (COPIAR obrigatoriamente) |
+| Imports de componentes UI e icones | Dependencias visuais (COPIAR obrigatoriamente) |
+| Dados de navegacao (menus, links) | Exemplos ilustrativos de formato (ADAPTAR ao projeto) |
+| Textos e labels em portugues | Exemplos ilustrativos de formato (ADAPTAR ao projeto) |
+| Metricas e valores numericos | Exemplos ilustrativos de formato (ADAPTAR ao projeto) |
 
 ---
 
@@ -134,10 +135,10 @@ Retorna os 5 arquivos de configuracao visual de uma vez. **Obrigatorio no inicio
 | `referencePackage` | reference-package.json | package.json completo com todas as dependencias |
 
 #### `get_page`
-Retorna o codigo .tsx completo de uma pagina + screenshot de referencia.
+Retorna o template .tsx de referencia visual de uma pagina + screenshot.
 - **Parametros**: `name` (string) - ex: "dashboard-overview", "login", "landing-home"
 - **Retorno**: JSON com metadados e `code` (tsx) + imagem PNG em base64
-- **Descricao prescritiva**: "PRIMEIRO PASSO OBRIGATORIO: Voce DEVE reproduzir este codigo exatamente."
+- **Descricao prescritiva**: "COPIE a estrutura e classes CSS exatamente. SUBSTITUA os dados de exemplo pelos dados reais do seu projeto."
 
 #### `get_layout`
 Retorna o codigo .tsx de um layout.
@@ -145,56 +146,69 @@ Retorna o codigo .tsx de um layout.
 - **Retorno**: JSON com metadados e `code` (tsx)
 
 #### `get_component`
-Retorna o codigo .tsx de um componente individual.
+Retorna o template .tsx de referencia visual de um componente.
 - **Parametros**: `name` (string) - ex: "sidebar", "metric-card", "button"
 - **Retorno**: JSON com metadados e `code` (tsx)
-- **Descricao prescritiva**: "Use as classes Tailwind exatas retornadas, NAO improvise."
+- **Descricao prescritiva**: "Use as classes Tailwind exatas, mas adapte os dados/props ao seu projeto."
 
 ### Visual
 
 #### `get_screenshot`
-Retorna screenshot PNG de referencia de uma pagina.
+Retorna screenshot PNG de referencia visual de uma pagina.
 - **Parametros**: `name` (string) - ex: "dashboard-overview", "login"
 - **Retorno**: Imagem PNG em base64
-- **Descricao prescritiva**: "O resultado DEVE ser visualmente identico."
+- **Descricao prescritiva**: "O ESTILO VISUAL (layout, cores, espacamento) deve ser igual. O conteudo exibido no screenshot e ilustrativo."
 
 ---
 
 ## Instrucoes automaticas (MCP Instructions)
 
-O servidor envia instrucoes automaticas para a AI no handshake MCP. Isso garante que **qualquer AI** que se conecte ao MCP receba as regras de consistencia:
+O servidor envia instrucoes automaticas para a AI no handshake MCP. Isso garante que **qualquer AI** que se conecte ao MCP receba as regras de consistencia visual e adaptacao de conteudo:
 
 ```
 Voce esta usando o Labzz Design System MCP.
-Este MCP serve CODIGO REAL (.tsx/.css) de componentes e paginas de referencia.
+Este MCP serve templates de referencia visual (.tsx/.css) que definem a IDENTIDADE VISUAL obrigatoria.
 
-## REGRAS OBRIGATORIAS
+## CONCEITO FUNDAMENTAL
 
-1. ANTES de construir qualquer pagina, chame get_page com o nome da pagina.
-   Voce recebera o codigo .tsx real da pagina + screenshot de referencia.
-   REPRODUZA o layout, classes e conteudo EXATAMENTE como no codigo.
+Os arquivos retornados sao TEMPLATES DE DESIGN SYSTEM — nao sao apps prontos para copiar.
+- A IDENTIDADE VISUAL (estrutura, classes, layout, efeitos) e OBRIGATORIA e deve ser seguida fielmente.
+- O CONTEUDO (dados, textos, metricas, menus) sao EXEMPLOS ILUSTRATIVOS que devem ser substituidos
+  pelos dados reais do projeto que voce esta construindo.
 
-2. Para componentes individuais, chame get_component com o nome.
-   Use as classes Tailwind EXATAS do codigo retornado.
+## COPIE OBRIGATORIAMENTE (identidade visual)
 
-3. SEMPRE chame get_styles no inicio do projeto para configurar:
-   - globals.css (variaveis CSS, fontes, tema)
-   - tailwind.config.ts (cores, sombras, animacoes)
-   - utils.ts (funcao cn para merge de classes)
+- Estrutura HTML/JSX dos componentes (hierarquia de divs, wrappers, containers)
+- Classes Tailwind exatas (cores, espacamento, tipografia, responsive breakpoints)
+- Layout patterns (sidebar + topbar + content area, grids, flex layouts)
+- Design tokens (cores do tema, sombras, border-radius, fontes)
+- Animacoes, transicoes e efeitos visuais (glow, hover states, fadeInUp, etc.)
+- Padrao dos componentes UI (Card, Button, Badge, Table, MetricCard, etc.)
+- Configuracoes de estilo (globals.css, tailwind.config.ts, design-tokens.ts)
 
-4. NUNCA invente:
-   - Nomes de marca (use os que estao no codigo)
-   - Itens de menu (use os que estao no sidebar.tsx)
-   - Metricas ou dados (use os exemplos do codigo)
-   - Classes Tailwind (use as exatas do codigo)
-   - Cores (use as do globals.css e tailwind.config)
+## NUNCA COPIE — ADAPTE AO PROJETO
 
-5. Se precisar adaptar, altere apenas DADOS e PROPS.
-   NUNCA altere a estrutura visual ou classes CSS.
+- Dados e metricas (ex: "R$ 2.450", "127 leads" sao apenas exemplos de formato)
+- Textos, labels e titulos de pagina
+- Itens de menu e navegacao (adapte as rotas do seu projeto)
+- Nomes de produtos, marcas e entidades
+- Rotas, URLs e links
+- Props com dados de negocio
 
-6. Use get_screenshot para verificar visualmente o resultado esperado.
+## COMO USAR
 
-7. Todo texto deve ser em portugues (pt-BR).
+1. Chame get_styles no inicio para configurar o tema.
+2. Chame get_page ou get_component para obter o template visual de referencia.
+3. COPIE a estrutura e classes CSS do template.
+4. SUBSTITUA todo conteudo de exemplo pelos dados reais do projeto.
+5. Use get_screenshot para conferir que o ESTILO VISUAL esta correto.
+
+## REGRAS
+
+- NUNCA invente classes Tailwind — use as exatas do template.
+- NUNCA copie dados de exemplo como se fossem reais.
+- NUNCA altere a estrutura visual ou hierarquia de componentes.
+- Todo texto deve ser em portugues (pt-BR).
 ```
 
 ---
@@ -424,12 +438,15 @@ Passo 1: get_styles()
 
 Passo 2: get_layout("dashboard-layout")
   -> Montar a estrutura base com sidebar + topbar
+  -> COPIAR: estrutura JSX, classes Tailwind, layout
 
 Passo 3: get_component("sidebar") + get_component("topbar")
-  -> Copiar e adaptar navegacao (alterar links, nao alterar visual)
+  -> COPIAR: visual (classes, estrutura, efeitos, hover states)
+  -> ADAPTAR: itens de menu, links, nome da marca para o projeto
 
 Passo 4: get_page("dashboard-overview")
-  -> Usar como pagina inicial, adaptar dados
+  -> COPIAR: estrutura da pagina, grid de cards, layout de graficos
+  -> ADAPTAR: metricas, titulos, dados para o contexto do projeto
 
 Passo 5: Para cada nova pagina, buscar a mais similar:
   - Tabela com filtros? -> get_page("dashboard-leads")
@@ -437,26 +454,30 @@ Passo 5: Para cada nova pagina, buscar a mais similar:
   - Detalhe? -> get_page("dashboard-detail-example")
   - Perfil/Config? -> get_page("dashboard-perfil")
   - Config com tabs? -> get_page("dashboard-configuracoes")
+  -> Sempre: COPIAR visual, ADAPTAR conteudo
 
 Passo 6: get_screenshot() para cada pagina
-  -> Comparar visualmente o resultado
+  -> Comparar ESTILO VISUAL (layout, cores, espacamento)
+  -> O conteudo sera diferente (dados do projeto vs exemplos do template)
 ```
 
 ### Para adicionar uma pagina a um projeto existente
 
 ```
 1. list_pages()                    -> Ver paginas disponiveis
-2. get_page("mais-similar")        -> Pegar codigo base
-3. Adaptar dados e props           -> Manter visual identico
-4. get_screenshot("mais-similar")  -> Conferir resultado
+2. get_page("mais-similar")        -> Pegar template visual
+3. COPIAR estrutura e classes      -> Identidade visual identica
+4. ADAPTAR dados, metricas, menus  -> Conteudo do projeto real
+5. get_screenshot("mais-similar")  -> Conferir estilo visual
 ```
 
 ### Para usar um componente especifico
 
 ```
 1. search_patterns("tabela filtro") -> Buscar por funcionalidade
-2. get_component("data-table")      -> Pegar codigo
-3. Copiar classes Tailwind exatas    -> NAO alterar
+2. get_component("data-table")      -> Pegar template visual
+3. Copiar classes Tailwind exatas    -> NAO alterar visual
+4. Adaptar dados e props             -> Conteudo do projeto real
 ```
 
 ---
@@ -473,33 +494,41 @@ A AI com o MCP conectado faria:
    -> Instala dependencias do reference-package.json
 
 2. get_layout("dashboard-layout")
-   -> Cria estrutura: sidebar (w-64) + topbar (h-20) + area de conteudo
+   -> COPIA: estrutura sidebar (w-64) + topbar (h-20) + area de conteudo
 
 3. get_component("sidebar")
-   -> Copia sidebar com navegacao. Adapta items:
+   -> COPIA: visual da sidebar (classes, gradiente, hover states, icon containers)
+   -> ADAPTA: itens de menu para o projeto de clientes:
       Dashboard, Clientes, Vendas, Relatorios, Configuracoes
+      (NAO copia os menus do template como "Leads", "Landing Pages", etc.)
 
 4. get_page("dashboard-overview")
-   -> Usa como base para pagina inicial. Adapta:
+   -> COPIA: estrutura da pagina (grid de MetricCards, area de grafico, layout)
+   -> ADAPTA: metricas para o contexto de clientes:
       - MetricCards: Total Clientes, Novos este Mes, Receita, Churn Rate
       - Grafico: Novos clientes por semana
+      (NAO copia "R$ 2.450" ou "127 leads" do template)
 
 5. get_page("dashboard-leads")
-   -> Usa como base para lista de clientes. Adapta:
+   -> COPIA: estrutura da tabela (stat cards, busca, filtros, paginacao)
+   -> ADAPTA: colunas e filtros para clientes:
       - Colunas: Nome, Email, Telefone, Status, Data Cadastro
       - Filtros: Status (Ativo/Inativo), Plano
 
 6. get_page("dashboard-create-example")
-   -> Usa como base para formulario de novo cliente
+   -> COPIA: estrutura do formulario (layout, inputs, validacao visual)
+   -> ADAPTA: campos para dados de cliente
 
 7. get_page("dashboard-detail-example")
-   -> Usa como base para detalhe do cliente
+   -> COPIA: estrutura de detalhe (cards de info, area de acoes)
+   -> ADAPTA: informacoes para perfil de cliente
 
 8. get_screenshot("dashboard-overview")
-   -> Compara visualmente: cores, espacamentos, tipografia devem ser identicos
+   -> Compara ESTILO VISUAL: cores, espacamentos, tipografia devem ser identicos
+   -> O conteudo sera diferente (metricas de clientes vs exemplos do template)
 ```
 
-**Resultado**: Um dashboard de gestao de clientes com a **mesma identidade visual** da dashboard Labzz, mas com dados e funcionalidades de clientes.
+**Resultado**: Um dashboard de gestao de clientes com a **mesma identidade visual** da dashboard Labzz, mas com **conteudo totalmente adaptado** ao contexto de gestao de clientes.
 
 ---
 

@@ -19,35 +19,47 @@ const server = new McpServer({
   description: 'Servidor MCP que fornece código real (.tsx/.css) de componentes e páginas de referência do design system Labzz.',
 }, {
   instructions: `Você está usando o Labzz Design System MCP.
-Este MCP serve CÓDIGO REAL (.tsx/.css) de componentes e páginas de referência.
+Este MCP serve templates de referência visual (.tsx/.css) que definem a IDENTIDADE VISUAL obrigatória.
 
-## REGRAS OBRIGATÓRIAS
+## CONCEITO FUNDAMENTAL
 
-1. ANTES de construir qualquer página, chame get_page com o nome da página.
-   Você receberá o código .tsx real da página + screenshot de referência.
-   REPRODUZA o layout, classes e conteúdo EXATAMENTE como no código.
+Os arquivos retornados são TEMPLATES DE DESIGN SYSTEM — não são apps prontos para copiar.
+- A IDENTIDADE VISUAL (estrutura, classes, layout, efeitos) é OBRIGATÓRIA e deve ser seguida fielmente.
+- O CONTEÚDO (dados, textos, métricas, menus) são EXEMPLOS ILUSTRATIVOS que devem ser substituídos pelos dados reais do projeto que você está construindo.
 
-2. Para componentes individuais, chame get_component com o nome.
-   Use as classes Tailwind EXATAS do código retornado.
+## COPIE OBRIGATORIAMENTE (identidade visual)
 
-3. SEMPRE chame get_styles no início do projeto para configurar:
-   - globals.css (variáveis CSS, fontes, tema)
-   - tailwind.config.ts (cores, sombras, animações)
-   - utils.ts (função cn para merge de classes)
+- Estrutura HTML/JSX dos componentes (hierarquia de divs, wrappers, containers)
+- Classes Tailwind exatas (cores, espaçamento, tipografia, responsive breakpoints)
+- Layout patterns (sidebar + topbar + content area, grids, flex layouts)
+- Design tokens (cores do tema, sombras, border-radius, fontes)
+- Animações, transições e efeitos visuais (glow, hover states, fadeInUp, etc.)
+- Padrão dos componentes UI (Card, Button, Badge, Table, MetricCard, etc.)
+- Configurações de estilo (globals.css, tailwind.config.ts, design-tokens.ts)
 
-4. NUNCA invente:
-   - Nomes de marca (use os que estão no código)
-   - Itens de menu (use os que estão no sidebar.tsx)
-   - Métricas ou dados (use os exemplos do código)
-   - Classes Tailwind (use as exatas do código)
-   - Cores (use as do globals.css e tailwind.config)
+## NUNCA COPIE — ADAPTE AO PROJETO
 
-5. Se precisar adaptar, altere apenas DADOS e PROPS.
-   NUNCA altere a estrutura visual ou classes CSS.
+- Dados e métricas (ex: "R$ 2.450", "127 leads" são apenas exemplos de formato)
+- Textos, labels e títulos de página
+- Itens de menu e navegação (adapte às rotas do seu projeto)
+- Nomes de produtos, marcas e entidades
+- Rotas, URLs e links
+- Props com dados de negócio
 
-6. Use get_screenshot para verificar visualmente o resultado esperado.
+## COMO USAR
 
-7. Todo texto deve ser em português (pt-BR).`,
+1. Chame get_styles no início para configurar o tema (globals.css, tailwind.config, utils, tokens).
+2. Chame get_page ou get_component para obter o template visual de referência.
+3. COPIE a estrutura e classes CSS do template.
+4. SUBSTITUA todo conteúdo de exemplo pelos dados reais do projeto.
+5. Use get_screenshot para conferir que o ESTILO VISUAL está correto (ignore o conteúdo do screenshot, é ilustrativo).
+
+## REGRAS
+
+- NUNCA invente classes Tailwind — use as exatas do template.
+- NUNCA copie dados de exemplo como se fossem reais.
+- NUNCA altere a estrutura visual ou hierarquia de componentes.
+- Todo texto deve ser em português (pt-BR).`,
 });
 
 // --- Tools ---
@@ -95,7 +107,7 @@ server.registerTool(
   'get_page',
   {
     title: 'Get Page',
-    description: 'PRIMEIRO PASSO OBRIGATÓRIO: Retorna o código .tsx REAL de uma página completa + screenshot de referência. Você DEVE reproduzir este código exatamente.',
+    description: 'Retorna o template .tsx de referência visual de uma página + screenshot. COPIE a estrutura e classes CSS exatamente. SUBSTITUA os dados de exemplo pelos dados reais do seu projeto.',
     inputSchema: z.object({ name: z.string().describe('Nome da página (ex: dashboard-overview, login, landing-home)') }),
     annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   },
@@ -141,7 +153,7 @@ server.registerTool(
   'get_component',
   {
     title: 'Get Component',
-    description: 'Retorna o código .tsx REAL de um componente. Use as classes Tailwind exatas retornadas, NÃO improvise.',
+    description: 'Retorna o template .tsx de referência visual de um componente. Use as classes Tailwind exatas, mas adapte os dados/props ao seu projeto.',
     inputSchema: z.object({ name: z.string().describe('Nome do componente (ex: sidebar, metric-card, button)') }),
     annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   },
@@ -181,7 +193,7 @@ server.registerTool(
   'get_screenshot',
   {
     title: 'Get Screenshot',
-    description: 'Retorna screenshot PNG da página de referência. O resultado DEVE ser visualmente idêntico.',
+    description: 'Retorna screenshot PNG da página de referência. O ESTILO VISUAL (layout, cores, espaçamento) deve ser igual. O conteúdo exibido no screenshot é ilustrativo.',
     inputSchema: z.object({ name: z.string().describe('Nome da página (ex: dashboard-overview, login)') }),
     annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   },
