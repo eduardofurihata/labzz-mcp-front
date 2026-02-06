@@ -14,10 +14,21 @@ export function loadCatalog() {
     return catalogCache;
 }
 export function readPattern(filePath) {
-    return readFileSync(join(DATA_DIR, filePath), 'utf-8');
+    const fullPath = join(DATA_DIR, filePath);
+    const resolved = fullPath.replace(/\\/g, '/');
+    const dataDir = DATA_DIR.replace(/\\/g, '/');
+    if (!resolved.startsWith(dataDir)) {
+        throw new Error(`Path traversal blocked: ${filePath}`);
+    }
+    return readFileSync(fullPath, 'utf-8');
 }
 export function getScreenshotBase64(screenshotPath) {
     const fullPath = join(DATA_DIR, screenshotPath);
+    const resolved = fullPath.replace(/\\/g, '/');
+    const dataDir = DATA_DIR.replace(/\\/g, '/');
+    if (!resolved.startsWith(dataDir)) {
+        throw new Error(`Path traversal blocked: ${screenshotPath}`);
+    }
     const buffer = readFileSync(fullPath);
     return buffer.toString('base64');
 }

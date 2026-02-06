@@ -52,7 +52,7 @@ Este MCP serve CÓDIGO REAL (.tsx/.css) de componentes e páginas de referência
 server.registerTool('list_pages', {
     title: 'List Pages',
     description: 'Lista todas as páginas disponíveis com descrição e componentes usados.',
-    annotations: { readOnlyHint: true, destructiveHint: false },
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
 }, async () => {
     const catalog = loadCatalog();
     const pages = Object.entries(catalog.pages).map(([name, entry]) => ({
@@ -67,7 +67,7 @@ server.registerTool('list_pages', {
 server.registerTool('list_components', {
     title: 'List Components',
     description: 'Lista todos os componentes disponíveis com categoria, tags e descrição.',
-    annotations: { readOnlyHint: true, destructiveHint: false },
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
 }, async () => {
     const catalog = loadCatalog();
     const components = Object.entries(catalog.components).map(([name, entry]) => ({
@@ -82,11 +82,11 @@ server.registerTool('get_page', {
     title: 'Get Page',
     description: 'PRIMEIRO PASSO OBRIGATÓRIO: Retorna o código .tsx REAL de uma página completa + screenshot de referência. Você DEVE reproduzir este código exatamente.',
     inputSchema: z.object({ name: z.string().describe('Nome da página (ex: dashboard-overview, login, landing-home)') }),
-    annotations: { readOnlyHint: true, destructiveHint: false },
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
 }, async ({ name }) => {
     const result = readPatternFromCatalog('pages', name);
     if (!result) {
-        return { content: [{ type: 'text', text: `Página "${name}" não encontrada. Use list_pages para ver as disponíveis.` }] };
+        return { content: [{ type: 'text', text: `Página "${name}" não encontrada. Use list_pages para ver as disponíveis.` }], isError: true };
     }
     const { code, screenshot, ...meta } = result;
     const content = [
@@ -97,7 +97,9 @@ server.registerTool('get_page', {
             const base64 = getScreenshotBase64(screenshot);
             content.push({ type: 'image', data: base64, mimeType: 'image/png' });
         }
-        catch { /* screenshot not available */ }
+        catch {
+            content.push({ type: 'text', text: `Aviso: screenshot "${screenshot}" existe no catálogo mas não pôde ser carregado.` });
+        }
     }
     return { content };
 });
@@ -105,11 +107,11 @@ server.registerTool('get_layout', {
     title: 'Get Layout',
     description: 'Retorna o código .tsx REAL de um layout. Use as classes Tailwind exatas retornadas.',
     inputSchema: z.object({ name: z.string().describe('Nome do layout (ex: dashboard-layout, auth-layout)') }),
-    annotations: { readOnlyHint: true, destructiveHint: false },
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
 }, async ({ name }) => {
     const result = readPatternFromCatalog('layouts', name);
     if (!result) {
-        return { content: [{ type: 'text', text: `Layout "${name}" não encontrado.` }] };
+        return { content: [{ type: 'text', text: `Layout "${name}" não encontrado. Use list_pages para ver os layouts disponíveis.` }], isError: true };
     }
     return { content: [{ type: 'text', text: JSON.stringify({ name, ...result }, null, 2) }] };
 });
@@ -117,18 +119,18 @@ server.registerTool('get_component', {
     title: 'Get Component',
     description: 'Retorna o código .tsx REAL de um componente. Use as classes Tailwind exatas retornadas, NÃO improvise.',
     inputSchema: z.object({ name: z.string().describe('Nome do componente (ex: sidebar, metric-card, button)') }),
-    annotations: { readOnlyHint: true, destructiveHint: false },
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
 }, async ({ name }) => {
     const result = readPatternFromCatalog('components', name);
     if (!result) {
-        return { content: [{ type: 'text', text: `Componente "${name}" não encontrado. Use list_components para ver os disponíveis.` }] };
+        return { content: [{ type: 'text', text: `Componente "${name}" não encontrado. Use list_components para ver os disponíveis.` }], isError: true };
     }
     return { content: [{ type: 'text', text: JSON.stringify({ name, ...result }, null, 2) }] };
 });
 server.registerTool('get_styles', {
     title: 'Get Styles',
     description: 'OBRIGATÓRIO no início do projeto: Retorna globals.css, tailwind.config.ts, utils.ts, design-tokens.ts e package.json de referência.',
-    annotations: { readOnlyHint: true, destructiveHint: false },
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
 }, async () => {
     const catalog = loadCatalog();
     const globals = readPattern(catalog.styles.globals.file);
@@ -147,14 +149,14 @@ server.registerTool('get_screenshot', {
     title: 'Get Screenshot',
     description: 'Retorna screenshot PNG da página de referência. O resultado DEVE ser visualmente idêntico.',
     inputSchema: z.object({ name: z.string().describe('Nome da página (ex: dashboard-overview, login)') }),
-    annotations: { readOnlyHint: true, destructiveHint: false },
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
 }, async ({ name }) => {
     const catalog = loadCatalog();
     const page = catalog.pages[name];
     const layout = catalog.layouts[name];
     const entry = page || layout;
     if (!entry?.screenshot) {
-        return { content: [{ type: 'text', text: `Screenshot para "${name}" não encontrado.` }] };
+        return { content: [{ type: 'text', text: `Screenshot para "${name}" não encontrado.` }], isError: true };
     }
     try {
         const base64 = getScreenshotBase64(entry.screenshot);
@@ -173,11 +175,11 @@ server.registerTool('search_patterns', {
     title: 'Search Patterns',
     description: 'Busca patterns por texto livre em tags, categoria e descrição.',
     inputSchema: z.object({ query: z.string().describe('Texto para buscar (ex: "sidebar light", "chart", "form")') }),
-    annotations: { readOnlyHint: true, destructiveHint: false },
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
 }, async ({ query }) => {
     const results = searchCatalog(query);
     if (results.length === 0) {
-        return { content: [{ type: 'text', text: `Nenhum resultado encontrado para "${query}".` }] };
+        return { content: [{ type: 'text', text: `Nenhum resultado encontrado para "${query}".` }], isError: true };
     }
     const formatted = results.map(r => ({
         type: r.type,

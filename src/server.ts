@@ -57,7 +57,7 @@ server.registerTool(
   {
     title: 'List Pages',
     description: 'Lista todas as páginas disponíveis com descrição e componentes usados.',
-    annotations: { readOnlyHint: true, destructiveHint: false },
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   },
   async () => {
     const catalog = loadCatalog();
@@ -77,7 +77,7 @@ server.registerTool(
   {
     title: 'List Components',
     description: 'Lista todos os componentes disponíveis com categoria, tags e descrição.',
-    annotations: { readOnlyHint: true, destructiveHint: false },
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   },
   async () => {
     const catalog = loadCatalog();
@@ -97,12 +97,12 @@ server.registerTool(
     title: 'Get Page',
     description: 'PRIMEIRO PASSO OBRIGATÓRIO: Retorna o código .tsx REAL de uma página completa + screenshot de referência. Você DEVE reproduzir este código exatamente.',
     inputSchema: z.object({ name: z.string().describe('Nome da página (ex: dashboard-overview, login, landing-home)') }),
-    annotations: { readOnlyHint: true, destructiveHint: false },
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   },
   async ({ name }) => {
     const result = readPatternFromCatalog('pages', name);
     if (!result) {
-      return { content: [{ type: 'text' as const, text: `Página "${name}" não encontrada. Use list_pages para ver as disponíveis.` }] };
+      return { content: [{ type: 'text' as const, text: `Página "${name}" não encontrada. Use list_pages para ver as disponíveis.` }], isError: true };
     }
     const { code, screenshot, ...meta } = result;
     const content: Array<{ type: 'text'; text: string } | { type: 'image'; data: string; mimeType: string }> = [
@@ -112,7 +112,9 @@ server.registerTool(
       try {
         const base64 = getScreenshotBase64(screenshot);
         content.push({ type: 'image', data: base64, mimeType: 'image/png' });
-      } catch { /* screenshot not available */ }
+      } catch {
+        content.push({ type: 'text', text: `Aviso: screenshot "${screenshot}" existe no catálogo mas não pôde ser carregado.` });
+      }
     }
     return { content };
   }
@@ -124,12 +126,12 @@ server.registerTool(
     title: 'Get Layout',
     description: 'Retorna o código .tsx REAL de um layout. Use as classes Tailwind exatas retornadas.',
     inputSchema: z.object({ name: z.string().describe('Nome do layout (ex: dashboard-layout, auth-layout)') }),
-    annotations: { readOnlyHint: true, destructiveHint: false },
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   },
   async ({ name }) => {
     const result = readPatternFromCatalog('layouts', name);
     if (!result) {
-      return { content: [{ type: 'text' as const, text: `Layout "${name}" não encontrado.` }] };
+      return { content: [{ type: 'text' as const, text: `Layout "${name}" não encontrado. Use list_pages para ver os layouts disponíveis.` }], isError: true };
     }
     return { content: [{ type: 'text' as const, text: JSON.stringify({ name, ...result }, null, 2) }] };
   }
@@ -141,12 +143,12 @@ server.registerTool(
     title: 'Get Component',
     description: 'Retorna o código .tsx REAL de um componente. Use as classes Tailwind exatas retornadas, NÃO improvise.',
     inputSchema: z.object({ name: z.string().describe('Nome do componente (ex: sidebar, metric-card, button)') }),
-    annotations: { readOnlyHint: true, destructiveHint: false },
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   },
   async ({ name }) => {
     const result = readPatternFromCatalog('components', name);
     if (!result) {
-      return { content: [{ type: 'text' as const, text: `Componente "${name}" não encontrado. Use list_components para ver os disponíveis.` }] };
+      return { content: [{ type: 'text' as const, text: `Componente "${name}" não encontrado. Use list_components para ver os disponíveis.` }], isError: true };
     }
     return { content: [{ type: 'text' as const, text: JSON.stringify({ name, ...result }, null, 2) }] };
   }
@@ -157,7 +159,7 @@ server.registerTool(
   {
     title: 'Get Styles',
     description: 'OBRIGATÓRIO no início do projeto: Retorna globals.css, tailwind.config.ts, utils.ts, design-tokens.ts e package.json de referência.',
-    annotations: { readOnlyHint: true, destructiveHint: false },
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   },
   async () => {
     const catalog = loadCatalog();
@@ -181,7 +183,7 @@ server.registerTool(
     title: 'Get Screenshot',
     description: 'Retorna screenshot PNG da página de referência. O resultado DEVE ser visualmente idêntico.',
     inputSchema: z.object({ name: z.string().describe('Nome da página (ex: dashboard-overview, login)') }),
-    annotations: { readOnlyHint: true, destructiveHint: false },
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   },
   async ({ name }) => {
     const catalog = loadCatalog();
@@ -189,7 +191,7 @@ server.registerTool(
     const layout = catalog.layouts[name as keyof typeof catalog.layouts];
     const entry = page || layout;
     if (!entry?.screenshot) {
-      return { content: [{ type: 'text' as const, text: `Screenshot para "${name}" não encontrado.` }] };
+      return { content: [{ type: 'text' as const, text: `Screenshot para "${name}" não encontrado.` }], isError: true };
     }
     try {
       const base64 = getScreenshotBase64(entry.screenshot);
@@ -211,12 +213,12 @@ server.registerTool(
     title: 'Search Patterns',
     description: 'Busca patterns por texto livre em tags, categoria e descrição.',
     inputSchema: z.object({ query: z.string().describe('Texto para buscar (ex: "sidebar light", "chart", "form")') }),
-    annotations: { readOnlyHint: true, destructiveHint: false },
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   },
   async ({ query }) => {
     const results = searchCatalog(query);
     if (results.length === 0) {
-      return { content: [{ type: 'text' as const, text: `Nenhum resultado encontrado para "${query}".` }] };
+      return { content: [{ type: 'text' as const, text: `Nenhum resultado encontrado para "${query}".` }], isError: true };
     }
     const formatted = results.map(r => ({
       type: r.type,
